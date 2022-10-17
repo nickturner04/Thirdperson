@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: addc4f8bb59b65a46a79e10ac59ddfdb, type: 3}
+  m_Name: KNIFE
+  m_EditorClassIdentifier: 
+  fireRate: 0
+  resetTime: 0
+  accuracy: 0
+  reloadTime: 0
+  damage: 0
+  ammoType: 0
+  automatic: 0
+  clipSize: 0
+  maxHeat: 0
+  baseHeat: 0
+  numShots: 0
+  weaponModel: {fileID: 5072836393516075166, guid: 46401fe0adb059c488a19bb235db3249, type: 3}
+  firesound: {fileID: 0}

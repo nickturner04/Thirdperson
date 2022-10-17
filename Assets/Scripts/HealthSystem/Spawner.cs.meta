@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: cadf47d4962d92d4d8f855bd87342be7
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - soundMaker: {fileID: 777832169191952, guid: 4fd1449c37d39894f8be7a7f235dcca7, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

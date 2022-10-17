@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: addc4f8bb59b65a46a79e10ac59ddfdb, type: 3}
+  m_Name: FAMAS
+  m_EditorClassIdentifier: 
+  displayName: FAMAS
+  displaySprite: {fileID: 21300000, guid: c9442b42266f7b94db21890e1d248e87, type: 3}
+  fireRate: 0.2
+  resetTime: 0.3
+  accuracy: 1.5
+  reloadTime: 0
+  damage: 30
+  ammoType: 0
+  automatic: 1
+  clipSize: 30
+  maxHeat: 15
+  baseHeat: 0
+  numShots: 1
+  weaponModel: {fileID: 1751730089315947334, guid: 0d5cf080613fd2b4f86b0c74bb017d17, type: 3}
+  firesound: {fileID: 8300000, guid: 52df77cc47a8ebf4e899e8262c5cb707, type: 3}

@@ -1,0 +1,611 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!29 &1
+OcclusionCullingSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_OcclusionBakeSettings:
+    smallestOccluder: 5
+    smallestHole: 0.25
+    backfaceThreshold: 100
+  m_SceneGUID: 00000000000000000000000000000000
+  m_OcclusionCullingData: {fileID: 0}
+--- !u!104 &2
+RenderSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 9
+  m_Fog: 0
+  m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  m_FogMode: 3
+  m_FogDensity: 0.01
+  m_LinearFogStart: 0
+  m_LinearFogEnd: 300
+  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
+  m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
+  m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
+  m_AmbientIntensity: 1
+  m_AmbientMode: 0
+  m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
+  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_HaloStrength: 0.5
+  m_FlareStrength: 1
+  m_FlareFadeSpeed: 3
+  m_HaloTexture: {fileID: 0}
+  m_SpotCookie: {fileID: 10001, guid: 0000000000000000e000000000000000, type: 0}
+  m_DefaultReflectionMode: 0
+  m_DefaultReflectionResolution: 128
+  m_ReflectionBounces: 1
+  m_ReflectionIntensity: 1
+  m_CustomReflection: {fileID: 0}
+  m_Sun: {fileID: 0}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_UseRadianceAmbientProbe: 0
+--- !u!157 &3
+LightmapSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 12
+  m_GIWorkflowMode: 1
+  m_GISettings:
+    serializedVersion: 2
+    m_BounceScale: 1
+    m_IndirectOutputScale: 1
+    m_AlbedoBoost: 1
+    m_EnvironmentLightingMode: 0
+    m_EnableBakedLightmaps: 1
+    m_EnableRealtimeLightmaps: 0
+  m_LightmapEditorSettings:
+    serializedVersion: 12
+    m_Resolution: 2
+    m_BakeResolution: 40
+    m_AtlasSize: 1024
+    m_AO: 0
+    m_AOMaxDistance: 1
+    m_CompAOExponent: 1
+    m_CompAOExponentDirect: 0
+    m_ExtractAmbientOcclusion: 0
+    m_Padding: 2
+    m_LightmapParameters: {fileID: 0}
+    m_LightmapsBakeMode: 1
+    m_TextureCompression: 1
+    m_FinalGather: 0
+    m_FinalGatherFiltering: 1
+    m_FinalGatherRayCount: 256
+    m_ReflectionCompression: 2
+    m_MixedBakeMode: 2
+    m_BakeBackend: 1
+    m_PVRSampling: 1
+    m_PVRDirectSampleCount: 32
+    m_PVRSampleCount: 512
+    m_PVRBounces: 2
+    m_PVREnvironmentSampleCount: 256
+    m_PVREnvironmentReferencePointCount: 2048
+    m_PVRFilteringMode: 1
+    m_PVRDenoiserTypeDirect: 1
+    m_PVRDenoiserTypeIndirect: 1
+    m_PVRDenoiserTypeAO: 1
+    m_PVRFilterTypeDirect: 0
+    m_PVRFilterTypeIndirect: 0
+    m_PVRFilterTypeAO: 0
+    m_PVREnvironmentMIS: 1
+    m_PVRCulling: 1
+    m_PVRFilteringGaussRadiusDirect: 1
+    m_PVRFilteringGaussRadiusIndirect: 5
+    m_PVRFilteringGaussRadiusAO: 2
+    m_PVRFilteringAtrousPositionSigmaDirect: 0.5
+    m_PVRFilteringAtrousPositionSigmaIndirect: 2
+    m_PVRFilteringAtrousPositionSigmaAO: 1
+    m_ExportTrainingData: 0
+    m_TrainingDataDestination: TrainingData
+    m_LightProbeSampleCountMultiplier: 4
+  m_LightingDataAsset: {fileID: 112000004, guid: 52eab3da9dab3324193a05b93d406455, type: 2}
+  m_LightingSettings: {fileID: 0}
+--- !u!196 &4
+NavMeshSettings:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_BuildSettings:
+    serializedVersion: 2
+    agentTypeID: 0
+    agentRadius: 0.5
+    agentHeight: 2
+    agentSlope: 45
+    agentClimb: 0.4
+    ledgeDropHeight: 0
+    maxJumpAcrossDistance: 0
+    minRegionArea: 2
+    manualCellSize: 0
+    cellSize: 0.16666667
+    manualTileSize: 0
+    tileSize: 256
+    accuratePlacement: 0
+    maxJobWorkers: 0
+    preserveTilesOutsideBounds: 0
+    debug:
+      m_Flags: 0
+  m_NavMeshData: {fileID: 23800000, guid: 4ec7cfbc72e846743b35f5e10ea0f901, type: 2}
+--- !u!1 &498094938
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 498094939}
+  - component: {fileID: 498094940}
+  m_Layer: 0
+  m_Name: UIDocument
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &498094939
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 498094938}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1764984119}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &498094940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 498094938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PanelSettings: {fileID: 11400000, guid: 72c5703bd04570e4dbf743458021fa13, type: 2}
+  m_ParentUI: {fileID: 0}
+  sourceAsset: {fileID: 0}
+  m_SortingOrder: 0
+--- !u!1 &1764984118
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1764984119}
+  - component: {fileID: 1764984120}
+  - component: {fileID: 1764984121}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: GameController
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1764984119
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1764984118}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 498094939}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1764984120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1764984118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d05641b3594a63144a6ff88985cb508e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerEssentials: {fileID: 156283535471182746, guid: a2e0353b8190ef048906b8103c63b788, type: 3}
+  mainMenu:
+    m_Handle: 0
+  playerEssentialsInstance: {fileID: 0}
+  currentSave:
+    player:
+      position:
+        x: 2
+        y: 1
+        z: 1
+      rotation:
+        x: 0
+        y: 0
+        z: 0
+      mode: 0
+      isCrouching: 0
+      health: 500
+      currentWeapon: 0
+    rooms:
+    - enemies: []
+      entered: 0
+    - enemies:
+      - position:
+          x: 1
+          y: 0
+          z: 12
+        rotation:
+          x: 0
+          y: 0
+          z: 0
+        state: 0
+        interrupt:
+          priority: 0
+          position:
+            x: 0
+            y: 0
+            z: 0
+        health: 100
+        stamina: 100
+        knockoutTime: 0
+        nextPoint: 0
+        patrolPoints:
+        - x: 23
+          y: 0
+          z: 15
+        - x: 1
+          y: 0
+          z: 15
+      - position:
+          x: 1
+          y: 0
+          z: 12
+        rotation:
+          x: 0
+          y: 0
+          z: 0
+        state: 0
+        interrupt:
+          priority: 0
+          position:
+            x: 0
+            y: 0
+            z: 0
+        health: 100
+        stamina: 100
+        knockoutTime: 0
+        nextPoint: 0
+        patrolPoints:
+        - x: 23
+          y: 0
+          z: 15
+        - x: 1
+          y: 0
+          z: 15
+      - position:
+          x: 1
+          y: 0
+          z: 12
+        rotation:
+          x: 0
+          y: 0
+          z: 0
+        state: 0
+        interrupt:
+          priority: 0
+          position:
+            x: 0
+            y: 0
+            z: 0
+        health: 100
+        stamina: 100
+        knockoutTime: 0
+        nextPoint: 0
+        patrolPoints:
+        - x: 23
+          y: 0
+          z: 15
+        - x: 1
+          y: 0
+          z: 15
+      - position:
+          x: 1
+          y: 0
+          z: 12
+        rotation:
+          x: 0
+          y: 0
+          z: 0
+        state: 0
+        interrupt:
+          priority: 0
+          position:
+            x: 0
+            y: 0
+            z: 0
+        health: 100
+        stamina: 100
+        knockoutTime: 0
+        nextPoint: 0
+        patrolPoints:
+        - x: 23
+          y: 0
+          z: 15
+        - x: 1
+          y: 0
+          z: 15
+      - position:
+          x: 1
+          y: 0
+          z: 12
+        rotation:
+          x: 0
+          y: 0
+          z: 0
+        state: 0
+        interrupt:
+          priority: 0
+          position:
+            x: 0
+            y: 0
+            z: 0
+        health: 100
+        stamina: 100
+        knockoutTime: 0
+        nextPoint: 0
+        patrolPoints:
+        - x: 23
+          y: 0
+          z: 15
+        - x: 1
+          y: 0
+          z: 15
+      entered: 0
+    - enemies:
+      - position:
+          x: 1
+          y: 0
+          z: 12
+        rotation:
+          x: 0
+          y: 0
+          z: 0
+        state: 0
+        interrupt:
+          priority: 0
+          position:
+            x: 0
+            y: 0
+            z: 0
+        health: 100
+        stamina: 100
+        knockoutTime: 0
+        nextPoint: 0
+        patrolPoints:
+        - x: 23
+          y: 0
+          z: 15
+        - x: 1
+          y: 0
+          z: 15
+      - position:
+          x: 1
+          y: 0
+          z: 12
+        rotation:
+          x: 0
+          y: 0
+          z: 0
+        state: 0
+        interrupt:
+          priority: 0
+          position:
+            x: 0
+            y: 0
+            z: 0
+        health: 100
+        stamina: 100
+        knockoutTime: 0
+        nextPoint: 0
+        patrolPoints:
+        - x: 23
+          y: 0
+          z: 15
+        - x: 1
+          y: 0
+          z: 15
+      - position:
+          x: 1
+          y: 0
+          z: 12
+        rotation:
+          x: 0
+          y: 0
+          z: 0
+        state: 0
+        interrupt:
+          priority: 0
+          position:
+            x: 0
+            y: 0
+            z: 0
+        health: 100
+        stamina: 100
+        knockoutTime: 0
+        nextPoint: 0
+        patrolPoints:
+        - x: 23
+          y: 0
+          z: 15
+        - x: 1
+          y: 0
+          z: 15
+      entered: 1
+    - enemies:
+      - position:
+          x: 0
+          y: 0
+          z: 0
+        rotation:
+          x: 0
+          y: 0
+          z: 0
+        state: 0
+        interrupt:
+          priority: 0
+          position:
+            x: 0
+            y: 0
+            z: 0
+        health: 0
+        stamina: 0
+        knockoutTime: 0
+        nextPoint: 0
+        patrolPoints:
+        - x: 0
+          y: 0
+          z: 0
+        - x: 0
+          y: 0
+          z: 0
+      entered: 1
+    room: 2
+--- !u!114 &1764984121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1764984118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: cef8d53a2bacc004ea7a0455f8e84dfd, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b221d9fa-f043-4f18-99e1-f02e2916051b
+    m_ActionName: Player/Mouselook[/Mouse/delta]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c82c201a-849d-4489-914d-c83fb386e5ff
+    m_ActionName: Player/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5f534d0c-8f1d-4301-9e49-83676078eaa7
+    m_ActionName: Player/Jump[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e6d76202-e441-4ad4-becb-766486b497eb
+    m_ActionName: Player/Aim[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 4f270fb3-a9a8-46cd-a05e-5bde6c6194b1
+    m_ActionName: Player/LightAttack[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0cd4e0b1-6e6b-4876-bbc4-8f68431a3e41
+    m_ActionName: Player/HeavyAttack[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ec831afc-1a75-48f8-a64a-5ed96df64fca
+    m_ActionName: Player/Fire[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 1235ce98-9923-4add-bd63-328e7298a17b
+    m_ActionName: Player/Interact[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 48263e4b-8445-4da8-8e3e-d6bf12ab3fe0
+    m_ActionName: Player/Accelerate[/Mouse/scroll]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b803d906-2c76-4628-a3d4-cd6f3fab1247
+    m_ActionName: Player/Inventory[/Keyboard/tab]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: eba857fc-f675-4532-aad3-8d1905a653b4
+    m_ActionName: Player/Reload[/Keyboard/r]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: eb4bfa9c-15eb-4014-984f-876f85f5733d
+    m_ActionName: Player/Crouch[/Keyboard/c]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8503cd90-d055-4afa-be36-4f3d192f09ed
+    m_ActionName: Player/ToggleThermal[/Keyboard/1]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e735957b-67eb-41a8-a720-fedf79b091b8
+    m_ActionName: Player/MakeSound[/Keyboard/q]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9ad63e30-402a-4807-bc4f-8b46ddfb2cda
+    m_ActionName: Player/Summon[/Keyboard/v]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8383cd15-3f1c-4818-9d8e-6013b292558a
+    m_ActionName: Player/PriorityAxis[/Keyboard/downArrow,/Keyboard/upArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a39e37b7-f2c6-41cf-8159-dd181cf18321
+    m_ActionName: Player/RangeAxis[/Keyboard/leftArrow,/Keyboard/rightArrow]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1764984120}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: Save
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 453ca2ee-ec8b-41d1-89af-0a7df564cd4a
+    m_ActionName: Player/New action
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1764984120}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: Load
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 4885b4a1-3ca3-4cbb-beaf-314cd150a873
+    m_ActionName: Player/New action
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
