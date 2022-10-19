@@ -122,7 +122,135 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 23800000, guid: 4ec7cfbc72e846743b35f5e10ea0f901, type: 2}
+  m_NavMeshData: {fileID: 0}
+--- !u!1 &70281053
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 70281055}
+  - component: {fileID: 70281054}
+  m_Layer: 0
+  m_Name: Audio Source
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!82 &70281054
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 70281053}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 0
+  MinDistance: 0
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!4 &70281055
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 70281053}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &498094938
 GameObject:
   m_ObjectHideFlags: 0
@@ -169,7 +297,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PanelSettings: {fileID: 11400000, guid: 72c5703bd04570e4dbf743458021fa13, type: 2}
   m_ParentUI: {fileID: 0}
-  sourceAsset: {fileID: 0}
+  sourceAsset: {fileID: 9197481963319205126, guid: e1ee0cf1d7927864f80ff3be5cbbc3ad, type: 3}
   m_SortingOrder: 0
 --- !u!1 &1764984118
 GameObject:
@@ -224,9 +352,9 @@ MonoBehaviour:
   currentSave:
     player:
       position:
-        x: 2
-        y: 1
-        z: 1
+        x: 25
+        y: 2.25
+        z: 2.5
       rotation:
         x: 0
         y: 0
@@ -478,7 +606,116 @@ MonoBehaviour:
           y: 0
           z: 0
       entered: 1
-    room: 2
+    - enemies:
+      - position:
+          x: 3
+          y: 0
+          z: 15
+        rotation:
+          x: 0
+          y: 0
+          z: 0
+        state: 0
+        interrupt:
+          priority: 0
+          position:
+            x: 0
+            y: 0
+            z: 0
+        health: 100
+        stamina: 100
+        knockoutTime: 0
+        nextPoint: 0
+        patrolPoints:
+        - x: 3
+          y: 0
+          z: 15
+        - x: 27
+          y: 0
+          z: 15
+      - position:
+          x: 16
+          y: 0
+          z: 42
+        rotation:
+          x: 0
+          y: 0
+          z: 0
+        state: 0
+        interrupt:
+          priority: 0
+          position:
+            x: 0
+            y: 0
+            z: 0
+        health: 100
+        stamina: 100
+        knockoutTime: 0
+        nextPoint: 0
+        patrolPoints:
+        - x: 16
+          y: 0
+          z: 42
+        - x: 34
+          y: 0
+          z: 32.5
+        - x: 47
+          y: 0
+          z: 42
+      - position:
+          x: 4
+          y: 0
+          z: 70
+        rotation:
+          x: 0
+          y: 0
+          z: 0
+        state: 0
+        interrupt:
+          priority: 0
+          position:
+            x: 0
+            y: 0
+            z: 0
+        health: 100
+        stamina: 100
+        knockoutTime: 0
+        nextPoint: 0
+        patrolPoints:
+        - x: 4
+          y: 0
+          z: 70
+        - x: 4
+          y: 0
+          z: 25
+      - position:
+          x: 24
+          y: 0
+          z: 56.5
+        rotation:
+          x: 0
+          y: 0
+          z: 0
+        state: 0
+        interrupt:
+          priority: 0
+          position:
+            x: 0
+            y: 0
+            z: 0
+        health: 100
+        stamina: 100
+        knockoutTime: 0
+        nextPoint: 0
+        patrolPoints:
+        - x: 24
+          y: 0
+          z: 56.5
+        - x: 24
+          y: 0
+          z: 73.5
+      entered: 1
+    room: 4
 --- !u!114 &1764984121
 MonoBehaviour:
   m_ObjectHideFlags: 0

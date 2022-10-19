@@ -5638,16 +5638,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 13a4c66c9bdb7ae439f30bdf4502aa12, type: 3}
   - {fileID: 8300000, guid: 35e35593422722449a07023e5a264839, type: 3}
   - {fileID: 8300000, guid: e5b52659e5313594fa387a47c42d35de, type: 3}
-  layerColors:
-  - l: 70
-    a: -56
-    b: 53
-  - l: 70
-    a: 0
-    b: -56
-  - l: 74
-    a: -4
-    b: 10
   layerSoundMultipliers:
   - 0
   - 0.5
@@ -5658,8 +5648,7 @@ MonoBehaviour:
   SoundEmitters: []
   currentLayer: 0
   isInvisible: 0
-  camoIndex: 0
-  trueCamoIndex: 0
+  inShadow: 0
 --- !u!114 &9069484737222537589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5864,7 +5853,19 @@ MonoBehaviour:
   health: 0
   OnDie:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 9069484737222537585}
+        m_TargetAssemblyTypeName: PlayerHealth, Assembly-CSharp
+        m_MethodName: Die
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnTakeDamage:
     m_PersistentCalls:
       m_Calls: []

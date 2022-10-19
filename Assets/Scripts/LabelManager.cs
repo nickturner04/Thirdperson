@@ -112,6 +112,11 @@ public class LabelManager : MonoBehaviour
         lblPlNoise.text = noise.ToString();
     }
 
+    public void SetVisibility(bool hidden)
+    {
+        lblCamo.text = hidden ? "Hidden" : "Visible";
+    }
+
     public void SetAmmo(int ammo, int maxAmmo)
     {
         lblAmmo.text = $"{ammo}/{maxAmmo}";
@@ -139,11 +144,6 @@ public class LabelManager : MonoBehaviour
     public void SetShield(float shield, float maxshield)
     {
         vseShield.style.width = 420 * (shield / maxshield);
-    }
-
-    public void SetCamo(int camo)
-    {
-        lblCamo.text = $"{camo}%";
     }
 
     public void SetAlert(float time)

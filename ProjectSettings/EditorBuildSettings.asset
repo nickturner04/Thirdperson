@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Tunnel.unity
     guid: b8e95bf267b5c854fa40de33d3b71f04
+  - enabled: 1
+    path: Assets/Scenes/Mission1.unity
+    guid: 7ac69e9235835894080410efc437ed93
   m_configObjects: {}

@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerHealth : MonoBehaviour
 {
     private HealthPlayer health;
+    public GameManager gameManager;
     private GhostController ghostController;
     [SerializeField] private LabelManager labelManager;
 
@@ -26,6 +27,15 @@ public class PlayerHealth : MonoBehaviour
         }
         if (health.godMode) return;
         health.TakeDamage(damage);
+        if (health.health <= 0)
+        {
+            Die ();
+        }
+    }
+
+    public void Die()
+    {
+        gameManager.GameOver();
     }
 
     private void Update()

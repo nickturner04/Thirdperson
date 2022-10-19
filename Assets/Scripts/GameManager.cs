@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using UnityEngine.UIElements;
 
 [System.Serializable]
 public struct V3Surrogate
@@ -183,8 +184,13 @@ public class GameManager : MonoBehaviour
     private EnemyManager enemyManager;
     private Scene currentScene;
     private PlayerController playerController;
+    private UIDocument document;
     private bool quit = false;
     private bool firstload = true;
+
+    private VisualElement vseGameOver;
+    private Button btnContinue;
+    private Button btnMainMenu;
 
     private void OnDisable()
     {
@@ -201,72 +207,16 @@ public class GameManager : MonoBehaviour
         saveAction.performed += SaveAction;
         loadAction.performed += LoadAction;
         pauseAction.performed += PauseAction;
-        /*
-            //SceneManager.LoadScene(1, LoadSceneMode.Additive);
-        SceneManager.sceneLoaded += OnSceneLoaded;
-        SceneManager.sceneUnloaded += OnSceneUnloaded;
 
-        //enemyManager = GameObject.Find("EnemyManager").GetComponent<EnemyManager>();
-        //playerEssentialsInstance = GameObject.Find("PlayerEssentials");
-        currentScene = SceneManager.GetSceneByName("TrainingRoom");
-        //playerController = playerEssentialsInstance.transform.Find("PlayerV5").GetComponent<PlayerController>();
-        currentSave.player.ammo = new int[,]{
-            { 120, 90, 36 },
-          { 24, 30, 8 }
-        };
-        Load();
-        */
+        document = GetComponentInChildren<UIDocument>();
+        vseGameOver = document.rootVisualElement.Q<VisualElement>("vseGameOver");
+        btnContinue = vseGameOver.Q<Button>("btnContinue");
+        btnContinue.clicked += Continue;
+        btnMainMenu = vseGameOver.Q<Button>("btnMainMenu");
+        btnMainMenu.clicked += MainMenu;
+
         JSave("defaultsave.json", currentSave);
         StartCoroutine(LoadSaveFile("defaultsave.json"));
-    }
-    
-    private void OnSceneUnloaded(Scene current)
-    {
-        if (!quit)
-        SceneManager.LoadScene(currentSave.room, LoadSceneMode.Additive);
-    }
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        if (scene.buildIndex > 1)
-        {
-            currentScene = scene;
-            SceneManager.SetActiveScene(scene);
-            enemyManager = GameObject.Find("EnemyManager").GetComponent<EnemyManager>();
-            playerEssentialsInstance = Instantiate(playerEssentials, Vector3.zero, Quaternion.identity);
-            enemyManager.DeleteAllEnemies();
-            try
-            {
-                enemyManager.Populate(currentSave.rooms[currentSave.room].enemies);
-            }
-            catch (System.Exception)
-            {
-
-            }
-
-            playerController = playerEssentialsInstance.transform.Find("PlayerV5").GetComponent<PlayerController>();
-            var charcon = playerController.GetComponent<CharacterController>();
-            //var inventory = playerController.GetComponent<Inventory>();
-            charcon.enabled = false;
-            playerController.transform.position = SurrogateToVector(currentSave.player.position);
-            playerController.transform.rotation = SurrogateToQuaternion(currentSave.player.rotation);
-            charcon.enabled = true;
-            playerController.isCrouching = currentSave.player.isCrouching;
-            if (playerController.isCrouching)
-            {
-                playerController.GetComponent<Animator>().SetBool("CROUCHING", true);
-            }
-            else
-            {
-                playerController.GetComponent<Animator>().SetBool("CROUCHING", false);
-            }
-            playerController.SetMode(currentSave.player.mode);
-            playerController.GetComponent<Health>().health = currentSave.player.health;
-            playerController.GetComponent<Inventory>();//.ammo = (int[,])currentSave.player.ammo.Clone();
-            enemyManager.currentAlertTime = 0;
-            enemyManager.labelManager = playerEssentialsInstance.transform.Find("UIDocument").GetComponent<LabelManager>();
-            Debug.Log("Loaded!");
-            Save();
-        }
     }
 
     private IEnumerator LoadSaveFile(string path)
@@ -325,6 +275,7 @@ public class GameManager : MonoBehaviour
 
         playerController = playerEssentialsInstance.transform.Find("PlayerV5").GetComponent<PlayerController>();
         var charcon = playerController.GetComponent<CharacterController>();
+        playerController.GetComponent<PlayerHealth>().gameManager = this;
         //var inventory = playerController.GetComponent<Inventory>();
         charcon.enabled = false;
         playerController.transform.position = SurrogateToVector(currentSave.player.position);
@@ -352,6 +303,24 @@ public class GameManager : MonoBehaviour
         currentSave.player.position = VectorToSurrogate(PlayerPos);
         JSave("autosave.json",currentSave);
         StartCoroutine(LoadSaveFile("autosave.json"));
+    }
+
+    public void GameOver()
+    {
+        SceneManager.UnloadSceneAsync(currentScene.buildIndex);
+        firstload = true;
+        vseGameOver.style.display = DisplayStyle.Flex;
+        UnityEngine.Cursor.lockState = CursorLockMode.Confined;
+        UnityEngine.Cursor.visible = true;
+    }
+    private void Continue()
+    {
+        StartCoroutine(LoadSaveFile("currentsave.json"));
+        vseGameOver.style.display = DisplayStyle.None;
+    }
+    private void MainMenu()
+    {
+        SceneManager.LoadScene(0, LoadSceneMode.Single);
     }
 
     private void PauseAction(InputAction.CallbackContext context)

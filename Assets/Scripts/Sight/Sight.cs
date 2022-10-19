@@ -6,6 +6,7 @@ public class Sight : MonoBehaviour
 {
     [Header("Sight Values")]
     [SerializeField] private float maxSightDistance = 50;
+    [SerializeField] private float minSightDistance = 2;
     [SerializeField] private float sightAngle = 45;
 
     [Header("Objects")]
@@ -26,12 +27,13 @@ public class Sight : MonoBehaviour
         Vector3 direction;
         Vector3 part;
         float distance;
+        var sightdistance = camo.inShadow ? minSightDistance : maxSightDistance;
         for (int i = 0; i < max; i++)
         {
             part = camo.bodyParts[i].position;
             direction = part - trfEye.position;
             distance = Vector3.Distance(part, trfEye.position);
-            if (distance <= maxSightDistance 
+            if (distance <= sightdistance 
                 && Vector3.Angle(trfEye.forward,direction) <= sightAngle 
                 && !Physics.Raycast(trfEye.position,direction,distance,lmaTerrain))
             {

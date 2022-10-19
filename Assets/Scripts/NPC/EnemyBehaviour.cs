@@ -179,7 +179,7 @@ public class EnemyBehaviour : MonoBehaviour
             else
             {
                 agent.SetDestination(alertDestination);
-                agent.speed = 4.5f;
+                agent.speed = 6f;
                 return Node.Status.Running;
             }
             
