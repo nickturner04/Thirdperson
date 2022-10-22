@@ -73,19 +73,17 @@ public class EnemyBehaviour : MonoBehaviour
     private Vector3 aimTargetFollow;
     [SerializeField] private Rig rig;
 
+    private int speedHash;
+
     private void OnDisable()
     {
        
-       //weaponController.Fire(false);
+       weaponController.Fire(false);
         
     }
-    private void OnDestroy()
-    {
-        Destroy(target.gameObject);
-    }
-
     private void Start()
     {
+        speedHash = Animator.StringToHash("SPEED");
         player = GameObject.Find("PlayerV5").transform;
         hostageArea = GameObject.Find("HostageArea").transform;
         sight = GetComponent<Sight>();
@@ -129,7 +127,6 @@ public class EnemyBehaviour : MonoBehaviour
         Leaf checkPosition = new Leaf("CheckPosition", CheckPosition);
         Leaf movetoposition = new Leaf("MoveToPosition",MoveToPosition);
         Sequence attack = new Sequence("Attack");
-        Leaf chase = new Leaf("Chase", Chase);
         Leaf shoot = new Leaf("Shoot", Shoot);
         Leaf reload = new Leaf("Reload", Reload);
         treeAlert.AddChild(alertBase);
@@ -155,10 +152,13 @@ public class EnemyBehaviour : MonoBehaviour
     {
         if (alertMoving)
         {
+            
             if (agent.remainingDistance < 0)
             {
+
                 alertMoving = false;
                 agent.SetDestination(transform.position);
+                animator.SetFloat(speedHash, 0f);
                 return Node.Status.Success;
             }
             else
@@ -167,19 +167,23 @@ public class EnemyBehaviour : MonoBehaviour
                 {
                     agent.SetDestination(alertDestination);
                 }
+                animator.SetFloat(speedHash, 1f);
                 transform.LookAt(new Vector3(alertDestination.x, transform.position.y, alertDestination.z));
             }
         }
         else
         {
+            
             if (Vector3.Distance(alertDestination,transform.position) < 3f)
             {
+                animator.SetFloat("SPEED", 0f);
                 return Node.Status.Success;
             }
             else
             {
                 agent.SetDestination(alertDestination);
                 agent.speed = 6f;
+                animator.SetFloat("SPEED", 1f);
                 return Node.Status.Running;
             }
             
@@ -275,6 +279,7 @@ public class EnemyBehaviour : MonoBehaviour
             {
                 if (lookTime > 0)
                 {
+                    animator.SetFloat(speedHash, 0f);
                     lookTime -= Time.deltaTime;
                     return Node.Status.Running;
                 }
@@ -300,14 +305,17 @@ public class EnemyBehaviour : MonoBehaviour
             if (interrupt.priority == 2)
             {
                 agent.speed = 2;
+                animator.SetFloat(speedHash, 0.3f);
             }
             else if (interrupt.priority == 3)
             {
                 agent.speed = 3.5f;
+                animator.SetFloat(speedHash, 0.4f);
             }
             else if (interrupt.priority == 4)
             {
                 agent.speed = 4.5f;
+                animator.SetFloat(speedHash, 0.5f);
             }
             else if (interrupt.priority >= 5)
             {
@@ -363,6 +371,7 @@ public class EnemyBehaviour : MonoBehaviour
                 lookTime = 5;
                 rig.weight = 1;
                 agent.SetDestination(transform.position);
+                animator.SetFloat(speedHash, 0f);
                 return Node.Status.Running;
             }
             else
@@ -452,37 +461,6 @@ public class EnemyBehaviour : MonoBehaviour
         reloading = false;
     }
 
-    public Node.Status Chase()
-    {
-        var s = CanSee();
-        if (s == Node.Status.Success)
-        {
-            agent.speed = 2.5f;
-            enemyManager.UpdatePlayerPosition(player.position);
-        }
-        else
-        {
-            agent.speed = 3.5f;
-        }
-        var distance = Vector3.Distance(transform.position, player.position);
-        var direction = player.position - transform.position;
-        if (distance > 20f)
-        {
-            agent.speed = 5;
-            agent.SetDestination(player.position);
-        }
-        else if (distance > 5f)
-        {
-            agent.SetDestination(player.position);
-        }
-        else if (distance < 5f && Vector3.Angle(transform.forward, direction) > 30f)
-        {
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(direction.normalized), 5 * Time.deltaTime);
-        }
-
-        return s;
-    }
-
     public Node.Status FillSight()
     {
         if (sight.visibility > 0.16f && !enemyManager.ignorePlayer)
@@ -527,6 +505,7 @@ public class EnemyBehaviour : MonoBehaviour
         if (waitTime > 0)
         {
             if (sight.visibility > 0) return Node.Status.Success;
+            animator.SetFloat(speedHash, 0f);
             waitTime -= Time.deltaTime;
             return Node.Status.Running;
         }
@@ -541,6 +520,8 @@ public class EnemyBehaviour : MonoBehaviour
             agent.SetDestination(transform.position);
             return Node.Status.Failure;
         }
+        animator.SetFloat(speedHash, 0.4f);
+        agent.speed = 3.5f;
         sightTime = 0;
         var s = GoToLocation(patrolPoints[nextPoint]);
         //Debug.Log(s);

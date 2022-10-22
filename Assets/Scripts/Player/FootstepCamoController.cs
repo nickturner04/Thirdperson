@@ -95,7 +95,7 @@ public class FootstepCamoController : MonoBehaviour
         //imgCamo.color = new Color(imgCamo.color.r, imgCamo.color.g, imgCamo.color.b, Mathf.Lerp(imgCamo.color.a, camoAlpha, Time.deltaTime * 2.5f));
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.layer == 11)
         {

@@ -187,6 +187,7 @@ public class GameManager : MonoBehaviour
     private UIDocument document;
     private bool quit = false;
     private bool firstload = true;
+    private float playTime = 0;
 
     private VisualElement vseGameOver;
     private Button btnContinue;
@@ -217,6 +218,11 @@ public class GameManager : MonoBehaviour
 
         JSave("defaultsave.json", currentSave);
         StartCoroutine(LoadSaveFile("defaultsave.json"));
+    }
+
+    private void Update()
+    {
+        playTime += Time.deltaTime;
     }
 
     private IEnumerator LoadSaveFile(string path)
