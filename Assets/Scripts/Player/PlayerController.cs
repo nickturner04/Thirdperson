@@ -29,7 +29,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LabelManager labelManager;
 
     [SerializeField] private float normalSpeed = 10.0f;
-    [SerializeField] private float aimingSpeed = 5.0f;
     [SerializeField] private float gravityValue = -20f;
     [SerializeField] private float rotationSpeed = 10;
     [SerializeField] private float rotationSpeedAiming = 200;
@@ -52,7 +51,6 @@ public class PlayerController : MonoBehaviour
     private int priority = 1;
     private int range = 10;
 
-    private float currentSpeed;
     private float speedMultiplier = 100;
     
     private InputAction moveAction;
@@ -82,7 +80,6 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         Debug.Log("");
-        currentSpeed = normalSpeed;
         Cursor.lockState = CursorLockMode.Locked;
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
@@ -149,37 +146,42 @@ public class PlayerController : MonoBehaviour
     }
 
     void Update()
-    {
+    {//Update is called every frame by Unity
 
         aimTarget.position = trfCameraMain.position + trfCameraMain.forward * aimDistance;
 
         Vector2 moveinput = moveAction.ReadValue<Vector2>();
         Vector3 move = new Vector3(moveinput.x, 0, moveinput.y);
+        //Get input from scroll wheel and use it to change speed multiplier
         var scrollvalue = scrollAction.ReadValue<Vector2>();
         speedMultiplier += 4 * scrollvalue.y / 100;
         speedMultiplier = Mathf.Floor(Mathf.Clamp(speedMultiplier, 30, 100));
         animator.SetFloat("CROUCHSPEED",speedMultiplier / 100);
-        var speedMultiplier2 = speedMultiplier / 100 * (isCrouching ? 0.7f : 1f);
+        //Change Speed Multiplier Depending On If Crouching
+        var speedMultiplier2 = speedMultiplier / 100 * (isCrouching ? 0.75f : 1f);
         if (mode == Mode.HOSTAGE || isAiming) speedMultiplier2 = 0.45f;
         //Debug.Log(speedMultiplier2);
         var camForward = trfCameraMain.forward;
         camForward.y = 0;
         camForward.Normalize();
-
+        //Change movement direction based on where the camera is facing
         move = camForward * move.z + trfCameraMain.right * move.x;
         move.y = 0;
         controller.Move(normalSpeed * Time.deltaTime * move * speedMultiplier2);
+        //Using Time.deltaTime prevents higher framerates from causing the player to move faster
 
+        //Make player Effected By Gravity
+        playerVelocity.y += gravityValue * Time.deltaTime;
         if (controller.isGrounded && playerVelocity.y < 0)
         {
             playerVelocity.y = 0f;
         }
-
-        playerVelocity.y += gravityValue * Time.deltaTime;
+        
         controller.Move(playerVelocity * Time.deltaTime);
 
         if (moveinput != Vector2.zero & !isAiming)
         {
+            //If moving and not aiming, rotate player in direction of movement
             animator.SetBool("IDLE", false);
             animator.SetFloat("MOVE", 1 * speedMultiplier2);
             var rotatedMoveInput = mode == Mode.HOSTAGE ? -moveinput : moveinput;
@@ -189,10 +191,11 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            //Otherwise play idle animation
             animator.SetBool("IDLE", true);
         }
         if (isAiming)
-        {
+        {//If aiming, rotate player in direction of camera at all times
             animator.SetBool("AIMING", true);
             animator.SetBool("IDLE", false);
             animator.SetFloat("MOVE", moveinput.y);
@@ -207,13 +210,14 @@ public class PlayerController : MonoBehaviour
         }
         //footsteps
         if (controller.isGrounded)
-        {
+        {//Play footsteps at a different volume depending on how fast the player is moving, but only if on the ground
             footstepController.Move(speedMultiplier2 * move.magnitude);
         }
         else
         {
             footstepController.Move(0);
         }
+        //If an interactable object is detected in range or an enemy can be grabbed, make the button prompt appear
         if (interactable != null || (hostageController != null && mode != Mode.HOSTAGE))
         {
             labelManager.SetPrompt(UnityEngine.UIElements.DisplayStyle.Flex, "E");
@@ -225,7 +229,7 @@ public class PlayerController : MonoBehaviour
     }
 
     public void SetMode(Mode newMode)
-    {
+    {//Change actions player can perform depending on their mode, crawl and cover are not implemented, crouching is not a separate mode from standing.
         switch (newMode)
         {
             case Mode.NORMAL:
@@ -258,24 +262,24 @@ public class PlayerController : MonoBehaviour
     }
 
     private void StartFiring(InputAction.CallbackContext context)
-    {
+    {//Begin Firing Weapon When Mouse1 is pressed
         weaponController.Fire(true);
     }
 
     private void StopFiring(InputAction.CallbackContext context)
-    {
+    {//Stop Firing weapon When button released
         weaponController.Fire(false);
     }
 
     private void LightAttack(InputAction.CallbackContext context)
-    {
+    {//Play a punching animation when Mouse1 is tapped
         //Debug.Log("LIGHT");
         ghostController.ghost.SetActive(true);
         ghostController.Attack();
     }
 
     private void HeavyAttack(InputAction.CallbackContext context)
-    {
+    {//Perform a stronger attack when Mouse1 is held down
         //Debug.Log("HEAVY");
         if (hostageController != null && mode == Mode.NORMAL)
         {
@@ -317,7 +321,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void MakeSound()
-    {
+    {//Debug method for testing if enemies respond to noises, called when Q is pressed
         RaycastHit hit;
         Ray ray = new Ray(trfCameraMain.position, trfCameraMain.forward);
         if (Physics.Raycast(ray, out hit,Mathf.Infinity,ignorePlayer))
@@ -328,6 +332,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    //Unused methods from before the ghost was added
     public void SpawnPunch()
     {
         punchBox.DamageBox();
@@ -349,7 +354,7 @@ public class PlayerController : MonoBehaviour
             animator.Play("Reloading", 2, animationSmoothTime);
         }
     }
-
+    //This method is called by the reload animation when it finishes
     public void FinishReload()
     {
         weaponController.reloading = false;
@@ -394,7 +399,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Lethal(InputAction.CallbackContext context)
-    {
+    {//Kill Hostage Enemy
         hostageController.EndGrab();
         hostageController.GetComponent<Health>().TakeDamage(200);
         Debug.Log("LETHAL");
@@ -403,7 +408,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void NonLethal(InputAction.CallbackContext context)
-    {
+    {//Kill Hostage Enemy
         hostageController.EndGrab();
         hostageController.TakeStaminaDamage(hostageController.stamina);
         SetMode(Mode.NORMAL);
@@ -414,6 +419,7 @@ public class PlayerController : MonoBehaviour
         playerInventory.Menu();
         if (weaponMenuHidden)
         {
+            //Prevent Player From Attacking Or Aiming When Inventory Is Open So That Clicking Does Not Attack
             lightAttackAction.Disable();
             heavyAttackAction.Disable();
 
@@ -422,11 +428,11 @@ public class PlayerController : MonoBehaviour
 
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = true;
+            //Prevent Mouse Movement From Moving Camera On Inventory
             cameraController.DisableInput();
             {//Stop Aiming
                 isAiming = false;
                 currentRotationSpeed = rotationSpeed;
-                currentSpeed = normalSpeed;
                 aimRig.weight = 0;
                 fireAction.started -= StartFiring;
                 cameraController.StopAim();
@@ -452,10 +458,9 @@ public class PlayerController : MonoBehaviour
     }
 
     public void StartAiming(InputAction.CallbackContext context)
-    {
+    {//Changes the turn speed so that the player instantly faces the camera, sets the aiming animation rig so that the player aims the gun.
         isAiming = true;
         currentRotationSpeed = rotationSpeedAiming;
-        currentSpeed = aimingSpeed;
         aimRig.weight = 100;
         lightAttackAction.performed -= LightAttack;
         heavyAttackAction.performed -= HeavyAttack;
@@ -468,28 +473,27 @@ public class PlayerController : MonoBehaviour
     {
         isAiming = false;
         currentRotationSpeed = rotationSpeed;
-        currentSpeed = normalSpeed;
         aimRig.weight = 0;
         lightAttackAction.performed += LightAttack;
         heavyAttackAction.performed += HeavyAttack;
         fireAction.started -= StartFiring;
         cameraController.StopAim();
     }
-
+    //Debug Method For Noisemaker
     public void ChangePriority(InputAction.CallbackContext context)
     {
         float input = priorityAction.ReadValue<float>();
         priority += (int)input;
         Debug.Log("Priority: " + priority);
     }
-
+    //Debug Method For Noisemaker
     public void ChangeRange(InputAction.CallbackContext context)
     {
         float input = rangeAction.ReadValue<float>();
         range += (int)input;
         Debug.Log("Range: " + range);
     }
-
+    //Called when an enemy enters the grab range trigger
     public void SetGrabTarget(Collider other)
     {
         if (mode == Mode.NORMAL)
@@ -502,7 +506,7 @@ public class PlayerController : MonoBehaviour
             } 
         }
     }
-
+    //Called when an enemy leaves the grab range trigger
     public void RemoveGrabTarget(Collider other)
     {
         if (mode == Mode.NORMAL)

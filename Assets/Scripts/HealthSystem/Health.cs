@@ -8,7 +8,7 @@ public class Health : MonoBehaviour
     public float maxHealth = 100;
 
     public float health;
-    public UnityEvent OnDie;
+    public UnityEvent OnDie;//Functions called by OnDie and OnTakeDamage are controlled by events in the editor
     public UnityEvent OnTakeDamage;
     public bool godMode;
 
@@ -45,6 +45,7 @@ public class Health : MonoBehaviour
         OnDie.Invoke();
     }
 
+    //Method is called when colliding with player attack
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == 10)

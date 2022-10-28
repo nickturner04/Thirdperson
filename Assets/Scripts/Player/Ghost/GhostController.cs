@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GhostController : MonoBehaviour
 {
+    //Script attached to the player for controlling the ghost.
     public GameObject ghost;
     public Transform gTransform;
     public Transform gAttach;
@@ -55,7 +56,7 @@ public class GhostController : MonoBehaviour
         float alpha;
 
         if (ghostActiveTimer > 0)
-        {
+        {//If ghost is active make it look in direction of attack and set it to half transparent
             ghostActiveTimer -= Time.deltaTime;
             gTransform.position = Vector3.Lerp(gTransform.position, playerController.isAiming ? gAttach.position : gAttachAttack.position, Time.deltaTime * 10);
 
@@ -65,13 +66,13 @@ public class GhostController : MonoBehaviour
             alpha = 0.5f;
         }
         else if(preview)
-        {
+        {//If preview is move ghost to behind enemy and make it face enemy
             gTransform.position = gAttach.position;
             gTransform.rotation = Quaternion.LookRotation(new Vector3(lookTarget.position.x, gTransform.position.y, lookTarget.position.z) - gTransform.position);
             alpha = 0.5f;
         }
         else if (takedown)
-        {
+        {//If playing takedown animation move ghost to behind enemy and make it face enemy
             gTransform.position = gAttach.position;
             gTransform.rotation = Quaternion.LookRotation(new Vector3(targetEnemy.transform.position.x, gTransform.position.y, targetEnemy.transform.position.z) - gTransform.position);
             alpha = 0.8f;
@@ -82,12 +83,13 @@ public class GhostController : MonoBehaviour
             gTransform.position = gAttachAttack.position;
             Hide();
         }
+        //Set Alpha Transparency Of Ghost To Make It Fade In and Out
         gMaterial.material.color = new Color(gMaterial.material.color.r, gMaterial.material.color.g, gMaterial.material.color.b, Mathf.Lerp(gMaterial.material.color.a,occupied ? 1 : alpha, Time.deltaTime * 10f));
         
 
 
         timeSinceLastAttack += Time.deltaTime;
-        if (timeSinceLastAttack > 1.25f)
+        if (timeSinceLastAttack > 1.25f)//Reset Attack Counter if Enough Time Has Passed
         {
             attackCounter = 0;
         }
@@ -98,6 +100,7 @@ public class GhostController : MonoBehaviour
         }
     }
 
+    //Not used in final game as there are not grabbable objects
     public void Grab()
     {
         if (!grabbing)
@@ -144,14 +147,14 @@ public class GhostController : MonoBehaviour
         desiredAlpha = 0.8f;
     }
 
-    public void Attack()
+    public void Attack()//Attack + Attack + Pause + Attack : Kick
     {
         if (!occupied)
         {
             Show();
             ghostActiveTimer = 1.5f;
             switch (attackCounter)
-            {
+            {//Play a different punch animation depending on how many times the player has attacked
                 case 0:
                     animator.Play(animPunch1);
                     attackCounter = 1;
@@ -183,7 +186,7 @@ public class GhostController : MonoBehaviour
     }
 
     public void Takedown(EnemyStateController targetEnemy)
-    {
+    {//Play longer punch animation
         Show();
         this.targetEnemy = targetEnemy;
         animator.Play(animTakedown);

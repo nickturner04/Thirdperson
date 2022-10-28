@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 using UnityEngine;
 
 public class LabelManager : MonoBehaviour
-{
+{//This class enables different scripts to update UI elements
 
     private Label lblAmmo;
     private Label lblCamo;
@@ -91,15 +91,13 @@ public class LabelManager : MonoBehaviour
     }
 
     public void SetPrompt(DisplayStyle style, string key)
-    {
+    {//Show/Hide Button Prompt
         vseButtonPrompts.style.display = style;
         lblKey.text = key;
     }
 
     private void Respawn()
     {
-        var manager = GameObject.Find("EnemyManager").GetComponent<EnemyManager>();
-        manager.Populate(manager.enemyData);
     }
 
     public void SetNoiseLevel(float noise)

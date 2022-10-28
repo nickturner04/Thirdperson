@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+//This node will execute all of it's children until one of them fails, it is functionally the same as the selector node,
+//but may improve readability of trees by making success/failure, line up with what the programmer percieves to be a success.
 public class Sequence : Node
 {
     public Sequence(string name)

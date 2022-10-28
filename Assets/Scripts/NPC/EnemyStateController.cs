@@ -32,18 +32,15 @@ public class EnemyStateController : MonoBehaviour
     {
         if (knockouttimer > 0)
         {
-            if (state != EnemyState.Knockout)
+            if (state != EnemyState.Knockout)//Knock Out
             {
                 state = EnemyState.Knockout;
                 animator.SetBool("KNOCKOUT", true);
                 capsuleCollider.enabled = false;
-
             }
-            
             knockouttimer -= Time.deltaTime;
-            
         }
-        else if (state == EnemyState.Knockout)
+        else if (state == EnemyState.Knockout)//Wake Up
         {
             animator.SetBool("KNOCKOUT", false);
             state = EnemyState.Normal;
@@ -78,10 +75,7 @@ public class EnemyStateController : MonoBehaviour
     public void Stun()
     {
         animator.SetBool("STUNNED",true);
-
         state = EnemyState.Stun;
-
-        
     }
     public void EndStun()
     {
@@ -96,11 +90,11 @@ public class EnemyStateController : MonoBehaviour
         capsuleCollider.enabled = false;
         GetComponent<EnemyWeaponController>().EndFire();
         var playercontroller = player.GetComponent<PlayerController>();
-        if (playercontroller.hostageController == this)
+        if (playercontroller.hostageController == this)//Remove from hostage incase player kills this while grabbing
         {
             playercontroller.RemoveGrabTarget(capsuleCollider);
         }
-        foreach (var rb in ragdollBoxes)
+        foreach (var rb in ragdollBoxes)//Add force to body on dying
         {
             rb.AddForce((rb.position - player.position).normalized * 5000);
         }
@@ -122,12 +116,14 @@ public class EnemyStateController : MonoBehaviour
         }
     }
 
+    //This method is triggered on collision with the player's punch and kick
     private void OnTriggerEnter(Collider other)
     {
+        //Do not take damage when grabbed
         if (state != EnemyState.Grab && other.gameObject.layer == 10)
         {
             Hitbox hit = other.gameObject.GetComponent<Hitbox>();
-            if (state == EnemyState.Normal)
+            if (state == EnemyState.Normal)//Do not trigger stun if already stunned
             {
                 Stun();
             }
@@ -137,8 +133,6 @@ public class EnemyStateController : MonoBehaviour
             {
                 rb.AddForce((transform.position - other.transform.position).normalized * 1000);
             }
-            
-
         }
     }
 }

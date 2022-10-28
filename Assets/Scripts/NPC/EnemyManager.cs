@@ -18,13 +18,12 @@ public class EnemyManager : MonoBehaviour
     private float timeMultiplier = 1;
 
     public List<EnemyBehaviour> enemies = new List<EnemyBehaviour>();
-    public GameManager.EnemyData[] enemyData;
     [SerializeField] private GameObject enemy;
-    public LabelManager labelManager;
+    [HideInInspector]public LabelManager labelManager;
 
     private void Start()
     {
-        Populate(enemyData);
+
     }
 
     public void Populate(GameManager.EnemyData[] enemyData)
@@ -33,7 +32,7 @@ public class EnemyManager : MonoBehaviour
         if (player == null) Debug.Log("NULL");
         for (int i = 0; i < enemyData.Length; i++)
         {
-            
+            //Instantiate each enemy in the enemydata array
             GameManager.EnemyData item = enemyData[i];
             var e = Instantiate(enemy, GameManager.SurrogateToVector(item.position), GameManager.SurrogateToQuaternion(item.rotation)).GetComponent<EnemyBehaviour>();
             e.patrolPoints = GameManager.SurrogateToVectorArray(item.patrolPoints);
@@ -46,7 +45,7 @@ public class EnemyManager : MonoBehaviour
             e.enemyManager = this;
             enemies.Add(e);
             if (s.state == EnemyStateController.EnemyState.Grab)
-            {
+            {//If enemy is grabbed spawn them connected to player and update the player's state
                 s.GetComponent<CapsuleCollider>().isTrigger = true;
                 s.GetComponent<NavMeshAgent>().enabled = false;
                 GameObject.Find("PlayerV5").GetComponent<PlayerController>().hostageController = s;
@@ -57,6 +56,7 @@ public class EnemyManager : MonoBehaviour
 
     public void DeleteAllEnemies()
     {
+        //Reset Enemy List
         foreach (var item in enemies)
         {
             Destroy(item.gameObject);
@@ -70,17 +70,17 @@ public class EnemyManager : MonoBehaviour
     }
 
     public void CheckAwakeEnemies()
-    {
+    {//If all enemies are knocked out or dead, make the alert end quicker
         foreach (var item in enemies)
         {
             var state = item.GetComponent<EnemyStateController>().state;
-            if (state == EnemyStateController.EnemyState.Normal || state == EnemyStateController.EnemyState.Stun)
+            if (state == EnemyStateController.EnemyState.Death || state == EnemyStateController.EnemyState.Stun)
             {
-                timeMultiplier = 1;
+                timeMultiplier = 5;
                 return;
             }
         }
-        timeMultiplier = 5;
+        timeMultiplier = 1;
     }
     public void UpdatePlayerPosition(Vector3 position)
     {
@@ -95,7 +95,7 @@ public class EnemyManager : MonoBehaviour
     }
 
     public void CallAlert()
-    {
+    {//Change each enemy's behaviour tree to the alert one to change their behaviour
         for (int i = 0; i < enemies.Count; i++)
         {
             if (enemies[i].GetComponent<EnemyStateController>().state != EnemyStateController.EnemyState.Death)
@@ -104,19 +104,20 @@ public class EnemyManager : MonoBehaviour
                 if (i % 2 == 0) enemies[i].surround = true;
                 item.tree = item.treeAlert;
                 item.agent.SetDestination(item.transform.position);
+                item.alertDestination = item.transform.position;
                 item.interrupt.priority = 0;
             }
             
         }
+        CheckAwakeEnemies();//reset time multiplier
     }
 
     public void EndAlert()
-    {
+    {//Change each enemy's behaviour tree back to the normal one
         foreach (EnemyBehaviour item in enemies)
         {
             item.tree = item.treeNormal;
-        }
-    }
+        }    }
 
     private void Update()
     {
@@ -139,9 +140,4 @@ public class EnemyManager : MonoBehaviour
             }
         }   
     }
-}
-
-public enum phase
-{
-    normal,search,alert
 }

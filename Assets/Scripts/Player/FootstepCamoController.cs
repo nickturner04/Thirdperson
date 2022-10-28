@@ -8,7 +8,6 @@ public class FootstepCamoController : MonoBehaviour
     public Transform[] bodyParts;
 
     [SerializeField] private GameObject soundMaker;
-    private PlayerController playerController;
     [SerializeField] private LabelManager labelManager;
 
     [SerializeField]
@@ -23,7 +22,7 @@ public class FootstepCamoController : MonoBehaviour
     public List<SoundEmitter> SoundEmitters;
 
     public int currentLayer;
-    public bool isInvisible = false;
+    public bool isInvisible = false; //Debug variable, not used in this script but enemies will ignore player if this is true
     private float noiseLevel;
     private float stepDistance = 25;
     public bool inShadow = false;
@@ -31,7 +30,6 @@ public class FootstepCamoController : MonoBehaviour
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
-        playerController = GetComponent<PlayerController>();
         terrainDetector = new TerrainDetector();
     }
 
@@ -45,17 +43,10 @@ public class FootstepCamoController : MonoBehaviour
         return noise;
     }
 
-    public void Step(float speed)
-    {
-        
-        if (speed * layerSoundMultipliers[currentLayer] >= noiseLevel)
-        {
-            Debug.Log($"{speed * layerSoundMultipliers[currentLayer]} > {noiseLevel}");
-        }
-    }
-
+    //This method is called by the player controller whenever the player moves
     public void Move(float speed)
     {
+        //Get noise of footstep depending on terrain type and speed
         var noise = speed * layerSoundMultipliers[currentLayer];
         labelManager.SetNoiseLevelPlayer(speed * noise);
         stepDistance -= speed;
@@ -65,12 +56,13 @@ public class FootstepCamoController : MonoBehaviour
             audioSource.PlayOneShot(GetRandomClip());
             var colliders = Physics.OverlapSphere(transform.position,2 * (1 +(noise - noiseLevel)), 1<<8);
             foreach (Collider v in colliders)
-            {
+            {//If footstep detects enemy in radius make them look that way
                 v.GetComponent<EnemyBehaviour>().AddInterrupt(1, transform.position);
             }
         }
     }
 
+    //Return a sound for the appropriate type of ground
     private AudioClip GetRandomClip()
     {
         switch (currentLayer)
@@ -95,6 +87,7 @@ public class FootstepCamoController : MonoBehaviour
         //imgCamo.color = new Color(imgCamo.color.r, imgCamo.color.g, imgCamo.color.b, Mathf.Lerp(imgCamo.color.a, camoAlpha, Time.deltaTime * 2.5f));
     }
 
+    //Layer 11 = shadow, when in this layer the player is hidden
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.layer == 11)

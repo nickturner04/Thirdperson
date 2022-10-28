@@ -1,9 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
-public class Node
+public abstract class Node
 {
+    //This class contains the functions and data needed for a node on the behaviour tree but is never instantiated itself.
     public enum Status { Success,Running,Failure}
     public Status status;
     public List<Node> children = new List<Node>();

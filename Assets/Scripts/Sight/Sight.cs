@@ -27,8 +27,9 @@ public class Sight : MonoBehaviour
         Vector3 direction;
         Vector3 part;
         float distance;
+        //If player is in shadow reduce distance at which they are visible
         var sightdistance = camo.inShadow ? minSightDistance : maxSightDistance;
-        for (int i = 0; i < max; i++)
+        for (int i = 0; i < max; i++)//Send a series of raycasts to the player's different body parts to determine visibility.
         {
             part = camo.bodyParts[i].position;
             direction = part - trfEye.position;

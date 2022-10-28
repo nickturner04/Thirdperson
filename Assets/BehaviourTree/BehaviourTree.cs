@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BehaviourTree : Node
 {
+    //Class for simulating decision making
     public BehaviourTree()
     {
         name = "Tree";
@@ -14,7 +15,7 @@ public class BehaviourTree : Node
     }
 
     public override Status Process()
-    {
+    {//Calls the child's delagate function
         return children[currentChild].Process();
     }
 
@@ -30,7 +31,7 @@ public class BehaviourTree : Node
     }
 
     public void PrintTree()
-    {
+    {//Prints all child nodes of the behaviour tree and their children at the correct level
         string treePrintout = "";
         Stack<NodeLevel> nodeStack = new Stack<NodeLevel>();
         Node currentNode = this;

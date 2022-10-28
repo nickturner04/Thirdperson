@@ -6,6 +6,7 @@ using Cinemachine;
 
 public class SwitchVCam : MonoBehaviour
 {
+    //This script is attached to the camera object.
     [SerializeField]
     private GameObject reticle;
     [SerializeField]
@@ -13,7 +14,7 @@ public class SwitchVCam : MonoBehaviour
     private CinemachineVirtualCamera virtualCamera;
 
     [SerializeField] private CinemachineInputProvider[] cinemachineInputProviders;
-    [SerializeField] private InputActionReference xy;
+    [SerializeField] private InputActionReference xy;//Reference to the player's input system
 
     private void Awake()
     {
@@ -24,7 +25,7 @@ public class SwitchVCam : MonoBehaviour
     public void StartAim()
     {
         virtualCamera.Priority = 10;
-        StartCoroutine(aimTimer());
+        StartCoroutine(AimTimer());
     }
 
     public void StopAim()
@@ -35,25 +36,28 @@ public class SwitchVCam : MonoBehaviour
         weaponController.aiming = false;
     }
 
-    private IEnumerator aimTimer()
+    private IEnumerator AimTimer()
     {
         yield return new WaitForSeconds(0.3f);
         //reticle.SetActive(true);
         weaponController.aiming = true;
     }
 
+    //Remove Mouse Input From Camera
     public void DisableInput()
     {
         foreach (var item in cinemachineInputProviders)
         {
-            item.XYAxis = null;
+            item.XYAxis = null; //Set input system to null
         }
     }
+
+    //Add Mouse input to camera
     public void EnableInput()
     {
         foreach (var item in cinemachineInputProviders)
         {
-            item.XYAxis = xy;
+            item.XYAxis = xy; //Return input system to normal
         }
     }
 }

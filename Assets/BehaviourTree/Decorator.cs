@@ -15,6 +15,7 @@ public class Decorator : Node
         this.filter = filter;
     }
 
+    //If this node's delegate returns true, process the child node, else return failure
     public override Status Process()
     {
         if (filter())

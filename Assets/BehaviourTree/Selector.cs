@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+//This node will process all of it's child children until one of them succeeds, at that point it will reset and go back to the first one
+//If the child returns running it will wait for it to finish before processing the next one
 public class Selector : Node
 {
     public Selector() { }

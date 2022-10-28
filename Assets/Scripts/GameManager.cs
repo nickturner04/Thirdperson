@@ -9,7 +9,7 @@ using UnityEngine.UIElements;
 
 [System.Serializable]
 public struct V3Surrogate
-{
+{//Vector3 with unnecesary data stripped out
     public V3Surrogate(float x, float y, float z)
     {
         this.x = x;
@@ -23,7 +23,7 @@ public struct V3Surrogate
 
 [System.Serializable]
 public struct QuatSurrogate
-{
+{//Quaternion with unnecesary data stripped out
     public QuatSurrogate(float x, float y, float z)
     {
         this.x = x;
@@ -38,6 +38,7 @@ public struct QuatSurrogate
 [System.Serializable]
 public struct InterruptSurrogate
 {
+    // Replace interrupt with version that does not use Vector3
     public InterruptSurrogate(int priority, V3Surrogate position)
     {
         this.priority = priority;
@@ -185,9 +186,7 @@ public class GameManager : MonoBehaviour
     private Scene currentScene;
     private PlayerController playerController;
     private UIDocument document;
-    private bool quit = false;
     private bool firstload = true;
-    private float playTime = 0;
 
     private VisualElement vseGameOver;
     private Button btnContinue;
@@ -220,13 +219,8 @@ public class GameManager : MonoBehaviour
         StartCoroutine(LoadSaveFile("defaultsave.json"));
     }
 
-    private void Update()
-    {
-        playTime += Time.deltaTime;
-    }
-
     private IEnumerator LoadSaveFile(string path)
-    {
+    {//Unsubscribe from these so that the player can not call this coroutine multiple times
         saveAction.performed -= SaveAction;
         loadAction.performed -= LoadAction;
         pauseAction.performed -= PauseAction;
@@ -237,6 +231,7 @@ public class GameManager : MonoBehaviour
         asyncLoad = SceneManager.LoadSceneAsync(save.room,LoadSceneMode.Additive);
         if (!firstload) 
         {
+            //Unload currently loaded scene
             asyncUnload = SceneManager.UnloadSceneAsync(currentScene);
             while (!asyncLoad.isDone && !asyncUnload.isDone)
             {
@@ -253,9 +248,9 @@ public class GameManager : MonoBehaviour
             }
             firstload = false;
         }
-        
+        //Wait until scene finishes loading before doing this
         asyncLoad.allowSceneActivation = true;
-        yield return new WaitForSecondsRealtime(0.1f);
+        yield return new WaitForSecondsRealtime(0.1f); //Added delay to prevent errors where the scene takes too long to activate
         currentScene = SceneManager.GetSceneByBuildIndex(save.room);
         SceneManager.SetActiveScene(currentScene);
         InstantiateAll(ref save);
@@ -266,13 +261,13 @@ public class GameManager : MonoBehaviour
     }
 
     private void InstantiateAll(ref SaveData save)
-    {
-        enemyManager = GameObject.Find("EnemyManager").GetComponent<EnemyManager>();
+    {//Read the save file and instantiate every object in its stored position
         playerEssentialsInstance = Instantiate(playerEssentials, Vector3.zero, Quaternion.identity);
-        enemyManager.DeleteAllEnemies();
         try
         {
-            enemyManager.Populate(currentSave.rooms[currentSave.room].enemies);
+            enemyManager = GameObject.Find("EnemyManager").GetComponent<EnemyManager>();
+            enemyManager.DeleteAllEnemies();
+            enemyManager.Populate(save.rooms[save.room].enemies);
         }
         catch (System.Exception)
         {
@@ -284,10 +279,9 @@ public class GameManager : MonoBehaviour
         playerController.GetComponent<PlayerHealth>().gameManager = this;
         //var inventory = playerController.GetComponent<Inventory>();
         charcon.enabled = false;
-        playerController.transform.position = SurrogateToVector(currentSave.player.position);
-        playerController.transform.rotation = SurrogateToQuaternion(currentSave.player.rotation);
+        playerController.transform.SetPositionAndRotation(SurrogateToVector(save.player.position), SurrogateToQuaternion(save.player.rotation));
         charcon.enabled = true;
-        playerController.isCrouching = currentSave.player.isCrouching;
+        playerController.isCrouching = save.player.isCrouching;
         if (playerController.isCrouching)
         {
             playerController.GetComponent<Animator>().SetBool("CROUCHING", true);
@@ -296,15 +290,15 @@ public class GameManager : MonoBehaviour
         {
             playerController.GetComponent<Animator>().SetBool("CROUCHING", false);
         }
-        playerController.SetMode(currentSave.player.mode);
-        playerController.GetComponent<Health>().health = currentSave.player.health;
+        playerController.SetMode(save.player.mode);
+        playerController.GetComponent<Health>().health = save.player.health;
         playerController.GetComponent<Inventory>();//.ammo = (int[,])currentSave.player.ammo.Clone();
         enemyManager.currentAlertTime = 0;
         enemyManager.labelManager = playerEssentialsInstance.transform.Find("UIDocument").GetComponent<LabelManager>();
     }
 
     public void Transition(int room, Vector3 PlayerPos)
-    {
+    {//Change Scene
         currentSave.room = room;
         currentSave.player.position = VectorToSurrogate(PlayerPos);
         JSave("autosave.json",currentSave);
@@ -331,29 +325,12 @@ public class GameManager : MonoBehaviour
 
     private void PauseAction(InputAction.CallbackContext context)
     {
-        quit = true;
         SceneManager.LoadScene(0,LoadSceneMode.Single);
     }
 
     public void LoadAction(InputAction.CallbackContext context)
     {
         StartCoroutine(LoadSaveFile("currentsave.json"));
-    }
-
-    private void Load()
-    {
-        Debug.Log("Loading...");
-        if (!firstload)
-        {
-            currentSave = JLoad("currentsave.json");
-            SceneManager.UnloadSceneAsync(currentScene);
-        }
-        else
-        {
-            firstload = false;
-            SceneManager.LoadScene(currentSave.room, LoadSceneMode.Additive);
-        }
-        
     }
 
     public void Save()

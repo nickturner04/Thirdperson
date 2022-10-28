@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class Leaf : Node
 {
+    //This class is a node which calls a delagate function when processed and returns it's output.
     public delegate Status Tick();
     public Tick ProcessMethod;
     public bool executing = false;

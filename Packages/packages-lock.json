@@ -267,6 +267,13 @@
         "com.unity.modules.imgui": "1.0.0"
       }
     },
+    "com.wfowler1.unity3d-bsp-importer": {
+      "version": "https://github.com/wfowler1/Unity3D-BSP-Importer.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "b09e2603bfd5e9b4cfdfefb6451ecfcf37445cb2"
+    },
     "com.unity.modules.ai": {
       "version": "1.0.0",
       "depth": 0,

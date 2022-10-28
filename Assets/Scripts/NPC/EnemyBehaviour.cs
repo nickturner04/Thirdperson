@@ -23,11 +23,10 @@ public class EnemyBehaviour : MonoBehaviour
 {
     enum ActionState { Idle, Working }
     ActionState state;
-    Node.Status treeStatus = Node.Status.Running;
 
     public BehaviourTree tree;
-    public BehaviourTree treeNormal = new BehaviourTree("Normal");
-    public BehaviourTree treeAlert = new BehaviourTree("Alert");
+    public BehaviourTree treeNormal = new("Normal");
+    public BehaviourTree treeAlert = new("Alert");
     private bool lookExecuting = false;
     private Leaf goLeaf;
 
@@ -46,14 +45,14 @@ public class EnemyBehaviour : MonoBehaviour
     [HideInInspector]
     public Vector3[] patrolPoints;
     public int nextPoint = 0;
-    private Vector3 alertDestination = Vector3.zero;
+    public Vector3 alertDestination = Vector3.zero;
     private bool alertMoving = false;
     private LayerMask defaultMask;
     private bool FoundDestination = false;
     public bool surround = true;
 
     //Interrupt
-    public Interrupt interrupt = new Interrupt(0, Vector3.zero);
+    public Interrupt interrupt = new(0, Vector3.zero);
 
     //Timers
     private float waitTime;
@@ -63,14 +62,13 @@ public class EnemyBehaviour : MonoBehaviour
     private float currentAttackCooldown = 0;
     private bool reloading = false;
     int rlAnim;
-    [SerializeField] private float attackTime = 0.25f;
-    [SerializeField] private float attackCooldown = 3;
+    [SerializeField] private float attackTime = 0.35f;
+    [SerializeField] private float attackCooldown = 1.5f;
     [SerializeField] private TMP_Text sightText;
     [SerializeField] private TMP_Text visibilityText;
     [SerializeField] private AudioSource source;
     [SerializeField] private AudioClip alert;
     [SerializeField] private Transform aimTarget;
-    private Vector3 aimTargetFollow;
     [SerializeField] private Rig rig;
 
     private int speedHash;
@@ -95,20 +93,20 @@ public class EnemyBehaviour : MonoBehaviour
         defaultMask = LayerMask.GetMask("Terrain");
         target.parent = null;
         //Set Normal Tree
-        Parallel parallel = new Parallel("Base");
-        Selector selector = new Selector("Selector");
-        Sequence checkSight = new Sequence("Check Sight");
-        Leaf fillSight = new Leaf("Fill Sight", FillSight);
-        Leaf callHelp = new Leaf("Call Help", CallHelp);
-        Decorator isInterrupt = new Decorator("Is There An Interrupt?", IsInterrupt);
-        Selector checkInterrupt = new Selector("Check Interrupt");
-        Sequence lookAtInterrupt = new Sequence("Look At Interrupt");
-        Leaf turnToInterrupt = new Leaf("Turn To Interrupt", TurnToInterrupt);
-        Leaf goToInterrupt = new Leaf("Go To Interrupt", GoToInterrupt);
+        Parallel parallel = new("Base");
+        Selector selector = new("Selector");
+        Sequence checkSight = new("Check Sight");
+        Leaf fillSight = new("Fill Sight", FillSight);
+        Leaf callHelp = new("Call Help", CallHelp);
+        Decorator isInterrupt = new("Is There An Interrupt?", IsInterrupt);
+        Selector checkInterrupt = new("Check Interrupt");
+        Sequence lookAtInterrupt = new("Look At Interrupt");
+        Leaf turnToInterrupt = new("Turn To Interrupt", TurnToInterrupt);
+        Leaf goToInterrupt = new("Go To Interrupt", GoToInterrupt);
         goLeaf = goToInterrupt;
-        Selector patrol = new Selector("Patrol");
-        Leaf wait = new Leaf("Wait", Wait);
-        Leaf goToPatrolPoint = new Leaf("Go To Patrol Point", GoToPatrolPoint);
+        Selector patrol = new("Patrol");
+        Leaf wait = new("Wait", Wait);
+        Leaf goToPatrolPoint = new("Go To Patrol Point", GoToPatrolPoint);
         treeNormal.AddChild(parallel);
         parallel.AddChild(fillSight);
         parallel.AddChild(selector);
@@ -123,12 +121,12 @@ public class EnemyBehaviour : MonoBehaviour
 
         //Set Alert Tree
         //Sequence - Check Position, Go To Position, Attack, Reload
-        Parallel alertBase = new Parallel("Alert Base");
-        Leaf checkPosition = new Leaf("CheckPosition", CheckPosition);
-        Leaf movetoposition = new Leaf("MoveToPosition",MoveToPosition);
-        Sequence attack = new Sequence("Attack");
-        Leaf shoot = new Leaf("Shoot", Shoot);
-        Leaf reload = new Leaf("Reload", Reload);
+        Parallel alertBase = new("Alert Base");
+        Leaf checkPosition = new("CheckPosition", CheckPosition);
+        Leaf movetoposition = new("MoveToPosition",MoveToPosition);
+        Sequence attack = new("Attack");
+        Leaf shoot = new("Shoot", Shoot);
+        Leaf reload = new("Reload", Reload);
         treeAlert.AddChild(alertBase);
         alertBase.AddChild(checkPosition);
         alertBase.AddChild(attack);
@@ -142,10 +140,25 @@ public class EnemyBehaviour : MonoBehaviour
      * Parallel
      * *Check Position
      * 
-     * *Selector
+     * *Sequence
      * **Move
      * **Shoot
      * **Reload
+     */
+    /*
+     * NORMAL BEHAVIOUR:
+     * If interrupt's priority is not zero:
+     *  Move To Next Patrol Poin
+     * Else:
+     *  switch interrupt.priority
+     *      1: Look at interrupt
+     *      2: Walk To Interrupt
+     *      3: Run to Interrupt
+     *      4: Run faster to Interrupt
+     *      5: Call Alert
+     *
+     *While this is running:
+     *      if the player is visible, add an interrupt of priority 5
      */
 
     public Node.Status MoveToPosition()
@@ -176,14 +189,14 @@ public class EnemyBehaviour : MonoBehaviour
             
             if (Vector3.Distance(alertDestination,transform.position) < 3f)
             {
-                animator.SetFloat("SPEED", 0f);
+                animator.SetFloat(speedHash, 0f);
                 return Node.Status.Success;
             }
             else
             {
                 agent.SetDestination(alertDestination);
                 agent.speed = 6f;
-                animator.SetFloat("SPEED", 1f);
+                animator.SetFloat(speedHash, 1f);
                 return Node.Status.Running;
             }
             
@@ -204,14 +217,14 @@ public class EnemyBehaviour : MonoBehaviour
         Debug.DrawRay(alDes2, player.position - alDes2);
         if (FoundDestination == false)
         {
-            Debug.Log("false");
+            //Debug.Log("false");
             //Find New Position
             var found = false;
             while (!found)
             {
-                
+                //Get a position within a circle of the player
                 var newPosition = GetRingPosition(surround ? player.position : transform.position, surround ? Random.Range(5f, 20f) : Random.Range(1f, 50f));
-                if (newPosition != Vector3.zero)
+                if (newPosition != Vector3.zero)//If new position is 0,0,0 then try again to find a new one
                 {
                     found = true;
                     FoundDestination = true;
@@ -235,19 +248,12 @@ public class EnemyBehaviour : MonoBehaviour
                 }
                 if (surround)
                 {
-                    NavMeshPath path = new NavMeshPath();
+                    NavMeshPath path = new();
                     NavMesh.CalculatePath(alDes2, player.position, NavMesh.AllAreas, path);
                     var dist = 0f;
-                    if (path.corners.Length > 2)
+                    for (int i = 0; i < path.corners.Length - 1; i++)
                     {
-                        for (int i = 0; i < path.corners.Length - 2; i++)
-                        {
-                            dist += Vector3.Distance(path.corners[i], path.corners[i + 1]);
-                        }
-                    }
-                    else
-                    {
-                        dist = Vector3.Distance(alDes2, player.position);
+                        dist += Vector3.Distance(path.corners[i], path.corners[i + 1]);
                     }
                     if (dist > 20f) FoundDestination = false;
 
@@ -258,11 +264,12 @@ public class EnemyBehaviour : MonoBehaviour
         return Node.Status.Success;
     }
 
+    //Get a position on the navmesh within a certain radius of a point, if the point is not on the navmesh then return zero
     private Vector3 GetRingPosition(Vector3 point, float range)
     {
         Vector3 randomPoint = point + Random.insideUnitSphere * range;
-        NavMeshHit hit;
-        if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas)) return hit.position;
+
+        if (NavMesh.SamplePosition(randomPoint, out NavMeshHit hit, 1.0f, NavMesh.AllAreas)) return hit.position;
         return Vector3.zero;
     }
 
@@ -390,19 +397,6 @@ public class EnemyBehaviour : MonoBehaviour
 
     }
 
-    public Node.Status CanSee()
-    {
-        if (sight.visibility == 0)
-        {
-            rig.weight = 0f;
-            return Node.Status.Failure;
-        }
-        rig.weight = 1f;
-        enemyManager.UpdatePlayerPosition(player.position);
-        //transform.LookAt(new Vector3(player.position.x,transform.position.y,player.position.z));
-        return Node.Status.Success;
-    }
-
     public Node.Status Shoot()
     {
         weaponController.Fire(false);
@@ -433,12 +427,14 @@ public class EnemyBehaviour : MonoBehaviour
 
     }
 
+    //Stop movement and reload weapon
     public Node.Status Reload()
     {
         if (reloading && !animator.GetBool(rlAnim))
         {
             animator.SetBool(rlAnim, true);
             agent.isStopped = true;
+            agent.SetDestination(transform.position);
             return Node.Status.Running;
         }
         else if (reloading && animator.GetBool(rlAnim))
@@ -454,6 +450,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     }
 
+    //This is called by the event at the end of the reload animation
     public void EndReload()
     {
         weaponController.currentAmmo = weaponController.clipSize;
@@ -461,12 +458,14 @@ public class EnemyBehaviour : MonoBehaviour
         reloading = false;
     }
 
+    //If enemy can see at least one body part from the player, create a level 5 interrupt
     public Node.Status FillSight()
     {
         if (sight.visibility > 0.16f && !enemyManager.ignorePlayer)
         {
             AddInterrupt(5, player.position);
         }
+        //Commented out as it didnt work
         /*
         else 
         {
@@ -584,24 +583,22 @@ public class EnemyBehaviour : MonoBehaviour
     private void Update()
     {
         aimTarget.position = lookExecuting ? interrupt.position : player.position;
+        //If alert and can see player move head to look towards player
         rig.weight = (lookExecuting || (sight.LineOfSight && enemyManager.isAlert)) ? 1 : 0;
         
-        sightText.text = ((int)sightTime).ToString();
-        visibilityText.text = sight.visibility.ToString("00.00");
         if (stateController.state == EnemyStateController.EnemyState.Normal)
         {
             agent.isStopped = false;
-            treeStatus = tree.Process();
+            tree.Process();
         }
         else if (stateController.state == EnemyStateController.EnemyState.Stun)
         {
             sightTime = 0;
             agent.isStopped = true;
         }
-        else if (stateController.state == EnemyStateController.EnemyState.Grab)
+        else if (stateController.state == EnemyStateController.EnemyState.Grab)//If enemy is grabbed by player, move to in front of player
         {
-            transform.position = hostageArea.transform.position;
-            transform.rotation = player.rotation;
+            transform.SetPositionAndRotation(hostageArea.transform.position, player.rotation);
         }
         else
         {
