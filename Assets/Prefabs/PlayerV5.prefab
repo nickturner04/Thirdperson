@@ -5499,7 +5499,7 @@ GameObject:
   - component: {fileID: 9069484737222537591}
   - component: {fileID: 9069484737222537577}
   - component: {fileID: 9069484737222537585}
-  - component: {fileID: 6337600987246047813}
+  - component: {fileID: 4583949308906377153}
   - component: {fileID: 759292212970083834}
   - component: {fileID: 2340195495341793299}
   - component: {fileID: 659392767155378627}
@@ -5680,7 +5680,6 @@ MonoBehaviour:
   audioSource: {fileID: 6793332567137475210}
   labelManager: {fileID: 0}
   normalSpeed: 5
-  aimingSpeed: 2.5
   gravityValue: -20
   rotationSpeed: 10
   rotationSpeedAiming: 200
@@ -5836,8 +5835,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 306adc36d1c75de47b535e2e897af79b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameManager: {fileID: 0}
   labelManager: {fileID: 0}
---- !u!114 &6337600987246047813
+  resetTime: 5
+  maxShield: 500
+  shield: 500
+  regenSpeed: 125
+--- !u!114 &4583949308906377153
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5846,7 +5850,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 9069484737222537576}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49a25a6b7ea681440bffd1b4b59e362e, type: 3}
+  m_Script: {fileID: 11500000, guid: b716f16c2a858264b8159dc97cde5dac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 500
@@ -5871,10 +5875,6 @@ MonoBehaviour:
       m_Calls: []
   godMode: 0
   isPlayer: 1
-  resetTime: 5
-  maxShield: 250
-  shield: 250
-  regenSpeed: 125
 --- !u!114 &759292212970083834
 MonoBehaviour:
   m_ObjectHideFlags: 0
