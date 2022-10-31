@@ -819,7 +819,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh46684
+  m_Name: pb_Mesh47416
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -17040,7 +17040,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   room: 5
-  position: {x: -3, y: 0, z: 0}
+  position: {x: 1.75, y: 0, z: 2.25}
 --- !u!114 &1416296646
 MonoBehaviour:
   m_ObjectHideFlags: 0

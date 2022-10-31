@@ -21,7 +21,6 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
     [SerializeField] private WeaponController weaponController;
     [SerializeField] private SwitchVCam cameraController;
-    [SerializeField] private BoxDamager punchBox;
     [SerializeField] private GameObject thermalCamera;
     [SerializeField] private GameObject soundMaker;
     [SerializeField] private LayerMask ignorePlayer;
@@ -331,19 +330,6 @@ public class PlayerController : MonoBehaviour
             sm.priority = priority;
         }
     }
-
-    //Unused methods from before the ghost was added
-    public void SpawnPunch()
-    {
-        punchBox.DamageBox();
-    }
-
-    public void StopPunch()
-    {
-        animator.SetBool("PUNCHING", false);
-    }
-
-
 
     private void Reload()
     {
