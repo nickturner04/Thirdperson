@@ -21,11 +21,6 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private GameObject enemy;
     [HideInInspector]public LabelManager labelManager;
 
-    private void Start()
-    {
-
-    }
-
     public void Populate(GameManager.EnemyData[] enemyData)
     {
         var player = GameObject.Find("PlayerV5");
@@ -82,6 +77,7 @@ public class EnemyManager : MonoBehaviour
         }
         timeMultiplier = 1;
     }
+    //Resets alert time and updates known player position, or calls alert
     public void UpdatePlayerPosition(Vector3 position)
     {
         lastPlayerPosition = position;

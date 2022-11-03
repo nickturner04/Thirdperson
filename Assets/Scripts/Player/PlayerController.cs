@@ -13,18 +13,14 @@ public class PlayerController : MonoBehaviour
     public enum Mode { NORMAL,CRAWL,COVER,HOSTAGE}
 
     [SerializeField] public Transform trfPickup;
-    [SerializeField] private Transform trfFirepoint;
-    [SerializeField] private GameObject bullet;
     [SerializeField] private Transform aimTarget;
     [SerializeField] private Rig aimRig;
     [SerializeField] public LayerMask interactableLayer;
     private Animator animator;
-    [SerializeField] private WeaponController weaponController;
+    private WeaponController weaponController;
     [SerializeField] private SwitchVCam cameraController;
-    [SerializeField] private GameObject thermalCamera;
     [SerializeField] private GameObject soundMaker;
     [SerializeField] private LayerMask ignorePlayer;
-    [SerializeField] private AudioSource audioSource;
     [SerializeField] private LabelManager labelManager;
 
     [SerializeField] private float normalSpeed = 10.0f;
@@ -81,6 +77,7 @@ public class PlayerController : MonoBehaviour
         Debug.Log("");
         Cursor.lockState = CursorLockMode.Locked;
         controller = GetComponent<CharacterController>();
+        weaponController = GetComponent<WeaponController>();
         animator = GetComponent<Animator>();
         playerInput = GetComponent<PlayerInput>();
         ghostController = GetComponent<GhostController>();
@@ -108,6 +105,7 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
+    //Called when GameObject is enabled, subscribes all the actions to events
     private void OnEnable()
     {
         lightAttackAction.performed += LightAttack;
@@ -121,11 +119,11 @@ public class PlayerController : MonoBehaviour
         inventoryAction.performed += Inventory;
         reloadAction.performed += _ => Reload();
         crouchAction.performed += Crouch;
-        toggleThermal.performed += _ => ToggleThermal();
         makeSound.performed += _ => MakeSound();
         
     }
 
+    //Called when GameObject is disabled, unsubscribes all actions from events
     private void OnDisable()
     {
         lightAttackAction.performed -= LightAttack;
@@ -139,7 +137,6 @@ public class PlayerController : MonoBehaviour
         reloadAction.performed -= _ => Reload();
         
         crouchAction.performed -= Crouch;
-        toggleThermal.performed -= _ => ToggleThermal();
         makeSound.performed -= _ => MakeSound();
         
     }
@@ -166,6 +163,7 @@ public class PlayerController : MonoBehaviour
         //Change movement direction based on where the camera is facing
         move = camForward * move.z + trfCameraMain.right * move.x;
         move.y = 0;
+        //Move Player in x and z axis
         controller.Move(normalSpeed * Time.deltaTime * move * speedMultiplier2);
         //Using Time.deltaTime prevents higher framerates from causing the player to move faster
 
@@ -175,7 +173,7 @@ public class PlayerController : MonoBehaviour
         {
             playerVelocity.y = 0f;
         }
-        
+        //move player in y axis
         controller.Move(playerVelocity * Time.deltaTime);
 
         if (moveinput != Vector2.zero & !isAiming)
@@ -212,10 +210,6 @@ public class PlayerController : MonoBehaviour
         {//Play footsteps at a different volume depending on how fast the player is moving, but only if on the ground
             footstepController.Move(speedMultiplier2 * move.magnitude);
         }
-        else
-        {
-            footstepController.Move(0);
-        }
         //If an interactable object is detected in range or an enemy can be grabbed, make the button prompt appear
         if (interactable != null || (hostageController != null && mode != Mode.HOSTAGE))
         {
@@ -233,7 +227,7 @@ public class PlayerController : MonoBehaviour
         {
             case Mode.NORMAL:
                 if (mode == Mode.HOSTAGE)
-                {
+                {//Removes instant kill actions and allows player to crouch
                     crouchAction.performed -= Lethal;
                     crouchAction.performed += Crouch;
                     rollAction.performed -= NonLethal;
@@ -246,7 +240,7 @@ public class PlayerController : MonoBehaviour
                 break;
             case Mode.HOSTAGE:
                 if (mode == Mode.NORMAL)
-                {
+                {//Do not allow player to crouch in hostage mode, give options to instantly kill a captured enemy
                     crouchAction.performed -= Crouch;
                     crouchAction.performed += Lethal;
                     rollAction.performed += NonLethal;
@@ -394,7 +388,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void NonLethal(InputAction.CallbackContext context)
-    {//Kill Hostage Enemy
+    {//Knock out Hostage Enemy
         hostageController.EndGrab();
         hostageController.TakeStaminaDamage(hostageController.stamina);
         SetMode(Mode.NORMAL);
@@ -438,10 +432,6 @@ public class PlayerController : MonoBehaviour
         
     }
 
-    private void ToggleThermal()
-    {
-        thermalCamera.SetActive(!thermalCamera.activeInHierarchy);
-    }
 
     public void StartAiming(InputAction.CallbackContext context)
     {//Changes the turn speed so that the player instantly faces the camera, sets the aiming animation rig so that the player aims the gun.

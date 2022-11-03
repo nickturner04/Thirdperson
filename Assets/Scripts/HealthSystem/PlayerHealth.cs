@@ -32,7 +32,13 @@ public class PlayerHealth : MonoBehaviour
             ghostController.gTransform.SetPositionAndRotation(transform.position + (position - transform.position).normalized, Quaternion.LookRotation(position - transform.position));
         }
         if (health.godMode) return;
-        health.TakeDamage(damage);
+        currentResetTime = 0;
+        shield -= damage;
+        if (shield < 0)
+        {
+            health.TakeDamage(damage);
+            shield = 0;
+        }
         if (health.health <= 0)
         {//Trigger Game Over
             Die ();

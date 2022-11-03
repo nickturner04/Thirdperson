@@ -28,7 +28,7 @@ public class EnemyBehaviour : MonoBehaviour
     public BehaviourTree treeNormal = new("Normal");
     public BehaviourTree treeAlert = new("Alert");
     private bool lookExecuting = false;
-    private Leaf goLeaf;
+    private bool goExecuting = false;
 
     private Transform player;
     private Transform hostageArea;
@@ -103,7 +103,6 @@ public class EnemyBehaviour : MonoBehaviour
         Sequence lookAtInterrupt = new("Look At Interrupt");
         Leaf turnToInterrupt = new("Turn To Interrupt", TurnToInterrupt);
         Leaf goToInterrupt = new("Go To Interrupt", GoToInterrupt);
-        goLeaf = goToInterrupt;
         Selector patrol = new("Patrol");
         Leaf wait = new("Wait", Wait);
         Leaf goToPatrolPoint = new("Go To Patrol Point", GoToPatrolPoint);
@@ -147,7 +146,7 @@ public class EnemyBehaviour : MonoBehaviour
      */
     /*
      * NORMAL BEHAVIOUR:
-     * If interrupt's priority is not zero:
+     * If interrupt's priority is zero:
      *  Move To Next Patrol Poin
      * Else:
      *  switch interrupt.priority
@@ -165,10 +164,8 @@ public class EnemyBehaviour : MonoBehaviour
     {
         if (alertMoving)
         {
-            
-            if (agent.remainingDistance < 0)
+            if (agent.remainingDistance <= 0)
             {
-
                 alertMoving = false;
                 agent.SetDestination(transform.position);
                 animator.SetFloat(speedHash, 0f);
@@ -189,7 +186,7 @@ public class EnemyBehaviour : MonoBehaviour
             
             if (Vector3.Distance(alertDestination,transform.position) < 3f)
             {
-                animator.SetFloat(speedHash, 0f);
+                //animator.SetFloat(speedHash, 0f);
                 return Node.Status.Success;
             }
             else
@@ -197,6 +194,7 @@ public class EnemyBehaviour : MonoBehaviour
                 agent.SetDestination(alertDestination);
                 agent.speed = 6f;
                 animator.SetFloat(speedHash, 1f);
+                alertMoving = true;
                 return Node.Status.Running;
             }
             
@@ -275,11 +273,11 @@ public class EnemyBehaviour : MonoBehaviour
 
     public Node.Status GoToInterrupt()
     {
-        if (goLeaf.executing)
+        if (goExecuting)
         {
             if (interrupt.priority > 4)
-            {
-                goLeaf.executing = false;
+            {//If priority is 5 then end this task so that alert can be called
+                goExecuting = false;
                 return Node.Status.Success;
             }
             if (agent.remainingDistance <= 0)
@@ -292,7 +290,7 @@ public class EnemyBehaviour : MonoBehaviour
                 }
                 else
                 {
-                    goLeaf.executing = false;
+                    goExecuting = false;
                     interrupt.priority = 0;
                     return Node.Status.Success;
                 }
@@ -309,6 +307,7 @@ public class EnemyBehaviour : MonoBehaviour
             {
                 return Node.Status.Success;
             }
+            //Change Speed depending on priority
             if (interrupt.priority == 2)
             {
                 agent.speed = 2;
@@ -329,7 +328,7 @@ public class EnemyBehaviour : MonoBehaviour
                 return Node.Status.Failure;
             }
 
-            goLeaf.executing = true;
+            goExecuting = true;
             lookTime = 5;
 
             return Node.Status.Running;
@@ -352,7 +351,7 @@ public class EnemyBehaviour : MonoBehaviour
             else if (angle < 5)
             {
                 if (lookTime > 0)
-                {
+                {//Wait until timer is finished before returning to patrol
                     lookTime -= Time.deltaTime;
                     return Node.Status.Running;
                 }

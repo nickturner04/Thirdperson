@@ -22,20 +22,6 @@ public struct V3Surrogate
 }
 
 [System.Serializable]
-public struct QuatSurrogate
-{//Quaternion with unnecesary data stripped out
-    public QuatSurrogate(float x, float y, float z)
-    {
-        this.x = x;
-        this.y = y;
-        this.z = z;
-    }
-    public float x;
-    public float y;
-    public float z;
-}
-
-[System.Serializable]
 public struct InterruptSurrogate
 {
     // Replace interrupt with version that does not use Vector3
@@ -89,20 +75,20 @@ public class GameManager : MonoBehaviour
         return output;
     }
 
-    public static Quaternion SurrogateToQuaternion(QuatSurrogate input)
+    public static Quaternion SurrogateToQuaternion(V3Surrogate input)
     {
         return Quaternion.Euler(input.x, input.y, input.z);
     }
 
-    public static QuatSurrogate QuaternionToSurrogate(Quaternion input)
+    public static V3Surrogate QuaternionToSurrogate(Quaternion input)
     {
-        return new QuatSurrogate(input.eulerAngles.x, input.eulerAngles.y, input.eulerAngles.z);
+        return new V3Surrogate(input.eulerAngles.x, input.eulerAngles.y, input.eulerAngles.z);
     }
 
     [System.Serializable]
     public struct EnemyData
     {
-        public EnemyData(V3Surrogate position, QuatSurrogate rotation,EnemyStateController.EnemyState state,InterruptSurrogate interrupt, int health, int stamina, float knockoutTime, int nextPoint, V3Surrogate[] patrolPoints)
+        public EnemyData(V3Surrogate position, V3Surrogate rotation,EnemyStateController.EnemyState state,InterruptSurrogate interrupt, int health, int stamina, float knockoutTime, int nextPoint, V3Surrogate[] patrolPoints)
         {
             this.position = position;
             this.rotation = rotation;
@@ -116,7 +102,7 @@ public class GameManager : MonoBehaviour
         }
 
         public V3Surrogate position;
-        public QuatSurrogate rotation;
+        public V3Surrogate rotation;
         public EnemyStateController.EnemyState state;
         public InterruptSurrogate interrupt;
         public int health;
@@ -139,7 +125,7 @@ public class GameManager : MonoBehaviour
     [System.Serializable]
     public struct PlayerData
     {
-        public PlayerData(V3Surrogate position, QuatSurrogate rotation, PlayerController.Mode mode, bool isCrouching, int health, int[,] ammo, int currentWeapon)
+        public PlayerData(V3Surrogate position, V3Surrogate rotation, PlayerController.Mode mode, bool isCrouching, int health, int[,] ammo, int currentWeapon)
         {
             this.position = position;
             this.rotation = rotation;
@@ -151,7 +137,7 @@ public class GameManager : MonoBehaviour
         }
 
         public V3Surrogate position;
-        public QuatSurrogate rotation;
+        public V3Surrogate rotation;
         public PlayerController.Mode mode;
         public bool isCrouching;
 
