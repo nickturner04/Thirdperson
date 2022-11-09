@@ -218,6 +218,7 @@ public class EnemyBehaviour : MonoBehaviour
             //Debug.Log("false");
             //Find New Position
             var found = false;
+            var count = 0;
             while (!found)
             {
                 //Get a position within a circle of the player
@@ -227,6 +228,11 @@ public class EnemyBehaviour : MonoBehaviour
                     found = true;
                     FoundDestination = true;
                     alertDestination = newPosition;
+                }
+                count++;
+                if (count > 500) break;
+                {
+
                 }
             }
         }
@@ -460,7 +466,7 @@ public class EnemyBehaviour : MonoBehaviour
     //If enemy can see at least one body part from the player, create a level 5 interrupt
     public Node.Status FillSight()
     {
-        if (sight.visibility > 0.16f && !enemyManager.ignorePlayer)
+        if (sight.LineOfSight && !enemyManager.ignorePlayer)
         {
             AddInterrupt(5, player.position);
         }

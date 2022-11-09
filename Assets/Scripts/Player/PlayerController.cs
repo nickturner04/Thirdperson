@@ -40,13 +40,15 @@ public class PlayerController : MonoBehaviour
     private float currentRotationSpeed;
     private Transform trfCameraMain;
     public bool isCrouching = false;
+    private int noClip = 1;
     private bool weaponMenuHidden = true;
 
     //Noisemaker
     private int priority = 1;
     private int range = 10;
-
-    private float speedMultiplier = 100;
+    private int crouchMask = 1 << 7;
+    private float preSpeedMultiplier = 100;
+    private bool usingGamepad = false;
     
     private InputAction moveAction;
     private InputAction lightAttackAction;
@@ -64,12 +66,13 @@ public class PlayerController : MonoBehaviour
     private InputAction summonAction;
     private InputAction priorityAction;
     private InputAction rangeAction;
+    private InputAction anyController;
+    private InputAction anyKey;
     
 
     public Interactable interactable;
     public EnemyStateController hostageController;
 
-    public bool grounded;
     public Mode mode = Mode.NORMAL;
 
     private void Awake()
@@ -100,6 +103,8 @@ public class PlayerController : MonoBehaviour
         summonAction = playerInput.actions["Summon"];
         priorityAction = playerInput.actions["PriorityAxis"];
         rangeAction = playerInput.actions["RangeAxis"];
+        anyController = playerInput.actions["AnyController"];
+        anyKey = playerInput.actions["AnyKey"];
         trfCameraMain = Camera.main.transform;
         currentRotationSpeed = rotationSpeed;
         animator = GetComponent<Animator>();
@@ -120,7 +125,9 @@ public class PlayerController : MonoBehaviour
         reloadAction.performed += _ => Reload();
         crouchAction.performed += Crouch;
         makeSound.performed += _ => MakeSound();
-        
+        anyController.started += LeftStickMove;
+        summonAction.performed += NoClip;
+
     }
 
     //Called when GameObject is disabled, unsubscribes all actions from events
@@ -135,10 +142,28 @@ public class PlayerController : MonoBehaviour
         interactAction.performed -= _ => Interact();
         inventoryAction.performed -= Inventory;
         reloadAction.performed -= _ => Reload();
-        
+        anyController.performed -= LeftStickMove;
         crouchAction.performed -= Crouch;
         makeSound.performed -= _ => MakeSound();
+        summonAction.performed -= NoClip;
+    }
+
+    private void LeftStickMove(InputAction.CallbackContext context)
+    {
         
+        usingGamepad = true;
+        
+        anyController.performed -= LeftStickMove;
+        anyKey.started += AnyKey;
+    }
+
+    private void AnyKey(InputAction.CallbackContext context)
+    {
+        
+        usingGamepad = false;
+        anyController.performed += LeftStickMove;
+        anyKey.started -= AnyKey;
+
     }
 
     void Update()
@@ -147,11 +172,11 @@ public class PlayerController : MonoBehaviour
         aimTarget.position = trfCameraMain.position + trfCameraMain.forward * aimDistance;
 
         Vector2 moveinput = moveAction.ReadValue<Vector2>();
-        Vector3 move = new Vector3(moveinput.x, 0, moveinput.y);
+        Vector3 move = new Vector3(moveinput.x, 0, moveinput.y).normalized;
         //Get input from scroll wheel and use it to change speed multiplier
         var scrollvalue = scrollAction.ReadValue<Vector2>();
-        speedMultiplier += 4 * scrollvalue.y / 100;
-        speedMultiplier = Mathf.Floor(Mathf.Clamp(speedMultiplier, 30, 100));
+        preSpeedMultiplier += 4 * scrollvalue.y / 100;
+        var speedMultiplier = usingGamepad ? moveinput.magnitude * 100 : Mathf.Floor(Mathf.Clamp(preSpeedMultiplier, 30, 100));
         animator.SetFloat("CROUCHSPEED",speedMultiplier / 100);
         //Change Speed Multiplier Depending On If Crouching
         var speedMultiplier2 = speedMultiplier / 100 * (isCrouching ? 0.75f : 1f);
@@ -174,7 +199,7 @@ public class PlayerController : MonoBehaviour
             playerVelocity.y = 0f;
         }
         //move player in y axis
-        controller.Move(playerVelocity * Time.deltaTime);
+        controller.Move(playerVelocity * Time.deltaTime * noClip);
 
         if (moveinput != Vector2.zero & !isAiming)
         {
@@ -254,6 +279,20 @@ public class PlayerController : MonoBehaviour
         mode = newMode;
     }
 
+    private void NoClip(InputAction.CallbackContext context)
+    {
+        if (noClip == 1)
+        {
+            noClip = 0;
+            gameObject.layer = 31;
+        }
+        else
+        {
+            noClip = 1;
+            gameObject.layer = 3;
+        }
+    }
+
     private void StartFiring(InputAction.CallbackContext context)
     {//Begin Firing Weapon When Mouse1 is pressed
         weaponController.Fire(true);
@@ -291,7 +330,11 @@ public class PlayerController : MonoBehaviour
     {
         if (isCrouching)
         {
-            EndCrouch();
+            if (!Physics.Raycast(transform.position,Vector3.up,2,crouchMask))
+            {
+                EndCrouch();
+            }
+            
         }
         else
         {
@@ -299,7 +342,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void StartCrouch()
+    public void StartCrouch()
     {
         controller.height = 0.75f;
         isCrouching = true;

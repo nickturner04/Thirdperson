@@ -23,4 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Mission2.unity
     guid: 72e644730b775cb4da5178fd0594aac2
+  - enabled: 1
+    path: Assets/Scenes/Warehouse.unity
+    guid: 31c6b4c6a5da9594db57d5fd69f83470
   m_configObjects: {}

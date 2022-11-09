@@ -125,7 +125,7 @@ public class GameManager : MonoBehaviour
     [System.Serializable]
     public struct PlayerData
     {
-        public PlayerData(V3Surrogate position, V3Surrogate rotation, PlayerController.Mode mode, bool isCrouching, int health, int[,] ammo, int currentWeapon)
+        public PlayerData(V3Surrogate position, V3Surrogate rotation, PlayerController.Mode mode, bool isCrouching, int health, int[] ammo, int[] ammoReserve, int currentWeapon)
         {
             this.position = position;
             this.rotation = rotation;
@@ -133,6 +133,7 @@ public class GameManager : MonoBehaviour
             this.isCrouching = isCrouching;
             this.health = health;
             this.ammo = ammo;
+            this.ammoReserve = ammoReserve;
             this.currentWeapon = currentWeapon;
         }
 
@@ -142,7 +143,8 @@ public class GameManager : MonoBehaviour
         public bool isCrouching;
 
         public int health;
-        public int[,] ammo;
+        public int[] ammo;
+        public int[] ammoReserve;
         public int currentWeapon;
     }
     [System.Serializable]
@@ -200,7 +202,7 @@ public class GameManager : MonoBehaviour
         btnContinue.clicked += Continue;
         btnMainMenu = vseGameOver.Q<Button>("btnMainMenu");
         btnMainMenu.clicked += MainMenu;
-
+        Debug.Log(currentSave.player.ammo.ToString());
         JSave("defaultsave.json", currentSave);
         StartCoroutine(LoadSaveFile("defaultsave.json"));
     }
@@ -263,22 +265,24 @@ public class GameManager : MonoBehaviour
         playerController = playerEssentialsInstance.transform.Find("PlayerV5").GetComponent<PlayerController>();
         var charcon = playerController.GetComponent<CharacterController>();
         playerController.GetComponent<PlayerHealth>().gameManager = this;
-        //var inventory = playerController.GetComponent<Inventory>();
+        var inventory = playerController.GetComponent<Inventory>();
         charcon.enabled = false;
         playerController.transform.SetPositionAndRotation(SurrogateToVector(save.player.position), SurrogateToQuaternion(save.player.rotation));
         charcon.enabled = true;
-        playerController.isCrouching = save.player.isCrouching;
-        if (playerController.isCrouching)
+        var animator = playerController.GetComponent<Animator>();
+        if (save.player.isCrouching)
         {
-            playerController.GetComponent<Animator>().SetBool("CROUCHING", true);
-        }
-        else
-        {
-            playerController.GetComponent<Animator>().SetBool("CROUCHING", false);
+            playerController.StartCrouch();
+            animator.Play("Idle", 1);
         }
         playerController.SetMode(save.player.mode);
         playerController.GetComponent<Health>().health = save.player.health;
-        playerController.GetComponent<Inventory>();//.ammo = (int[,])currentSave.player.ammo.Clone();
+        for (int i = 0; i < currentSave.player.ammo.Length; i++)
+        {
+            inventory.ammo[0, i] = currentSave.player.ammoReserve[i];
+            inventory.ammo[1, i] = currentSave.player.ammo[i];
+        }
+        inventory.Equip(save.player.currentWeapon);
         enemyManager.currentAlertTime = 0;
         enemyManager.labelManager = playerEssentialsInstance.transform.Find("UIDocument").GetComponent<LabelManager>();
     }
@@ -321,7 +325,16 @@ public class GameManager : MonoBehaviour
 
     public void Save()
     {
-        var playerdata = new PlayerData(VectorToSurrogate(playerController.transform.position), QuaternionToSurrogate(playerController.transform.rotation), playerController.mode, playerController.isCrouching, (int)playerController.GetComponent<Health>().health, playerController.GetComponent<Inventory>().ammo, 0);
+        var inventory = playerController.GetComponent<Inventory>();
+        var inventoryammo = inventory.ammo;
+        var ammo = new int[inventoryammo.GetLength(1)];
+        var reserveammo = new int[inventoryammo.GetLength(1)];
+        for (int i = 0; i < inventoryammo.GetLength(1); i++)
+        {
+            reserveammo[i] = inventoryammo[0, i];
+            ammo[i] = inventoryammo[1, i];
+        }
+        var playerdata = new PlayerData(VectorToSurrogate(playerController.transform.position), QuaternionToSurrogate(playerController.transform.rotation), playerController.mode, playerController.isCrouching, (int)playerController.GetComponent<Health>().health, ammo, reserveammo, inventory.currentWeapon);
         var room = SceneManager.GetActiveScene().buildIndex;
         var roomdata = (RoomData[])currentSave.rooms.Clone();
         roomdata[room].enemies = new EnemyData[enemyManager.enemies.Count];
@@ -329,12 +342,15 @@ public class GameManager : MonoBehaviour
         {
             var enemy = enemyManager.enemies[i];
             var enemyStateController = enemy.GetComponent<EnemyStateController>();
-            roomdata[room].enemies[i] = new EnemyData(VectorToSurrogate(enemy.transform.position), QuaternionToSurrogate(enemy.transform.rotation), enemyStateController.state, InterruptSurrogate.FromInterrupt(enemy.interrupt), (int)enemy.GetComponent<Health>().health, (int)enemyStateController.stamina, enemyStateController.knockouttimer, enemy.nextPoint, VectorToSurrogateArray(enemy.patrolPoints));
+            if (enemyStateController.state != EnemyStateController.EnemyState.Death)
+            {
+                roomdata[room].enemies[i] = new EnemyData(VectorToSurrogate(enemy.transform.position), QuaternionToSurrogate(enemy.transform.rotation), enemyStateController.state, InterruptSurrogate.FromInterrupt(enemy.interrupt), (int)enemy.GetComponent<Health>().health, (int)enemyStateController.stamina, enemyStateController.knockouttimer, enemy.nextPoint, VectorToSurrogateArray(enemy.patrolPoints));
+            }
+            
         }
         currentSave = new SaveData(playerdata, roomdata, room);
         Debug.Log("SAVED");
         JSave("currentsave.json", currentSave);
-        currentSave = JLoad("currentsave.json");
     }
 
     private void SaveAction(InputAction.CallbackContext context)

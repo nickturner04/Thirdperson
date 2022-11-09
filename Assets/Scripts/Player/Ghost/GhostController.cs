@@ -5,6 +5,7 @@ using UnityEngine;
 public class GhostController : MonoBehaviour
 {
     //Script attached to the player for controlling the ghost.
+    [SerializeField] private GameObject ghostPrefab;
     public GameObject ghost;
     public Transform gTransform;
     public Transform gAttach;
@@ -38,6 +39,9 @@ public class GhostController : MonoBehaviour
     private void Start()
     {
         camera = Camera.main.transform;
+        ghost = Instantiate(ghostPrefab,this.transform.parent);
+        gTransform = ghost.transform;
+        gMaterial = ghost.GetComponentInChildren<SkinnedMeshRenderer>();
         animator = ghost.GetComponent<Animator>();
         ghost.GetComponent<GhostAnimator>().controller = this;
         animPunch1 = Animator.StringToHash("Punch1");

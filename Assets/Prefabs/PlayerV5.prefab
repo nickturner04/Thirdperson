@@ -5617,8 +5617,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bodyParts:
   - {fileID: 8102354090973993040}
-  - {fileID: 8102354091720581391}
-  - {fileID: 8102354092470162608}
   - {fileID: 8102354091577671868}
   - {fileID: 8102354090782005220}
   - {fileID: 8102354090792382272}
@@ -5662,22 +5660,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trfPickup: {fileID: 7717016446115086754}
-  trfFirepoint: {fileID: 0}
-  bullet: {fileID: 3846880670002041496, guid: d5321957a1fea434fb166d2789698214, type: 3}
   aimTarget: {fileID: 9069484735379358826}
   aimRig: {fileID: 9069484737316038572}
   interactableLayer:
     serializedVersion: 2
     m_Bits: 64
-  weaponController: {fileID: 7498729049231733026}
   cameraController: {fileID: 0}
-  punchBox: {fileID: 7427453715647831042}
-  thermalCamera: {fileID: 0}
   soundMaker: {fileID: 777832169191952, guid: 4fd1449c37d39894f8be7a7f235dcca7, type: 3}
   ignorePlayer:
     serializedVersion: 2
     m_Bits: 1015
-  audioSource: {fileID: 6793332567137475210}
   labelManager: {fileID: 0}
   normalSpeed: 5
   gravityValue: -20
@@ -5689,7 +5681,6 @@ MonoBehaviour:
   isCrouching: 0
   interactable: {fileID: 0}
   hostageController: {fileID: 0}
-  grounded: 0
   mode: 0
 --- !u!114 &7498729049231733026
 MonoBehaviour:
@@ -6048,6 +6039,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4193b0c9fb2c5bc4db7a7fc0150fa37e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ghostPrefab: {fileID: 6376666143938349560, guid: 1aebc33cd9b0c4442988414030c0e5c1, type: 3}
   ghost: {fileID: 0}
   gTransform: {fileID: 0}
   gAttach: {fileID: 8102354092150530978}

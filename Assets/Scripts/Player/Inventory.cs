@@ -10,6 +10,7 @@ public class Inventory : MonoBehaviour
     [SerializeField] private LabelManager labelManager;
 
     public WeaponData[] weapons = new WeaponData[3];
+    public int currentWeapon { get; private set; }
 
     public int[,] ammo = 
         { { 90, 36, 120 },
@@ -19,6 +20,7 @@ public class Inventory : MonoBehaviour
 
     public void Equip(int index)
     {
+        currentWeapon = index;
         weaponController.Equip(weapons[index]);
         weaponController.currentReserve = ammo[0,index];
         weaponController.currentAmmo = ammo[1, index];
@@ -39,7 +41,5 @@ public class Inventory : MonoBehaviour
         labelManager.UpdateWeaponMenu(ammo,new Sprite[] { weapons[0].displaySprite, weapons[1].displaySprite, weapons[2].displaySprite });
         labelManager.ShowWeaponMenu();
     }
-
-    private void Start() => Equip(0);
 
 }
