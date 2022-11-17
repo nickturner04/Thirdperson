@@ -166,6 +166,7 @@ public class GameManager : MonoBehaviour
     private InputAction pauseAction;
 
     [SerializeField] private GameObject playerEssentials;
+    [SerializeField] private GameObject playerModel;
     [SerializeField] private Scene mainMenu;
     public GameObject playerEssentialsInstance;
 
@@ -263,13 +264,29 @@ public class GameManager : MonoBehaviour
         }
 
         playerController = playerEssentialsInstance.transform.Find("PlayerV5").GetComponent<PlayerController>();
+
+        var model = Instantiate(playerModel, playerController.transform);
+        var information = model.GetComponent<ModelInformation>();
+        var animator = model.GetComponent<Animator>();
+        playerController.animator = animator;
+        playerController.aimRig = information.rig;
+        playerController.aimTarget = information.aimTarget;
+        animator.avatar = information.avatar;
+        playerController.GetComponent<WeaponController>().attachPoint = information.attachPoint;
+        var camo = playerController.GetComponent<FootstepCamoController>();
+        camo.bodyParts[0] = information.spine2;
+        camo.bodyParts[1] = information.rightLeg2;
+        camo.bodyParts[2] = information.leftLeg2;
+        camo.bodyParts[3] = information.headMid;
+        animator.Rebind();
+        animator.Play("Idle", 0);
+
         var charcon = playerController.GetComponent<CharacterController>();
         playerController.GetComponent<PlayerHealth>().gameManager = this;
         var inventory = playerController.GetComponent<Inventory>();
         charcon.enabled = false;
         playerController.transform.SetPositionAndRotation(SurrogateToVector(save.player.position), SurrogateToQuaternion(save.player.rotation));
         charcon.enabled = true;
-        var animator = playerController.GetComponent<Animator>();
         if (save.player.isCrouching)
         {
             playerController.StartCrouch();

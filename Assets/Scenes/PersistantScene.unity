@@ -364,7 +364,7 @@ MonoBehaviour:
       health: 500
       ammo: 1e0000000800000018000000
       ammoReserve: 5a0000002400000078000000
-      currentWeapon: 0
+      currentWeapon: -1
     rooms:
     - enemies: []
       entered: 0

@@ -89,7 +89,6 @@ public class GhostController : MonoBehaviour
         }
         //Set Alpha Transparency Of Ghost To Make It Fade In and Out
         gMaterial.material.color = new Color(gMaterial.material.color.r, gMaterial.material.color.g, gMaterial.material.color.b, Mathf.Lerp(gMaterial.material.color.a,occupied ? 1 : alpha, Time.deltaTime * 10f));
-        
 
 
         timeSinceLastAttack += Time.deltaTime;
@@ -121,6 +120,12 @@ public class GhostController : MonoBehaviour
             grabbedObjectGrabbable = null;
             grabbing = false;
         }
+    }
+
+    public void SetOccupied(bool occupied)
+    {
+        playerController.SetAttacking(occupied);
+        this.occupied = occupied;
     }
 
     public void SetTarget(Transform target, Transform attach)

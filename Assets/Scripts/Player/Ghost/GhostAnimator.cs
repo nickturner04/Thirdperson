@@ -24,7 +24,7 @@ public class GhostAnimator : MonoBehaviour
 
     public void StartAttack()
     {
-        controller.occupied = true;
+        controller.SetOccupied(true);
     }
 
     public void EndAttack()
@@ -33,7 +33,7 @@ public class GhostAnimator : MonoBehaviour
         {
             item.SetActive(false);
         }
-        controller.occupied = false;
+        controller.SetOccupied(false);
     }
 
     public void TakedownAttack()

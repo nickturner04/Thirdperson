@@ -13,7 +13,7 @@ public class WeaponController : MonoBehaviour
 
     [SerializeField] private LayerMask ignorePlayer;
     [SerializeField] private GameObject decal;
-    [SerializeField] private Transform attachPoint;
+    public Transform attachPoint;
     [SerializeField] private WeaponData[] weapons;
     [SerializeField] private Inventory inventory;
     [SerializeField] private AudioSource audioSource;
@@ -61,6 +61,14 @@ public class WeaponController : MonoBehaviour
         currentTimeToFire = 0;
 
         labelManager.SetWeapon(weapon.displaySprite, weapon.displayName);
+        labelManager.UpdateAmmo(UnityEngine.UIElements.DisplayStyle.Flex);
+    }
+
+    public void Unequip()
+    {
+        labelManager.SetWeapon(null, "None");
+        labelManager.UpdateAmmo(UnityEngine.UIElements.DisplayStyle.None);
+        Destroy(weaponObject);
     }
 
     public void Fire(bool firing)

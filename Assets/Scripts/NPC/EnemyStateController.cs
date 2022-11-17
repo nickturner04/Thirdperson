@@ -88,6 +88,7 @@ public class EnemyStateController : MonoBehaviour
         state = EnemyState.Death;
         animator.enabled = false;
         capsuleCollider.enabled = false;
+        GetComponent<Rigidbody>().useGravity = false;
         GetComponent<EnemyWeaponController>().EndFire();
         var playercontroller = player.GetComponent<PlayerController>();
         if (playercontroller.hostageController == this)//Remove from hostage incase player kills this while grabbing
@@ -123,7 +124,7 @@ public class EnemyStateController : MonoBehaviour
         if (state != EnemyState.Grab && other.gameObject.layer == 10)
         {
             Hitbox hit = other.gameObject.GetComponent<Hitbox>();
-            if (state == EnemyState.Normal)//Do not trigger stun if already stunned
+            if (!animator.GetBool("STUNNED"))//Do not trigger stun if already stunned
             {
                 Stun();
             }

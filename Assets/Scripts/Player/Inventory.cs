@@ -20,10 +20,19 @@ public class Inventory : MonoBehaviour
 
     public void Equip(int index)
     {
-        currentWeapon = index;
-        weaponController.Equip(weapons[index]);
-        weaponController.currentReserve = ammo[0,index];
-        weaponController.currentAmmo = ammo[1, index];
+        if (index == -1)
+        {
+            currentWeapon = -1;
+            weaponController.Unequip();
+        }
+        else
+        {
+            currentWeapon = index;
+            weaponController.Equip(weapons[index]);
+            weaponController.currentReserve = ammo[0, index];
+            weaponController.currentAmmo = ammo[1, index];
+        }
+        
     }
 
     public void AddAmmo(int amount,int type)

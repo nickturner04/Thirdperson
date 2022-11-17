@@ -13,10 +13,10 @@ public class PlayerController : MonoBehaviour
     public enum Mode { NORMAL,CRAWL,COVER,HOSTAGE}
 
     [SerializeField] public Transform trfPickup;
-    [SerializeField] private Transform aimTarget;
-    [SerializeField] private Rig aimRig;
+    public Transform aimTarget;
+    public Rig aimRig;
     [SerializeField] public LayerMask interactableLayer;
-    private Animator animator;
+    public Animator animator;
     private WeaponController weaponController;
     [SerializeField] private SwitchVCam cameraController;
     [SerializeField] private GameObject soundMaker;
@@ -42,6 +42,7 @@ public class PlayerController : MonoBehaviour
     public bool isCrouching = false;
     private int noClip = 1;
     private bool weaponMenuHidden = true;
+    private bool attacking = false;
 
     //Noisemaker
     private int priority = 1;
@@ -81,7 +82,6 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         controller = GetComponent<CharacterController>();
         weaponController = GetComponent<WeaponController>();
-        animator = GetComponent<Animator>();
         playerInput = GetComponent<PlayerInput>();
         ghostController = GetComponent<GhostController>();
         ghostController.playerController = this;
@@ -107,7 +107,6 @@ public class PlayerController : MonoBehaviour
         anyKey = playerInput.actions["AnyKey"];
         trfCameraMain = Camera.main.transform;
         currentRotationSpeed = rotationSpeed;
-        animator = GetComponent<Animator>();
     }
 
     //Called when GameObject is enabled, subscribes all the actions to events
@@ -236,9 +235,13 @@ public class PlayerController : MonoBehaviour
             footstepController.Move(speedMultiplier2 * move.magnitude);
         }
         //If an interactable object is detected in range or an enemy can be grabbed, make the button prompt appear
-        if (interactable != null || (hostageController != null && mode != Mode.HOSTAGE))
+        if (interactable != null )
         {
-            labelManager.SetPrompt(UnityEngine.UIElements.DisplayStyle.Flex, "E");
+            labelManager.SetPrompt(UnityEngine.UIElements.DisplayStyle.Flex, "[E]: " + interactable.description);
+        }
+        else if (hostageController != null && mode != Mode.HOSTAGE)
+        {
+            labelManager.SetPrompt(UnityEngine.UIElements.DisplayStyle.Flex, "[E]: Grab");
         }
         else
         {
@@ -397,6 +400,9 @@ public class PlayerController : MonoBehaviour
             {
                 hostageController.EndGrab();
                 hostageController.GetComponent<EnemyBehaviour>().interrupt = new Interrupt(1, transform.position);
+                hostageController = null;
+                ghostController.gAttach = ghostController.gAttachAttack;
+                ghostController.preview = false;
                 SetMode(Mode.NORMAL);
             }
             else if (hostageController != null)
@@ -478,14 +484,18 @@ public class PlayerController : MonoBehaviour
 
     public void StartAiming(InputAction.CallbackContext context)
     {//Changes the turn speed so that the player instantly faces the camera, sets the aiming animation rig so that the player aims the gun.
-        isAiming = true;
-        currentRotationSpeed = rotationSpeedAiming;
-        aimRig.weight = 100;
-        lightAttackAction.performed -= LightAttack;
-        heavyAttackAction.performed -= HeavyAttack;
-        fireAction.started += StartFiring;
-        fireAction.canceled += StopFiring;
-        cameraController.StartAim();
+        if (playerInventory.currentWeapon != -1)
+        {
+            isAiming = true;
+            currentRotationSpeed = rotationSpeedAiming;
+            aimRig.weight = 100;
+            lightAttackAction.performed -= LightAttack;
+            heavyAttackAction.performed -= HeavyAttack;
+            fireAction.started += StartFiring;
+            fireAction.canceled += StopFiring;
+            cameraController.StartAim();
+        }
+        
     }
 
     public void StopAiming(InputAction.CallbackContext context)
@@ -515,7 +525,7 @@ public class PlayerController : MonoBehaviour
     //Called when an enemy enters the grab range trigger
     public void SetGrabTarget(Collider other)
     {
-        if (mode == Mode.NORMAL)
+        if (mode == Mode.NORMAL && !attacking)
         {
             var hc = other.GetComponent<EnemyStateController>();
             if (hc.state == EnemyStateController.EnemyState.Normal) 
@@ -536,6 +546,24 @@ public class PlayerController : MonoBehaviour
                 ghostController.gAttach = ghostController.gAttachAttack;
                 ghostController.preview = false;
             }
+        }
+    }
+
+    public void SetAttacking(bool attacking)
+    {
+        if (attacking)
+        {
+            if (mode != Mode.HOSTAGE)
+            {
+                hostageController = null;
+                ghostController.gAttach = ghostController.gAttachAttack;
+                ghostController.preview = false;
+                this.attacking = true;
+            }
+        }
+        else
+        {
+            this.attacking = false;
         }
     }
 }
