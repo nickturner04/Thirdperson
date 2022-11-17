@@ -64,7 +64,7 @@ public class PlayerController : MonoBehaviour
     private InputAction rollAction;
     private InputAction toggleThermal;
     private InputAction makeSound;
-    private InputAction summonAction;
+    private InputAction blockAction;
     private InputAction priorityAction;
     private InputAction rangeAction;
     private InputAction anyController;
@@ -100,7 +100,7 @@ public class PlayerController : MonoBehaviour
         rollAction = playerInput.actions["Roll"];
         toggleThermal = playerInput.actions["ToggleThermal"];
         makeSound = playerInput.actions["MakeSound"];
-        summonAction = playerInput.actions["Summon"];
+        blockAction = playerInput.actions["Block"];
         priorityAction = playerInput.actions["PriorityAxis"];
         rangeAction = playerInput.actions["RangeAxis"];
         anyController = playerInput.actions["AnyController"];
@@ -125,7 +125,7 @@ public class PlayerController : MonoBehaviour
         crouchAction.performed += Crouch;
         makeSound.performed += _ => MakeSound();
         anyController.started += LeftStickMove;
-        summonAction.performed += NoClip;
+        blockAction.performed += NoClip;
 
     }
 
@@ -144,7 +144,7 @@ public class PlayerController : MonoBehaviour
         anyController.performed -= LeftStickMove;
         crouchAction.performed -= Crouch;
         makeSound.performed -= _ => MakeSound();
-        summonAction.performed -= NoClip;
+        blockAction.performed -= NoClip;
     }
 
     private void LeftStickMove(InputAction.CallbackContext context)
