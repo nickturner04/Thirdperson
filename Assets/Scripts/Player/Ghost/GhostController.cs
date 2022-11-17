@@ -5,7 +5,7 @@ using UnityEngine;
 public class GhostController : MonoBehaviour
 {
     //Script attached to the player for controlling the ghost.
-    [SerializeField] private GameObject ghostPrefab;
+    [HideInInspector]public GameObject ghostPrefab;
     public GameObject ghost;
     public Transform gTransform;
     public Transform gAttach;

@@ -348,6 +348,9 @@ GameObject:
   - component: {fileID: 7022295268572558966}
   - component: {fileID: 7894771626502330065}
   - component: {fileID: 4826493694607100299}
+  - component: {fileID: 5245696158527511250}
+  - component: {fileID: 1685963680871285823}
+  - component: {fileID: 6070485326474191713}
   m_Layer: 3
   m_Name: Playermodel1
   m_TagString: PlayerModel
@@ -393,6 +396,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a60ff98889561a14d911ee6739c56bd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ghost: {fileID: 6376666143938349560, guid: 30f7218a33df47f49aebbb154dcf174d, type: 3}
   rig: {fileID: 7022295268170892785}
   spine2: {fileID: 7843058444419938829}
   rightLeg2: {fileID: 7843058443146273505}
@@ -400,7 +404,6 @@ MonoBehaviour:
   headMid: {fileID: 7843058444527193373}
   aimTarget: {fileID: 7022295268396262967}
   attachPoint: {fileID: 7827133236636234161}
-  avatar: {fileID: 9000000, guid: dc8a974d81ba29a42bdbc35cbc466d5b, type: 3}
 --- !u!95 &4826493694607100299
 Animator:
   serializedVersion: 4
@@ -417,10 +420,81 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_WarningMessage: 
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'Hips'\n\tTransform 'Spine1'\n\tTransform 'Neck'\n\tTransform
+    'Root'\n\tTransform 'Head'\n\tTransform 'Spine2'\n\tTransform 'Hips'\n\tTransform
+    'Spine1'\n\tTransform 'Neck'\n\tTransform 'Root'\n\tand more ..."
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &5245696158527511250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7022295268572558967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fff0960ef4ea6e04eac66b4a7fd2189d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RigLayers:
+  - m_Rig: {fileID: 7022295268170892785}
+    m_Active: 1
+  m_Effectors: []
+--- !u!114 &1685963680871285823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7022295268572558967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2d8418b0b9634b1892b0268dd9c2743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boneShape: 1
+  drawBones: 1
+  drawTripods: 0
+  boneSize: 1
+  tripodSize: 1
+  boneColor: {r: 0, g: 0, b: 1, a: 0.5}
+  m_Transforms:
+  - {fileID: 7843058444056860899}
+  - {fileID: 7843058444020993060}
+  - {fileID: 7843058444680315690}
+  - {fileID: 7843058443814479295}
+  - {fileID: 4043339256542565262}
+  - {fileID: 7843058444785463061}
+  - {fileID: 7843058444419938829}
+  - {fileID: 7843058444548560912}
+  - {fileID: 7843058443898756226}
+  - {fileID: 7843058444671212066}
+  - {fileID: 7843058443544054533}
+  - {fileID: 7843058443035804498}
+  - {fileID: 7827133236636234161}
+  - {fileID: 7843058444448851282}
+  - {fileID: 7843058443013334945}
+  - {fileID: 7843058444057376493}
+  - {fileID: 7843058444512376249}
+  - {fileID: 7843058444727878724}
+  - {fileID: 7843058443146273505}
+  - {fileID: 7843058443508165077}
+--- !u!114 &6070485326474191713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7022295268572558967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2240039ddda0ff419c83d717efef5cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7022295269244702138
 GameObject:
   m_ObjectHideFlags: 0

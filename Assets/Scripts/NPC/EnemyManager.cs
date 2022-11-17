@@ -21,14 +21,14 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private GameObject enemy;
     [HideInInspector]public LabelManager labelManager;
 
-    public void Populate(GameManager.EnemyData[] enemyData)
+    public void Populate(EnemyData[] enemyData)
     {
         var player = GameObject.Find("PlayerV5");
         if (player == null) Debug.Log("NULL");
         for (int i = 0; i < enemyData.Length; i++)
         {
             //Instantiate each enemy in the enemydata array
-            GameManager.EnemyData item = enemyData[i];
+            EnemyData item = enemyData[i];
             var e = Instantiate(enemy, GameManager.SurrogateToVector(item.position), GameManager.SurrogateToQuaternion(item.rotation)).GetComponent<EnemyBehaviour>();
             e.patrolPoints = GameManager.SurrogateToVectorArray(item.patrolPoints);
             e.nextPoint = item.nextPoint;

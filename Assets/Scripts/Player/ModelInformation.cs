@@ -5,6 +5,8 @@ using UnityEngine.Animations.Rigging;
 
 public class ModelInformation : MonoBehaviour
 {
+    public GameObject ghost;
+
     public Rig rig;
     public Transform spine2;
     public Transform rightLeg2;
@@ -12,5 +14,4 @@ public class ModelInformation : MonoBehaviour
     public Transform headMid;
     public Transform aimTarget;
     public Transform attachPoint;
-    public Avatar avatar;
 }

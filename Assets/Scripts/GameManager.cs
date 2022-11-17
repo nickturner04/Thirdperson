@@ -85,88 +85,13 @@ public class GameManager : MonoBehaviour
         return new V3Surrogate(input.eulerAngles.x, input.eulerAngles.y, input.eulerAngles.z);
     }
 
-    [System.Serializable]
-    public struct EnemyData
-    {
-        public EnemyData(V3Surrogate position, V3Surrogate rotation,EnemyStateController.EnemyState state,InterruptSurrogate interrupt, int health, int stamina, float knockoutTime, int nextPoint, V3Surrogate[] patrolPoints)
-        {
-            this.position = position;
-            this.rotation = rotation;
-            this.state = state;
-            this.interrupt = interrupt;
-            this.health = health;
-            this.stamina = stamina;
-            this.knockoutTime = knockoutTime;
-            this.nextPoint = nextPoint;
-            this.patrolPoints = patrolPoints;
-        }
-
-        public V3Surrogate position;
-        public V3Surrogate rotation;
-        public EnemyStateController.EnemyState state;
-        public InterruptSurrogate interrupt;
-        public int health;
-        public int stamina;
-        public float knockoutTime;
-        public int nextPoint;
-        public V3Surrogate[] patrolPoints;
-    }
-    [System.Serializable]
-    public struct RoomData
-    {
-        public RoomData(EnemyData[] enemies, bool entered)
-        {
-            this.entered = entered;
-            this.enemies = enemies;
-        }
-        public EnemyData[] enemies;
-        public bool entered;
-    }
-    [System.Serializable]
-    public struct PlayerData
-    {
-        public PlayerData(V3Surrogate position, V3Surrogate rotation, PlayerController.Mode mode, bool isCrouching, int health, int[] ammo, int[] ammoReserve, int currentWeapon)
-        {
-            this.position = position;
-            this.rotation = rotation;
-            this.mode = mode;
-            this.isCrouching = isCrouching;
-            this.health = health;
-            this.ammo = ammo;
-            this.ammoReserve = ammoReserve;
-            this.currentWeapon = currentWeapon;
-        }
-
-        public V3Surrogate position;
-        public V3Surrogate rotation;
-        public PlayerController.Mode mode;
-        public bool isCrouching;
-
-        public int health;
-        public int[] ammo;
-        public int[] ammoReserve;
-        public int currentWeapon;
-    }
-    [System.Serializable]
-    public struct SaveData
-    {
-        public SaveData(PlayerData player, RoomData[] rooms,int room)
-        {
-            this.player = player;
-            this.rooms = rooms;
-            this.room = room;
-        }
-        public PlayerData player;
-        public RoomData[] rooms;
-        public int room;
-    }
     private PlayerInput playerInput;
     private InputAction saveAction;
     private InputAction loadAction;
     private InputAction pauseAction;
 
     [SerializeField] private GameObject playerEssentials;
-    [SerializeField] private GameObject playerModel;
+    [SerializeField] private GameObject[] playerModels;
     [SerializeField] private Scene mainMenu;
     public GameObject playerEssentialsInstance;
 
@@ -265,14 +190,14 @@ public class GameManager : MonoBehaviour
 
         playerController = playerEssentialsInstance.transform.Find("PlayerV5").GetComponent<PlayerController>();
 
-        var model = Instantiate(playerModel, playerController.transform);
+        var model = Instantiate(playerModels[GameData.chosencharacter], playerController.transform);
         var information = model.GetComponent<ModelInformation>();
         var animator = model.GetComponent<Animator>();
         playerController.animator = animator;
         playerController.aimRig = information.rig;
         playerController.aimTarget = information.aimTarget;
-        animator.avatar = information.avatar;
         playerController.GetComponent<WeaponController>().attachPoint = information.attachPoint;
+        playerController.GetComponent<GhostController>().ghostPrefab = information.ghost;
         var camo = playerController.GetComponent<FootstepCamoController>();
         camo.bodyParts[0] = information.spine2;
         camo.bodyParts[1] = information.rightLeg2;
@@ -375,12 +300,12 @@ public class GameManager : MonoBehaviour
         Save(); 
     }
 
-    public void JSave(string path,SaveData data)
+    public static void JSave(string path,SaveData data)
     {
         File.WriteAllText(path, JsonUtility.ToJson(data));
     }
 
-    public SaveData JLoad(string path)
+    public static SaveData JLoad(string path)
     {
         return JsonUtility.FromJson<SaveData>(File.ReadAllText(path));
     }

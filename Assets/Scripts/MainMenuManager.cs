@@ -19,4 +19,17 @@ public class MainMenuManager : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void NewGame(int character)
+    {
+        if (character == 0)
+        {
+            GameData.chosencharacter = character;
+        }
+        else
+        {
+            GameData.chosencharacter = character;
+        }
+        StartGame();
+    }
 }

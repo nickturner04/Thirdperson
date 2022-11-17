@@ -346,6 +346,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerEssentials: {fileID: 156283535471182746, guid: a2e0353b8190ef048906b8103c63b788, type: 3}
+  playerModels:
+  - {fileID: 7022295268572558967, guid: fb227bf9123b6aa4b8293144d7b65588, type: 3}
+  - {fileID: 7022295268572558967, guid: 86675929caea20c4ba87ba14058af167, type: 3}
   mainMenu:
     m_Handle: 0
   playerEssentialsInstance: {fileID: 0}

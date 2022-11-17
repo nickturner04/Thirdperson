@@ -132,7 +132,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Summon",
+                    "name": "Block",
                     "type": "Button",
                     "id": "9ad63e30-402a-4807-bc4f-8b46ddfb2cda",
                     "expectedControlType": "Button",
@@ -520,7 +520,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Summon",
+                    "action": "Block",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d5b1284e-ccad-46bc-88e7-2c00b8e294e2",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Block",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

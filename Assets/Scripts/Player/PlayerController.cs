@@ -373,7 +373,7 @@ public class PlayerController : MonoBehaviour
 
     private void Reload()
     {
-        if (weaponController.currentAmmo != weaponController.clipSize && weaponController.currentReserve != 0)
+        if (weaponController.currentAmmo != weaponController.clipSize && weaponController.currentReserve != 0 && playerInventory.currentWeapon != -1)
         {
             weaponController.Reload();
             animator.SetBool("RELOADING", true);
