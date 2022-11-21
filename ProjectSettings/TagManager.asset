@@ -7,8 +7,9 @@ TagManager:
   - Weapon
   - Flash
   - Ground
-  - GameManager
   - PlayerModel
+  - EnemyManager
+  - SoundManager
   layers:
   - Default
   - TransparentFX

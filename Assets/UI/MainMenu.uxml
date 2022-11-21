@@ -1,0 +1,33 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/MainMenu.uss?fileID=7433441132597879392&amp;guid=a8e1e3a03019dca40a1dfef8df250dec&amp;type=3#MainMenu" />
+    <ui:VisualElement name="vseMainMenu" style="left: 0; top: 0; right: auto; bottom: auto; width: 100%; height: 100%; display: flex;">
+        <ui:VisualElement name="vseButtons" class="MainMenuElement" style="height: 270px;">
+            <ui:Button text="Continue" display-tooltip-when-elided="true" name="btnContinue" class="MainMenuButton" />
+            <ui:Button text="New Game" display-tooltip-when-elided="true" name="btnNewGame" class="MainMenuButton" />
+            <ui:Button text="Settings" display-tooltip-when-elided="true" name="btnSettings" class="MainMenuButton" />
+            <ui:Button text="Quit" display-tooltip-when-elided="true" name="btnQuit" enable-rich-text="true" class="MainMenuButton" />
+        </ui:VisualElement>
+        <ui:VisualElement name="vseCharSelect" class="MainMenuElement" style="bottom: auto; left: 0; top: 0; position: absolute; display: flex; visibility: visible;">
+            <ui:Label text="Select Character" display-tooltip-when-elided="true" style="-unity-text-align: upper-center; color: rgb(255, 255, 255); font-size: 20px; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; -unity-font: url(&apos;project://database/Assets/Fonts/SF%20Square%20Head.ttf?fileID=12800000&amp;guid=15d4cdb660716be42aa632ebadd9772c&amp;type=3#SF Square Head&apos;); -unity-font-definition: none; overflow: hidden; background-color: rgb(93, 17, 27);" />
+            <ui:VisualElement style="height: 100%; flex-direction: row; width: 100%; justify-content: center; left: 0; position: relative; transform-origin: left;">
+                <ui:Button display-tooltip-when-elided="true" name="btnChar1" class="CharacterSelectButton CharacterSelectButtonSelected" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; align-items: auto; justify-content: flex-start; flex-wrap: nowrap; flex-direction: row-reverse; background-image: url(&apos;project://database/Assets/Sprites/character1.png?fileID=2800000&amp;guid=fe13533ff3f704548b047b33a2d551c6&amp;type=3#character1&apos;); border-bottom-left-radius: 9px;" />
+                <ui:Button display-tooltip-when-elided="true" name="btnChar2" class="CharacterSelectButton CharacterSelectButtonSelected" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; align-items: auto; justify-content: flex-start; flex-wrap: nowrap; flex-direction: row-reverse; background-image: url(&apos;project://database/Assets/Sprites/character2.png?fileID=2800000&amp;guid=e21613348c0603147915dd9a02f26e2c&amp;type=3#character2&apos;); border-bottom-right-radius: 9px;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="vseController" style="position: absolute; right: 0; top: 0; width: 100%; height: 100%; background-image: none; background-color: rgba(101, 0, 255, 0.5); border-left-width: 8px; border-right-width: 8px; border-top-width: 2px; border-bottom-width: 2px; border-top-left-radius: 16px; border-bottom-left-radius: 16px; border-top-right-radius: 16px; border-bottom-right-radius: 16px; border-left-color: rgb(93, 17, 27); border-right-color: rgb(93, 17, 27); border-top-color: rgb(93, 17, 27); border-bottom-color: rgb(93, 17, 27); justify-content: center; align-items: center; display: none;">
+            <ui:VisualElement name="vseControllerIcon" style="background-image: url(&apos;project://database/Assets/Sprites/PS5_Diagram_Simple.png?fileID=2800000&amp;guid=5d34b69796a787642a6da85f07e073eb&amp;type=3#PS5_Diagram_Simple&apos;); width: 50%; height: 50%; justify-content: flex-start;" />
+            <ui:Label text="Attack" display-tooltip-when-elided="true" style="position: absolute; top: 158px; left: 734px;" />
+            <ui:Label text="Guard" display-tooltip-when-elided="true" style="position: absolute; top: 197px; left: 758px;" />
+            <ui:Label text="Ready Weapon" display-tooltip-when-elided="true" style="position: absolute; top: 165px; left: 259px;" />
+            <ui:Label text="Y-Interact\nB-Reload\nA-Crouch\nX-Roll" display-tooltip-when-elided="true" enable-rich-text="true" style="position: absolute; top: 233px; left: 802px;" />
+            <ui:Label text="Move" display-tooltip-when-elided="true" style="position: absolute; top: 385px; left: 452px;" />
+            <ui:Label text="Rotate Camera" display-tooltip-when-elided="true" style="position: absolute; top: 388px; left: 574px;" />
+            <ui:Label text="Ready Sub-Weapon" display-tooltip-when-elided="true" style="position: absolute; top: 188px; left: 215px;" />
+            <ui:Label text="Quick Select Weapon" display-tooltip-when-elided="true" style="position: absolute; top: 290px; left: 194px;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="vseMission" class="MainMenuElement" style="top: 0; right: 0; left: auto; bottom: auto;">
+            <ui:Label text="Select Mission" display-tooltip-when-elided="true" style="-unity-text-align: upper-center; color: rgb(255, 255, 255); font-size: 20px; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; -unity-font: url(&apos;project://database/Assets/Fonts/SF%20Square%20Head.ttf?fileID=12800000&amp;guid=15d4cdb660716be42aa632ebadd9772c&amp;type=3#SF Square Head&apos;); -unity-font-definition: none; overflow: hidden; display: flex; background-color: rgb(93, 17, 27);" />
+            <ui:Button text="Mission 1" display-tooltip-when-elided="true" name="btnM1" class="MainMenuButton" style="height: 8%;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

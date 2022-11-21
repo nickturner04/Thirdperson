@@ -12,10 +12,10 @@ public class PlayerController : MonoBehaviour
 {
     public enum Mode { NORMAL,CRAWL,COVER,HOSTAGE}
 
-    [SerializeField] public Transform trfPickup;
+    public Transform trfPickup;
     public Transform aimTarget;
     public Rig aimRig;
-    [SerializeField] public LayerMask interactableLayer;
+    public LayerMask interactableLayer;
     public Animator animator;
     private WeaponController weaponController;
     [SerializeField] private SwitchVCam cameraController;
@@ -43,11 +43,10 @@ public class PlayerController : MonoBehaviour
     private int noClip = 1;
     private bool weaponMenuHidden = true;
     private bool attacking = false;
-
     //Noisemaker
     private int priority = 1;
     private int range = 10;
-    private int crouchMask = 1 << 7;
+    private const int crouchMask = 1 << 7;
     private float preSpeedMultiplier = 100;
     private bool usingGamepad = false;
     
@@ -62,7 +61,6 @@ public class PlayerController : MonoBehaviour
     private InputAction aimAction;
     private InputAction crouchAction;
     private InputAction rollAction;
-    private InputAction toggleThermal;
     private InputAction makeSound;
     private InputAction blockAction;
     private InputAction priorityAction;
@@ -98,7 +96,6 @@ public class PlayerController : MonoBehaviour
         aimAction = playerInput.actions["Aim"];
         crouchAction = playerInput.actions["Crouch"];
         rollAction = playerInput.actions["Roll"];
-        toggleThermal = playerInput.actions["ToggleThermal"];
         makeSound = playerInput.actions["MakeSound"];
         blockAction = playerInput.actions["Block"];
         priorityAction = playerInput.actions["PriorityAxis"];
@@ -119,13 +116,14 @@ public class PlayerController : MonoBehaviour
         rangeAction.performed += ChangeRange;
         aimAction.started += StartAiming;
         aimAction.canceled += StopAiming;
-        interactAction.performed += _ => Interact();
+        interactAction.performed += Interact;
         inventoryAction.performed += Inventory;
-        reloadAction.performed += _ => Reload();
+        reloadAction.performed += Reload;
         crouchAction.performed += Crouch;
-        makeSound.performed += _ => MakeSound();
+        makeSound.performed += MakeSound;
         anyController.started += LeftStickMove;
-        blockAction.performed += NoClip;
+        blockAction.started += StartBlock;
+        blockAction.canceled += EndBlock;
 
     }
 
@@ -138,13 +136,14 @@ public class PlayerController : MonoBehaviour
         rangeAction.performed -= ChangeRange;
         aimAction.started -= StartAiming;
         aimAction.canceled -= StopAiming;
-        interactAction.performed -= _ => Interact();
+        interactAction.performed -=  Interact;
         inventoryAction.performed -= Inventory;
-        reloadAction.performed -= _ => Reload();
+        reloadAction.performed -= Reload;
         anyController.performed -= LeftStickMove;
         crouchAction.performed -= Crouch;
-        makeSound.performed -= _ => MakeSound();
-        blockAction.performed -= NoClip;
+        makeSound.performed -= MakeSound;
+        blockAction.started -= StartBlock;
+        blockAction.canceled -= EndBlock;
     }
 
     private void LeftStickMove(InputAction.CallbackContext context)
@@ -188,7 +187,7 @@ public class PlayerController : MonoBehaviour
         move = camForward * move.z + trfCameraMain.right * move.x;
         move.y = 0;
         //Move Player in x and z axis
-        controller.Move(normalSpeed * Time.deltaTime * move * speedMultiplier2);
+        controller.Move(normalSpeed * speedMultiplier2 * Time.deltaTime * move);
         //Using Time.deltaTime prevents higher framerates from causing the player to move faster
 
         //Make player Effected By Gravity
@@ -198,7 +197,7 @@ public class PlayerController : MonoBehaviour
             playerVelocity.y = 0f;
         }
         //move player in y axis
-        controller.Move(playerVelocity * Time.deltaTime * noClip);
+        controller.Move(noClip * Time.deltaTime * playerVelocity);
 
         if (moveinput != Vector2.zero & !isAiming)
         {
@@ -282,7 +281,21 @@ public class PlayerController : MonoBehaviour
         mode = newMode;
     }
 
-    private void NoClip(InputAction.CallbackContext context)
+    private void StartBlock(InputAction.CallbackContext context)
+    {
+        if (!ghostController.occupied)
+        {
+            ghostController.blocking = true;
+        }
+        
+    }
+
+    private void EndBlock(InputAction.CallbackContext _)
+    {
+        ghostController.blocking = false;
+    }
+
+    private void NoClip(InputAction.CallbackContext _)
     {
         if (noClip == 1)
         {
@@ -359,19 +372,19 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("CROUCHING", isCrouching);
     }
 
-    private void MakeSound()
+    private void MakeSound(InputAction.CallbackContext context)
     {//Debug method for testing if enemies respond to noises, called when Q is pressed
-        RaycastHit hit;
-        Ray ray = new Ray(trfCameraMain.position, trfCameraMain.forward);
-        if (Physics.Raycast(ray, out hit,Mathf.Infinity,ignorePlayer))
+        Ray ray = new(trfCameraMain.position, trfCameraMain.forward);
+        if (Physics.Raycast(ray, out RaycastHit hit,Mathf.Infinity,ignorePlayer))
         {
             var sm = Instantiate(soundMaker,hit.point,Quaternion.identity).GetComponent<SoundMaker>();
             sm.range = range;
             sm.priority = priority;
         }
+        GetComponent<PlayerHealth>().Die();
     }
 
-    private void Reload()
+    private void Reload(InputAction.CallbackContext context)
     {
         if (weaponController.currentAmmo != weaponController.clipSize && weaponController.currentReserve != 0 && playerInventory.currentWeapon != -1)
         {
@@ -387,7 +400,7 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("RELOADING", false);
     }
 
-    private void Interact()
+    private void Interact(InputAction.CallbackContext context)
     {
         if (!isAiming)
         {
@@ -412,7 +425,7 @@ public class PlayerController : MonoBehaviour
             }
             else if (interactable != null)
             {
-                if (interactable.TryGetComponent(out Grabbable grabbable))
+                if (interactable.TryGetComponent(out Grabbable _))
                 {
                     ghostController.Grab();
 
@@ -565,5 +578,29 @@ public class PlayerController : MonoBehaviour
         {
             this.attacking = false;
         }
+    }
+
+    public void Die()
+    {
+        trfCameraMain.GetComponent<AudioListener>().enabled = false;
+        animator.SetTrigger("DEATH");
+        EndCrouch();
+        moveAction.Disable();
+        noClip = 0;
+        gameObject.layer = 31;
+        lightAttackAction.performed -= LightAttack;
+        heavyAttackAction.performed -= HeavyAttack;
+        priorityAction.performed -= ChangePriority;
+        rangeAction.performed -= ChangeRange;
+        aimAction.started -= StartAiming;
+        aimAction.canceled -= StopAiming;
+        interactAction.performed -= Interact;
+        inventoryAction.performed -= Inventory;
+        reloadAction.performed -= Reload;
+        anyController.performed -= LeftStickMove;
+        crouchAction.performed -= Crouch;
+        makeSound.performed -= MakeSound;
+        blockAction.started -= StartBlock;
+        blockAction.canceled -= EndBlock;
     }
 }

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2816426289836174381}
   m_Layer: 0
   m_Name: EnemyManager
-  m_TagString: Untagged
+  m_TagString: EnemyManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -53,7 +53,6 @@ MonoBehaviour:
   callAlert: 0
   indefiniteAlert: 0
   enemies: []
-  enemyData: []
   enemy: {fileID: 6780656938638187855, guid: dd9bf9add1a308e42bff50d48e21b12c, type: 3}
   labelManager: {fileID: 0}
 --- !u!82 &2816426289836174381

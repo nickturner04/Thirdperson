@@ -82,6 +82,6 @@ public struct SaveData
 
 public static class GameData
 {
-    public static int chosencharacter = 0;
+    public static int chosencharacter = 1;
     //public static SaveData defaultSave = new(new PlayerData(new(0,0,0),new(0,0,0),PlayerController.Mode.NORMAL,500,new int[]))
 }

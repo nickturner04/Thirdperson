@@ -1,0 +1,80 @@
+.MainMenuButton {
+    -unity-text-align: upper-left;
+    -unity-font: url('project://database/Assets/Fonts/SF%20Square%20Head.ttf?fileID=12800000&guid=15d4cdb660716be42aa632ebadd9772c&type=3#SF Square Head');
+    -unity-font-definition: none;
+    font-size: 28px;
+    height: 25%;
+    color: rgb(255, 255, 255);
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    background-color: rgba(0, 0, 0, 0);
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+}
+
+.MainMenuButton:hover {
+    background-color: rgba(0, 0, 0, 0);
+    border-left-color: rgb(93, 17, 27);
+    border-right-color: rgb(93, 17, 27);
+    border-top-color: rgb(93, 17, 27);
+    border-bottom-color: rgb(93, 17, 27);
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+}
+
+.CharacterSelectButton {
+    width: 50%;
+    height: 100%;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    left: 0;
+    opacity: 0.5;
+}
+
+.CharacterSelectButton:hover {
+    width: 55%;
+    height: 110%;
+    transition-property: all;
+    transition-duration: 200ms;
+    opacity: 1;
+}
+
+.MainMenuElement {
+    bottom: 0;
+    left: 0;
+    top: auto;
+    position: absolute;
+    background-color: rgba(101, 0, 255, 0.5);
+    border-left-color: rgb(93, 17, 27);
+    border-right-color: rgb(93, 17, 27);
+    border-top-color: rgb(93, 17, 27);
+    border-bottom-color: rgb(93, 17, 27);
+    border-left-width: 8px;
+    border-right-width: 8px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-top-left-radius: 16px;
+    border-bottom-left-radius: 16px;
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+    transition-property: all;
+    transition-duration: 250ms;
+}
+
+.MainMenuElement:enabled {
+    width: 960px;
+    transition-duration: 200ms;
+    height: 540px;
+}
+
+.MainMenuElement:disabled {
+    width: 0;
+    transition-duration: 200ms;
+    height: 540px;
+}

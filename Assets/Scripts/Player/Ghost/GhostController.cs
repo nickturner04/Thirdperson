@@ -10,6 +10,7 @@ public class GhostController : MonoBehaviour
     public Transform gTransform;
     public Transform gAttach;
     public Transform gAttachAttack;
+    public Transform gAttachBlock;
     [SerializeField] private SkinnedMeshRenderer gMaterial;
     public Transform grabbedObject;
     public Transform lookTarget;
@@ -35,6 +36,7 @@ public class GhostController : MonoBehaviour
 
     public bool occupied = false;
     public bool grabbing = false;
+    public bool blocking = false;
 
     private void Start()
     {
@@ -59,7 +61,12 @@ public class GhostController : MonoBehaviour
         gAttachAttack.position = new Vector3(attachpos.x, gAttachAttack.position.y, attachpos.z);
         float alpha;
 
-        if (ghostActiveTimer > 0)
+        if (blocking)
+        {
+            alpha = 1;
+            gTransform.SetPositionAndRotation(Vector3.Lerp(gTransform.position, gAttachBlock.position, Time.deltaTime * 20), Quaternion.LookRotation(playerController.transform.forward));
+        }
+        else if (ghostActiveTimer > 0)
         {//If ghost is active make it look in direction of attack and set it to half transparent
             ghostActiveTimer -= Time.deltaTime;
             gTransform.position = Vector3.Lerp(gTransform.position, playerController.isAiming ? gAttach.position : gAttachAttack.position, Time.deltaTime * 10);
@@ -71,14 +78,12 @@ public class GhostController : MonoBehaviour
         }
         else if(preview)
         {//If preview is move ghost to behind enemy and make it face enemy
-            gTransform.position = gAttach.position;
-            gTransform.rotation = Quaternion.LookRotation(new Vector3(lookTarget.position.x, gTransform.position.y, lookTarget.position.z) - gTransform.position);
+            gTransform.SetPositionAndRotation(gAttach.position, Quaternion.LookRotation(new Vector3(lookTarget.position.x, gTransform.position.y, lookTarget.position.z) - gTransform.position));
             alpha = 0.5f;
         }
         else if (takedown)
         {//If playing takedown animation move ghost to behind enemy and make it face enemy
-            gTransform.position = gAttach.position;
-            gTransform.rotation = Quaternion.LookRotation(new Vector3(targetEnemy.transform.position.x, gTransform.position.y, targetEnemy.transform.position.z) - gTransform.position);
+            gTransform.SetPositionAndRotation(gAttach.position, Quaternion.LookRotation(new Vector3(targetEnemy.transform.position.x, gTransform.position.y, targetEnemy.transform.position.z) - gTransform.position));
             alpha = 0.8f;
         }
         else
@@ -98,8 +103,7 @@ public class GhostController : MonoBehaviour
         }
         if (grabbedObject != null)
         {
-            grabbedObject.transform.position = grabPoint.position;
-            grabbedObject.transform.rotation = grabPoint.rotation;
+            grabbedObject.transform.SetPositionAndRotation(grabPoint.position, grabPoint.rotation);
         }
     }
 
@@ -158,7 +162,7 @@ public class GhostController : MonoBehaviour
 
     public void Attack()//Attack + Attack + Pause + Attack : Kick
     {
-        if (!occupied)
+        if (!occupied && !blocking)
         {
             Show();
             ghostActiveTimer = 1.5f;

@@ -217,12 +217,12 @@ public class LabelManager : MonoBehaviour
             vseWeaponButtons[i].style.backgroundImage = new StyleBackground(sprites[i]);
         }
     }
-    private void Update()
-    {
-        //lblKey.style.color = Mathf.Lerp(vseKeyBlack.style.opacity.value, opacityDirection == true ? 1.50f : 0f, Time.deltaTime * mashSpeed);
-        //if (vseKeyBlack.style.opacity.value <= 0.52f || vseKeyBlack.style.opacity.value >= 0.98f)
-        //{
-        //    opacityDirection = !opacityDirection;
-        //}
-    }
+    //private void Update()
+    //{
+    //    //lblKey.style.color = Mathf.Lerp(vseKeyBlack.style.opacity.value, opacityDirection == true ? 1.50f : 0f, Time.deltaTime * mashSpeed);
+    //    //if (vseKeyBlack.style.opacity.value <= 0.52f || vseKeyBlack.style.opacity.value >= 0.98f)
+    //    //{
+    //    //    opacityDirection = !opacityDirection;
+    //    //}
+    //}
 }

@@ -140,7 +140,7 @@ public class GameManager : MonoBehaviour
         pauseAction.performed -= PauseAction;
 
         SaveData save = JLoad(path);
-        AsyncOperation asyncUnload = new AsyncOperation();
+        AsyncOperation asyncUnload = new();
         AsyncOperation asyncLoad;
         asyncLoad = SceneManager.LoadSceneAsync(save.room,LoadSceneMode.Additive);
         if (!firstload) 
@@ -249,6 +249,7 @@ public class GameManager : MonoBehaviour
     {
         StartCoroutine(LoadSaveFile("currentsave.json"));
         vseGameOver.style.display = DisplayStyle.None;
+        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<AudioListener>().enabled = false;
     }
     private void MainMenu()
     {

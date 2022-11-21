@@ -8,6 +8,7 @@ public class PlayerHealth : MonoBehaviour
     private Health health;
     public GameManager gameManager;
     private GhostController ghostController;
+    private PlayerController playerController;
     [SerializeField] private LabelManager labelManager;
 
     public float resetTime = 20;
@@ -16,38 +17,47 @@ public class PlayerHealth : MonoBehaviour
     private float currentResetTime = 0;
     [SerializeField] private float regenSpeed = 1f;
 
+    bool dead = false;
 
     private void Awake()
     {
         health = GetComponent<Health>();
         ghostController = GetComponent<GhostController>();
+        playerController = GetComponent<PlayerController>();
     }
 
     public void TakeDamage(float damage, Vector3 position)
     {
-        if ((shield > 0 && !ghostController.occupied) || health.godMode)
+        if (health.godMode) return;
+        if ((shield > 0 && ghostController.blocking))
         {//If there is shield, take away damage from the shield and move the ghost to where the bullet hit.
             ghostController.Guard();
             ghostController.ghostActiveTimer = 0.1f;
             ghostController.gTransform.SetPositionAndRotation(transform.position + (position - transform.position).normalized, Quaternion.LookRotation(position - transform.position));
+            shield -= damage;
         }
-        if (health.godMode) return;
-        currentResetTime = 0;
-        shield -= damage;
-        if (shield < 0)
+        else
         {
             health.TakeDamage(damage);
+        }
+        if (shield < 0)
+        {
+            ghostController.blocking = false;
             shield = 0;
         }
-        if (health.health <= 0)
+        
+        currentResetTime = 0;
+        
+        if (health.health <= 0 && !dead)
         {//Trigger Game Over
             Die ();
+            dead = true;
         }
     }
 
     public void Die()
     {
-        gameManager.GameOver();
+        playerController.Die();
     }
 
     private void Update()
