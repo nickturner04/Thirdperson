@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.DualShock;
 
 [RequireComponent(typeof(Health))]
 public class PlayerHealth : MonoBehaviour
@@ -18,9 +19,14 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private float regenSpeed = 1f;
 
     bool dead = false;
-
+    private DualSenseGamepadHID dualsense;
+    [SerializeField] private Color lowHealthColor = Color.red;
+    [SerializeField] private Color fullHealthColor = Color.green;
+    public Color currentColor;
     private void Awake()
     {
+        dualsense = (DualSenseGamepadHID)DualShockGamepad.current;
+        dualsense.SetLightBarColor(fullHealthColor);
         health = GetComponent<Health>();
         ghostController = GetComponent<GhostController>();
         playerController = GetComponent<PlayerController>();
@@ -39,6 +45,8 @@ public class PlayerHealth : MonoBehaviour
         else
         {
             health.TakeDamage(damage);
+            currentColor = Color.Lerp(lowHealthColor, fullHealthColor, health.health / health.maxHealth);
+            dualsense.SetLightBarColor(currentColor);
         }
         if (shield < 0)
         {

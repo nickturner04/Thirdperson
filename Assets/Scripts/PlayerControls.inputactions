@@ -114,18 +114,27 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "ToggleThermal",
+                    "name": "QuickSwap1",
                     "type": "Button",
-                    "id": "8503cd90-d055-4afa-be36-4f3d192f09ed",
+                    "id": "86f97989-b28c-4732-8cf2-276ee56e7332",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "MakeSound",
+                    "name": "QuickSwap2",
                     "type": "Button",
-                    "id": "e735957b-67eb-41a8-a720-fedf79b091b8",
+                    "id": "95066835-99bd-4c65-8500-e1b0f4d53647",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "QuickSwap3",
+                    "type": "Button",
+                    "id": "4b9ff203-c8ae-4a06-8d39-84d5d801dea1",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -135,6 +144,15 @@
                     "name": "Block",
                     "type": "Button",
                     "id": "9ad63e30-402a-4807-bc4f-8b46ddfb2cda",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MakeSound",
+                    "type": "Button",
+                    "id": "e735957b-67eb-41a8-a720-fedf79b091b8",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -493,45 +511,12 @@
                 },
                 {
                     "name": "",
-                    "id": "13c42742-cb9e-4af4-a898-5ea9f5296303",
-                    "path": "<Keyboard>/1",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ToggleThermal",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "c2ef93f4-5733-4c16-ac7b-71b7d6a41d28",
                     "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "MakeSound",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "2b751c5d-99af-4521-8ad6-e0cd1901e545",
-                    "path": "<Keyboard>/v",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Block",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "d5b1284e-ccad-46bc-88e7-2c00b8e294e2",
-                    "path": "<Gamepad>/rightShoulder",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Block",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -741,6 +726,94 @@
                     "processors": "",
                     "groups": "",
                     "action": "AnyKey",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bc76e804-3f0f-4199-a63a-341d9c3d4477",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "QuickSwap1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e169167e-5d0a-4fd0-ab16-48b22fca3ee6",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "QuickSwap1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2b751c5d-99af-4521-8ad6-e0cd1901e545",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Block",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d5b1284e-ccad-46bc-88e7-2c00b8e294e2",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Block",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "df68b9ae-d027-40d2-aef2-4d1ced477493",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "QuickSwap2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "58de7405-697c-4f70-bb7d-5a9fce4c7e21",
+                    "path": "<Gamepad>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "QuickSwap2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fae1c62a-693a-4587-aeb5-7c5cd43ebbb3",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "QuickSwap3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6ee324f2-8548-465e-b925-4f6ab0a4c355",
+                    "path": "<Gamepad>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "QuickSwap3",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

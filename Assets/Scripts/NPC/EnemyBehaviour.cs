@@ -164,6 +164,16 @@ public class EnemyBehaviour : MonoBehaviour
     {
         if (alertMoving)
         {
+            if (Vector3.Distance(transform.position, player.position) <= 5)
+            {
+                Debug.Log("CLOSE");
+                FoundDestination = true;
+                alertMoving = false;
+                alertDestination = transform.position;
+                agent.SetDestination(transform.position);
+                animator.SetFloat(speedHash, 0f);
+                return Node.Status.Success;
+            }
             if (agent.remainingDistance <= 0)
             {
                 alertMoving = false;
@@ -217,24 +227,32 @@ public class EnemyBehaviour : MonoBehaviour
         {
             //Debug.Log("false");
             //Find New Position
-            var found = false;
-            var count = 0;
-            while (!found)
-            {
-                //Get a position within a circle of the player
-                var newPosition = GetRingPosition(surround ? player.position : transform.position, surround ? Random.Range(5f, 20f) : Random.Range(1f, 50f));
-                if (newPosition != Vector3.zero)//If new position is 0,0,0 then try again to find a new one
-                {
-                    found = true;
-                    FoundDestination = true;
-                    alertDestination = newPosition;
-                }
-                count++;
-                if (count > 500) break;
-                {
 
+            //Get a position within a circle of the current position
+            for (int i = 0; i < 100; i++)
+            {
+                var thisPosition = GetRingPosition(transform.position, Random.Range(1f, Mathf.Ceil(i / 5))); ;
+                if (thisPosition != Vector3.zero && !Physics.Raycast(thisPosition, player.position - thisPosition, Vector3.Distance(player.position, thisPosition), defaultMask))
+                {
+                    FoundDestination = true;
+                    alertDestination = thisPosition;
+                    goto SkipLoop;
                 }
             }
+
+            //Get a position within a circle of the player's position
+            while (true)
+            {
+                var newPosition = GetRingPosition(surround ? player.position : transform.position, surround ? Random.Range(5f, 20f) : Random.Range(1f, 50f));
+                if (newPosition != Vector3.zero && !Physics.Raycast(newPosition, player.position - newPosition, Vector3.Distance(player.position, newPosition), defaultMask))//If new position is 0,0,0 then try again to find a new one
+                {
+                    FoundDestination = true;
+                    alertDestination = newPosition;
+                    break;
+                }
+            }
+        SkipLoop:;
+            
         }
         else
         {
@@ -250,18 +268,18 @@ public class EnemyBehaviour : MonoBehaviour
                     var pos = new Vector3(player.position.x, transform.position.y, player.position.z);
                     transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(pos - transform.position), Time.deltaTime * 5);
                 }
-                if (surround)
-                {
-                    NavMeshPath path = new();
-                    NavMesh.CalculatePath(alDes2, player.position, NavMesh.AllAreas, path);
-                    var dist = 0f;
-                    for (int i = 0; i < path.corners.Length - 1; i++)
-                    {
-                        dist += Vector3.Distance(path.corners[i], path.corners[i + 1]);
-                    }
-                    if (dist > 20f) FoundDestination = false;
+                //if (surround)
+                //{
+                //    NavMeshPath path = new();
+                //    NavMesh.CalculatePath(alDes2, player.position, NavMesh.AllAreas, path);
+                //    var dist = 0f;
+                //    for (int i = 0; i < path.corners.Length - 1; i++)
+                //    {
+                //        dist += Vector3.Distance(path.corners[i], path.corners[i + 1]);
+                //    }
+                //    if (dist > 20f) FoundDestination = false;
 
-                }
+                //}
                 
             }
         }

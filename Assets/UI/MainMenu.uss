@@ -1,6 +1,6 @@
 .MainMenuButton {
     -unity-text-align: upper-left;
-    -unity-font: url('project://database/Assets/Fonts/SF%20Square%20Head.ttf?fileID=12800000&guid=15d4cdb660716be42aa632ebadd9772c&type=3#SF Square Head');
+    -unity-font: url('project://database/Assets/Fonts/Cobol%20Bold.ttf?fileID=12800000&guid=4b8e8e5a9783dc04ab604930da27f25c&type=3#Cobol Bold');
     -unity-font-definition: none;
     font-size: 28px;
     height: 25%;
@@ -17,13 +17,8 @@
 }
 
 .MainMenuButton:hover {
-    background-color: rgba(0, 0, 0, 0);
-    border-left-color: rgb(93, 17, 27);
-    border-right-color: rgb(93, 17, 27);
-    border-top-color: rgb(93, 17, 27);
-    border-bottom-color: rgb(93, 17, 27);
-    border-top-width: 1px;
-    border-bottom-width: 1px;
+    background-color: rgba(0, 0, 0, 0.13);
+    -unity-font-style: bold;
 }
 
 .CharacterSelectButton {

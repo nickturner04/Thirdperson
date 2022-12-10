@@ -8,7 +8,8 @@ public class EnemyWeaponController : MonoBehaviour
     private WeaponAnim weaponAnim;
     private GameObject weaponObject;
     private WeaponData weaponData;
-    private PlayerHealth player;
+    private PlayerHealth playerHealth;
+    private Transform player;
 
     [SerializeField] private GameObject decal;
     [SerializeField] private Transform attachPoint;
@@ -27,7 +28,8 @@ public class EnemyWeaponController : MonoBehaviour
 
     private void Start()
     {
-        player = GameObject.Find("PlayerV5").GetComponent<PlayerHealth>();
+        playerHealth = GameObject.Find("PlayerV5").GetComponent<PlayerHealth>();
+        player = playerHealth.transform;
         Equip(weapons[0]);
     }
 
@@ -72,25 +74,20 @@ public class EnemyWeaponController : MonoBehaviour
             audioSource.PlayOneShot(fireSound);
 
             RaycastHit hit;
-            Physics.Raycast(firePoint.position, firePoint.forward, out hit);
+            Physics.Raycast(firePoint.position, player.position - firePoint.position, out hit);
             float accuracymultiplier = (float)heat / weaponData.maxHeat;
 
             for (int i = 0; i < numShots; i++)
             {
                 var angle = Quaternion.AngleAxis(Random.Range(-accuracy * accuracymultiplier, accuracy * accuracymultiplier), new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)));
-                Physics.Raycast(firePoint.position, angle * (hit.point - firePoint.position).normalized, out hit);
+                Physics.Raycast(firePoint.position, (hit.point - firePoint.position).normalized, out hit);
                 if (hit.collider.gameObject.layer == 7)
                 {
                     Instantiate(decal, hit.point, Quaternion.identity);
                 }
                 else if (hit.collider.gameObject.layer == 3)
                 {
-                    player.TakeDamage(damage,transform.position);
-                }
-                if (hit.collider.TryGetComponent(out Rigidbody rb))
-                {
-                    Vector3 dir = (rb.transform.position - hit.point).normalized;
-                    rb.AddForce(dir * 100);
+                    playerHealth.TakeDamage(damage,transform.position);
                 }
             }
 

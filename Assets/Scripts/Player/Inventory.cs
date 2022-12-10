@@ -18,9 +18,34 @@ public class Inventory : MonoBehaviour
 
     public int[] maxAmmo = { 90, 36, 120 };
 
+    private void Start()
+    {
+        labelManager.vseWeaponButtons[0].clicked += Equip0;
+        labelManager.vseWeaponButtons[1].clicked += Equip1;
+        labelManager.vseWeaponButtons[2].clicked += Equip2;
+    }
+
+    private void Equip0()
+    {
+        Equip(0);
+        labelManager.Inventory();
+    }
+
+    private void Equip1()
+    {
+        Equip(1);
+        labelManager.Inventory();
+    }
+
+    private void Equip2()
+    {
+        Equip(2);
+        labelManager.Inventory();
+    }
+
     public void Equip(int index)
     {
-        if (index == -1)
+        if (index == -1 || index == currentWeapon)
         {
             currentWeapon = -1;
             weaponController.Unequip();

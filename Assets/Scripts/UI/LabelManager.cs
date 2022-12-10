@@ -23,18 +23,16 @@ public class LabelManager : MonoBehaviour
 
     private VisualElement vseAmmo;
     private VisualElement vseWeaponMenu;
-    private Button[] vseWeaponButtons = new Button[3];
+    public Button[] vseWeaponButtons = new Button[3];
 
     private bool weaponMenuHidden = true;
     private bool opacityDirection = true;
     [SerializeField] private float mashSpeed = 2f;
 
-    private Inventory playerInventory;
     private PlayerController playerController;
 
     private void Awake()
     {
-        playerInventory = GameObject.Find("PlayerV5").GetComponent<Inventory>();
         playerController = GameObject.Find("PlayerV5").GetComponent<PlayerController>();
         var rootVisualElement = GetComponent<UIDocument>().rootVisualElement;
 
@@ -56,9 +54,6 @@ public class LabelManager : MonoBehaviour
         vseWeaponButtons[0] = vseWeaponMenu.Q<Button>("btnPrimary");
         vseWeaponButtons[1] = vseWeaponMenu.Q<Button>("btnSecondary");
         vseWeaponButtons[2] = vseWeaponMenu.Q<Button>("btnSidearm");
-        vseWeaponButtons[0].clicked += EquipPrimary;
-        vseWeaponButtons[1].clicked += EquipSecondary;
-        vseWeaponButtons[2].clicked += EquipSidearm;
         vseAlert.style.display = DisplayStyle.None;
 
         var btnHeal = vseWeaponMenu.Q<Button>("btnHeal");
@@ -164,34 +159,10 @@ public class LabelManager : MonoBehaviour
         vseAlert.style.display = DisplayStyle.None;
     }
 
-    private void EquipPrimary()
+    public void Inventory()
     {
-        Equip(0);
-    }
+        playerController.Inventory(new UnityEngine.InputSystem.InputAction.CallbackContext());
 
-    private void EquipSecondary()
-    {
-        Equip(1);
-    }
-
-    private void EquipSidearm()
-    {
-        Equip(2);
-    }
-
-    private void Equip(int index)
-    {
-        if (index == playerInventory.currentWeapon)
-        {
-            playerInventory.Equip(-1);
-            playerController.Inventory(new UnityEngine.InputSystem.InputAction.CallbackContext());
-        }
-        else
-        {
-            playerInventory.Equip(index);
-            playerController.Inventory(new UnityEngine.InputSystem.InputAction.CallbackContext());
-        }
-        
     }
 
     public void ShowWeaponMenu()

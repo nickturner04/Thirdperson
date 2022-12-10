@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.DualShock;
 using Cinemachine;
 using UnityEngine.Animations.Rigging;
 using TMPro;
@@ -63,6 +64,9 @@ public class PlayerController : MonoBehaviour
     private InputAction rollAction;
     private InputAction makeSound;
     private InputAction blockAction;
+    private InputAction quickSwapAction1;
+    private InputAction quickSwapAction2;
+    private InputAction quickSwapAction3;
     private InputAction priorityAction;
     private InputAction rangeAction;
     private InputAction anyController;
@@ -102,6 +106,9 @@ public class PlayerController : MonoBehaviour
         rangeAction = playerInput.actions["RangeAxis"];
         anyController = playerInput.actions["AnyController"];
         anyKey = playerInput.actions["AnyKey"];
+        quickSwapAction1 = playerInput.actions["QuickSwap1"];
+        quickSwapAction2 = playerInput.actions["QuickSwap2"];
+        quickSwapAction3 = playerInput.actions["QuickSwap3"];
         trfCameraMain = Camera.main.transform;
         currentRotationSpeed = rotationSpeed;
     }
@@ -124,6 +131,9 @@ public class PlayerController : MonoBehaviour
         anyController.started += LeftStickMove;
         blockAction.started += StartBlock;
         blockAction.canceled += EndBlock;
+        quickSwapAction1.performed += QuickSwitch1;
+        quickSwapAction2.performed += QuickSwitch2;
+        quickSwapAction3.performed += QuickSwitch3;
 
     }
 
@@ -144,6 +154,9 @@ public class PlayerController : MonoBehaviour
         makeSound.performed -= MakeSound;
         blockAction.started -= StartBlock;
         blockAction.canceled -= EndBlock;
+        quickSwapAction1.performed -= QuickSwitch1;
+        quickSwapAction2.performed -= QuickSwitch2;
+        quickSwapAction3.performed -= QuickSwitch3;
     }
 
     private void LeftStickMove(InputAction.CallbackContext context)
@@ -174,7 +187,7 @@ public class PlayerController : MonoBehaviour
         //Get input from scroll wheel and use it to change speed multiplier
         var scrollvalue = scrollAction.ReadValue<Vector2>();
         preSpeedMultiplier += 4 * scrollvalue.y / 100;
-        var speedMultiplier = usingGamepad ? moveinput.magnitude * 100 : Mathf.Floor(Mathf.Clamp(preSpeedMultiplier, 30, 100));
+        var speedMultiplier = usingGamepad ? (moveinput.magnitude > 1 ? 1 : moveinput.magnitude) * 100 : Mathf.Floor(Mathf.Clamp(preSpeedMultiplier, 30, 100));
         animator.SetFloat("CROUCHSPEED",speedMultiplier / 100);
         //Change Speed Multiplier Depending On If Crouching
         var speedMultiplier2 = speedMultiplier / 100 * (isCrouching ? 0.75f : 1f);
@@ -257,7 +270,8 @@ public class PlayerController : MonoBehaviour
                 {//Removes instant kill actions and allows player to crouch
                     crouchAction.performed -= Lethal;
                     crouchAction.performed += Crouch;
-                    rollAction.performed -= NonLethal;
+                    interactAction.performed -= NonLethal;
+                    interactAction.performed += Interact;
                 }
                 break;
             case Mode.CRAWL:
@@ -270,7 +284,8 @@ public class PlayerController : MonoBehaviour
                 {//Do not allow player to crouch in hostage mode, give options to instantly kill a captured enemy
                     crouchAction.performed -= Crouch;
                     crouchAction.performed += Lethal;
-                    rollAction.performed += NonLethal;
+                    interactAction.performed += NonLethal;
+                    interactAction.performed -= Interact;
                     ghostController.preview = false;
                     EndCrouch();
                 }
@@ -402,6 +417,7 @@ public class PlayerController : MonoBehaviour
 
     private void Interact(InputAction.CallbackContext context)
     {
+        Debug.Log("INTERACT");
         if (!isAiming)
         {
             if (ghostController.grabbing)
@@ -494,8 +510,30 @@ public class PlayerController : MonoBehaviour
         
     }
 
+    private void QuickSwitch1(InputAction.CallbackContext context)
+    {
+        QuickSwitch(0);
+    }
+    private void QuickSwitch2(InputAction.CallbackContext context)
+    {
+        QuickSwitch(1);
+    }
+    private void QuickSwitch3(InputAction.CallbackContext context)
+    {
+        QuickSwitch(2);
+    }
 
-    public void StartAiming(InputAction.CallbackContext context)
+    private void QuickSwitch(int i)
+    {
+        if (animator.GetBool("RELOADING")) return;
+        if (isAiming)
+        {
+            StopAiming(new());
+        }
+        playerInventory.Equip(i);
+    }
+
+    public void StartAiming(InputAction.CallbackContext _)
     {//Changes the turn speed so that the player instantly faces the camera, sets the aiming animation rig so that the player aims the gun.
         if (playerInventory.currentWeapon != -1)
         {
@@ -511,7 +549,7 @@ public class PlayerController : MonoBehaviour
         
     }
 
-    public void StopAiming(InputAction.CallbackContext context)
+    public void StopAiming(InputAction.CallbackContext _)
     {
         isAiming = false;
         currentRotationSpeed = rotationSpeed;
