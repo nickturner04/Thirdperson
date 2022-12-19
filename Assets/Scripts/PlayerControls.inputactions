@@ -368,6 +368,17 @@
                 },
                 {
                     "name": "",
+                    "id": "0b398171-e2cc-4519-b5fd-2df1d53d5d16",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Roll",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "f1480cf8-da2c-4f01-8b70-37e420744e9f",
                     "path": "<Mouse>/rightButton",
                     "interactions": "",

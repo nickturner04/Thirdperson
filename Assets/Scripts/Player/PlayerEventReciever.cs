@@ -35,4 +35,9 @@ public class PlayerEventReciever : MonoBehaviour
         manager.GameOver();
         gamepad.SetMotorSpeeds(0, 0);
     }
+    public void EndRoll()
+    {
+        controller.EndRoll();
+        transform.position.Set(0, 0, 0);
+    }
 }

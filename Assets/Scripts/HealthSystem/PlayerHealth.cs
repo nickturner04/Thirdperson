@@ -19,17 +19,13 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private float regenSpeed = 1f;
 
     bool dead = false;
-    private DualSenseGamepadHID dualsense;
-    [SerializeField] private Color lowHealthColor = Color.red;
-    [SerializeField] private Color fullHealthColor = Color.green;
+
     public Color currentColor;
     private void Awake()
     {
-        dualsense = (DualSenseGamepadHID)DualShockGamepad.current;
-        dualsense.SetLightBarColor(fullHealthColor);
-        health = GetComponent<Health>();
         ghostController = GetComponent<GhostController>();
         playerController = GetComponent<PlayerController>();
+        health = GetComponent<Health>();
     }
 
     public void TakeDamage(float damage, Vector3 position)
@@ -45,8 +41,6 @@ public class PlayerHealth : MonoBehaviour
         else
         {
             health.TakeDamage(damage);
-            currentColor = Color.Lerp(lowHealthColor, fullHealthColor, health.health / health.maxHealth);
-            dualsense.SetLightBarColor(currentColor);
         }
         if (shield < 0)
         {
@@ -70,6 +64,7 @@ public class PlayerHealth : MonoBehaviour
 
     private void Update()
     {
+
         labelManager.SetHealth(health.health, health.maxHealth);
         labelManager.SetShield(shield, maxShield);
 
@@ -82,5 +77,4 @@ public class PlayerHealth : MonoBehaviour
         if (shield > maxShield) shield = maxShield;
         if (currentResetTime > resetTime) currentResetTime = resetTime;
     }
-
 }

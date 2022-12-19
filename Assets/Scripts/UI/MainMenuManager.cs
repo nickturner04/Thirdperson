@@ -45,6 +45,7 @@ public class MainMenuManager : MonoBehaviour
     }
     public void StartGame()
     {
+        document.rootVisualElement.Q<Button>("btnM1").SetEnabled(false);
         SceneManager.LoadScene(1, LoadSceneMode.Single);
     }
 

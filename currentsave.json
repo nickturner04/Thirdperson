@@ -1,1 +1,661 @@
-{"player":{"position":{"x":-3.384889602661133,"y":1.0799992084503174,"z":-5.877257823944092},"rotation":{"x":0.0,"y":180.0,"z":0.0},"mode":0,"isCrouching":false,"health":500,"ammo":[30,8,24],"ammoReserve":[90,36,120],"currentWeapon":-1},"rooms":[{"enemies":[],"entered":false},{"enemies":[{"position":{"x":1.0,"y":0.0,"z":12.0},"rotation":{"x":0.0,"y":0.0,"z":0.0},"state":0,"interrupt":{"priority":0,"position":{"x":0.0,"y":0.0,"z":0.0}},"health":100,"stamina":100,"knockoutTime":0.0,"nextPoint":0,"patrolPoints":[{"x":23.0,"y":0.0,"z":15.0},{"x":1.0,"y":0.0,"z":15.0}]},{"position":{"x":1.0,"y":0.0,"z":12.0},"rotation":{"x":0.0,"y":0.0,"z":0.0},"state":0,"interrupt":{"priority":0,"position":{"x":0.0,"y":0.0,"z":0.0}},"health":100,"stamina":100,"knockoutTime":0.0,"nextPoint":0,"patrolPoints":[{"x":23.0,"y":0.0,"z":15.0},{"x":1.0,"y":0.0,"z":15.0}]},{"position":{"x":1.0,"y":0.0,"z":12.0},"rotation":{"x":0.0,"y":0.0,"z":0.0},"state":0,"interrupt":{"priority":0,"position":{"x":0.0,"y":0.0,"z":0.0}},"health":100,"stamina":100,"knockoutTime":0.0,"nextPoint":0,"patrolPoints":[{"x":23.0,"y":0.0,"z":15.0},{"x":1.0,"y":0.0,"z":15.0}]},{"position":{"x":1.0,"y":0.0,"z":12.0},"rotation":{"x":0.0,"y":0.0,"z":0.0},"state":0,"interrupt":{"priority":0,"position":{"x":0.0,"y":0.0,"z":0.0}},"health":100,"stamina":100,"knockoutTime":0.0,"nextPoint":0,"patrolPoints":[{"x":23.0,"y":0.0,"z":15.0},{"x":1.0,"y":0.0,"z":15.0}]},{"position":{"x":1.0,"y":0.0,"z":12.0},"rotation":{"x":0.0,"y":0.0,"z":0.0},"state":0,"interrupt":{"priority":0,"position":{"x":0.0,"y":0.0,"z":0.0}},"health":100,"stamina":100,"knockoutTime":0.0,"nextPoint":0,"patrolPoints":[{"x":23.0,"y":0.0,"z":15.0},{"x":1.0,"y":0.0,"z":15.0}]}],"entered":false},{"enemies":[{"position":{"x":1.0,"y":0.0,"z":12.0},"rotation":{"x":0.0,"y":0.0,"z":0.0},"state":0,"interrupt":{"priority":0,"position":{"x":0.0,"y":0.0,"z":0.0}},"health":100,"stamina":100,"knockoutTime":0.0,"nextPoint":0,"patrolPoints":[{"x":23.0,"y":0.0,"z":15.0},{"x":1.0,"y":0.0,"z":15.0}]},{"position":{"x":1.0,"y":0.0,"z":12.0},"rotation":{"x":0.0,"y":0.0,"z":0.0},"state":0,"interrupt":{"priority":0,"position":{"x":0.0,"y":0.0,"z":0.0}},"health":100,"stamina":100,"knockoutTime":0.0,"nextPoint":0,"patrolPoints":[{"x":23.0,"y":0.0,"z":15.0},{"x":1.0,"y":0.0,"z":15.0}]},{"position":{"x":1.0,"y":0.0,"z":12.0},"rotation":{"x":0.0,"y":0.0,"z":0.0},"state":0,"interrupt":{"priority":0,"position":{"x":0.0,"y":0.0,"z":0.0}},"health":100,"stamina":100,"knockoutTime":0.0,"nextPoint":0,"patrolPoints":[{"x":23.0,"y":0.0,"z":15.0},{"x":1.0,"y":0.0,"z":15.0}]}],"entered":true},{"enemies":[{"position":{"x":0.0,"y":0.0,"z":0.0},"rotation":{"x":0.0,"y":0.0,"z":0.0},"state":0,"interrupt":{"priority":0,"position":{"x":0.0,"y":0.0,"z":0.0}},"health":0,"stamina":0,"knockoutTime":0.0,"nextPoint":0,"patrolPoints":[{"x":0.0,"y":0.0,"z":0.0},{"x":0.0,"y":0.0,"z":0.0}]}],"entered":true},{"enemies":[{"position":{"x":3.0,"y":0.0,"z":15.0},"rotation":{"x":0.0,"y":0.0,"z":0.0},"state":0,"interrupt":{"priority":0,"position":{"x":0.0,"y":0.0,"z":0.0}},"health":100,"stamina":100,"knockoutTime":0.0,"nextPoint":0,"patrolPoints":[{"x":3.0,"y":0.0,"z":15.0},{"x":27.0,"y":0.0,"z":15.0}]},{"position":{"x":16.0,"y":0.0,"z":42.0},"rotation":{"x":0.0,"y":0.0,"z":0.0},"state":0,"interrupt":{"priority":0,"position":{"x":0.0,"y":0.0,"z":0.0}},"health":100,"stamina":100,"knockoutTime":0.0,"nextPoint":0,"patrolPoints":[{"x":16.0,"y":0.0,"z":42.0},{"x":34.0,"y":0.0,"z":32.5},{"x":47.0,"y":0.0,"z":42.0}]},{"position":{"x":4.0,"y":0.0,"z":70.0},"rotation":{"x":0.0,"y":0.0,"z":0.0},"state":0,"interrupt":{"priority":0,"position":{"x":0.0,"y":0.0,"z":0.0}},"health":100,"stamina":100,"knockoutTime":0.0,"nextPoint":0,"patrolPoints":[{"x":4.0,"y":0.0,"z":70.0},{"x":4.0,"y":0.0,"z":25.0}]},{"position":{"x":24.0,"y":0.0,"z":56.5},"rotation":{"x":0.0,"y":0.0,"z":0.0},"state":0,"interrupt":{"priority":0,"position":{"x":0.0,"y":0.0,"z":0.0}},"health":100,"stamina":100,"knockoutTime":0.0,"nextPoint":0,"patrolPoints":[{"x":24.0,"y":0.0,"z":56.5},{"x":24.0,"y":0.0,"z":73.5}]}],"entered":true},{"enemies":[],"entered":true},{"enemies":[{"position":{"x":0.9753411412239075,"y":1.0833244323730469,"z":-55.26836013793945},"rotation":{"x":0.0,"y":288.16363525390627,"z":0.0},"state":0,"interrupt":{"priority":0,"position":{"x":0.0,"y":0.0,"z":0.0}},"health":100,"stamina":100,"knockoutTime":0.0,"nextPoint":1,"patrolPoints":[{"x":2.25,"y":0.0,"z":-55.0},{"x":-50.0,"y":0.0,"z":-66.0}]},{"position":{"x":-35.0,"y":1.0833244323730469,"z":-64.6974105834961},"rotation":{"x":0.0,"y":0.0,"z":0.0},"state":0,"interrupt":{"priority":0,"position":{"x":0.0,"y":0.0,"z":0.0}},"health":100,"stamina":100,"knockoutTime":0.0,"nextPoint":1,"patrolPoints":[{"x":-35.0,"y":0.0,"z":-66.0},{"x":-35.0,"y":0.0,"z":-30.0}]},{"position":{"x":-54.69739532470703,"y":9.583325386047364,"z":-68.0},"rotation":{"x":0.0,"y":70.5840835571289,"z":0.0},"state":0,"interrupt":{"priority":0,"position":{"x":0.0,"y":0.0,"z":0.0}},"health":100,"stamina":100,"knockoutTime":0.0,"nextPoint":1,"patrolPoints":[{"x":-56.0,"y":8.5,"z":-68.0},{"x":-12.0,"y":8.5,"z":-68.0}]}],"entered":true}],"room":6}
+{
+    "player": {
+        "position": {
+            "x": -3.384889602661133,
+            "y": 1.0799992084503174,
+            "z": -5.877257823944092
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": 180.0,
+            "z": 0.0
+        },
+        "mode": 0,
+        "isCrouching": false,
+        "health": 500,
+        "ammo": [
+            30,
+            8,
+            24
+        ],
+        "ammoReserve": [
+            90,
+            36,
+            120
+        ],
+        "currentWeapon": -1
+    },
+    "rooms": [
+        {
+            "enemies": [],
+            "entered": false
+        },
+        {
+            "enemies": [
+                {
+                    "position": {
+                        "x": 1.0,
+                        "y": 0.0,
+                        "z": 12.0
+                    },
+                    "rotation": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "state": 0,
+                    "interrupt": {
+                        "priority": 0,
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    "health": 100,
+                    "stamina": 100,
+                    "knockoutTime": 0.0,
+                    "nextPoint": 0,
+                    "patrolPoints": [
+                        {
+                            "x": 23.0,
+                            "y": 0.0,
+                            "z": 15.0
+                        },
+                        {
+                            "x": 1.0,
+                            "y": 0.0,
+                            "z": 15.0
+                        }
+                    ]
+                },
+                {
+                    "position": {
+                        "x": 1.0,
+                        "y": 0.0,
+                        "z": 12.0
+                    },
+                    "rotation": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "state": 0,
+                    "interrupt": {
+                        "priority": 0,
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    "health": 100,
+                    "stamina": 100,
+                    "knockoutTime": 0.0,
+                    "nextPoint": 0,
+                    "patrolPoints": [
+                        {
+                            "x": 23.0,
+                            "y": 0.0,
+                            "z": 15.0
+                        },
+                        {
+                            "x": 1.0,
+                            "y": 0.0,
+                            "z": 15.0
+                        }
+                    ]
+                },
+                {
+                    "position": {
+                        "x": 1.0,
+                        "y": 0.0,
+                        "z": 12.0
+                    },
+                    "rotation": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "state": 0,
+                    "interrupt": {
+                        "priority": 0,
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    "health": 100,
+                    "stamina": 100,
+                    "knockoutTime": 0.0,
+                    "nextPoint": 0,
+                    "patrolPoints": [
+                        {
+                            "x": 23.0,
+                            "y": 0.0,
+                            "z": 15.0
+                        },
+                        {
+                            "x": 1.0,
+                            "y": 0.0,
+                            "z": 15.0
+                        }
+                    ]
+                },
+                {
+                    "position": {
+                        "x": 1.0,
+                        "y": 0.0,
+                        "z": 12.0
+                    },
+                    "rotation": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "state": 0,
+                    "interrupt": {
+                        "priority": 0,
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    "health": 100,
+                    "stamina": 100,
+                    "knockoutTime": 0.0,
+                    "nextPoint": 0,
+                    "patrolPoints": [
+                        {
+                            "x": 23.0,
+                            "y": 0.0,
+                            "z": 15.0
+                        },
+                        {
+                            "x": 1.0,
+                            "y": 0.0,
+                            "z": 15.0
+                        }
+                    ]
+                },
+                {
+                    "position": {
+                        "x": 1.0,
+                        "y": 0.0,
+                        "z": 12.0
+                    },
+                    "rotation": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "state": 0,
+                    "interrupt": {
+                        "priority": 0,
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    "health": 100,
+                    "stamina": 100,
+                    "knockoutTime": 0.0,
+                    "nextPoint": 0,
+                    "patrolPoints": [
+                        {
+                            "x": 23.0,
+                            "y": 0.0,
+                            "z": 15.0
+                        },
+                        {
+                            "x": 1.0,
+                            "y": 0.0,
+                            "z": 15.0
+                        }
+                    ]
+                }
+            ],
+            "entered": false
+        },
+        {
+            "enemies": [
+                {
+                    "position": {
+                        "x": 1.0,
+                        "y": 0.0,
+                        "z": 12.0
+                    },
+                    "rotation": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "state": 0,
+                    "interrupt": {
+                        "priority": 0,
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    "health": 100,
+                    "stamina": 100,
+                    "knockoutTime": 0.0,
+                    "nextPoint": 0,
+                    "patrolPoints": [
+                        {
+                            "x": 23.0,
+                            "y": 0.0,
+                            "z": 15.0
+                        },
+                        {
+                            "x": 1.0,
+                            "y": 0.0,
+                            "z": 15.0
+                        }
+                    ]
+                },
+                {
+                    "position": {
+                        "x": 1.0,
+                        "y": 0.0,
+                        "z": 12.0
+                    },
+                    "rotation": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "state": 0,
+                    "interrupt": {
+                        "priority": 0,
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    "health": 100,
+                    "stamina": 100,
+                    "knockoutTime": 0.0,
+                    "nextPoint": 0,
+                    "patrolPoints": [
+                        {
+                            "x": 23.0,
+                            "y": 0.0,
+                            "z": 15.0
+                        },
+                        {
+                            "x": 1.0,
+                            "y": 0.0,
+                            "z": 15.0
+                        }
+                    ]
+                },
+                {
+                    "position": {
+                        "x": 1.0,
+                        "y": 0.0,
+                        "z": 12.0
+                    },
+                    "rotation": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "state": 0,
+                    "interrupt": {
+                        "priority": 0,
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    "health": 100,
+                    "stamina": 100,
+                    "knockoutTime": 0.0,
+                    "nextPoint": 0,
+                    "patrolPoints": [
+                        {
+                            "x": 23.0,
+                            "y": 0.0,
+                            "z": 15.0
+                        },
+                        {
+                            "x": 1.0,
+                            "y": 0.0,
+                            "z": 15.0
+                        }
+                    ]
+                }
+            ],
+            "entered": true
+        },
+        {
+            "enemies": [
+                {
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotation": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "state": 0,
+                    "interrupt": {
+                        "priority": 0,
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    "health": 0,
+                    "stamina": 0,
+                    "knockoutTime": 0.0,
+                    "nextPoint": 0,
+                    "patrolPoints": [
+                        {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    ]
+                }
+            ],
+            "entered": true
+        },
+        {
+            "enemies": [
+                {
+                    "position": {
+                        "x": 3.0,
+                        "y": 0.0,
+                        "z": 15.0
+                    },
+                    "rotation": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "state": 0,
+                    "interrupt": {
+                        "priority": 0,
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    "health": 100,
+                    "stamina": 100,
+                    "knockoutTime": 0.0,
+                    "nextPoint": 0,
+                    "patrolPoints": [
+                        {
+                            "x": 3.0,
+                            "y": 0.0,
+                            "z": 15.0
+                        },
+                        {
+                            "x": 27.0,
+                            "y": 0.0,
+                            "z": 15.0
+                        }
+                    ]
+                },
+                {
+                    "position": {
+                        "x": 16.0,
+                        "y": 0.0,
+                        "z": 42.0
+                    },
+                    "rotation": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "state": 0,
+                    "interrupt": {
+                        "priority": 0,
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    "health": 100,
+                    "stamina": 100,
+                    "knockoutTime": 0.0,
+                    "nextPoint": 0,
+                    "patrolPoints": [
+                        {
+                            "x": 16.0,
+                            "y": 0.0,
+                            "z": 42.0
+                        },
+                        {
+                            "x": 34.0,
+                            "y": 0.0,
+                            "z": 32.5
+                        },
+                        {
+                            "x": 47.0,
+                            "y": 0.0,
+                            "z": 42.0
+                        }
+                    ]
+                },
+                {
+                    "position": {
+                        "x": 4.0,
+                        "y": 0.0,
+                        "z": 70.0
+                    },
+                    "rotation": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "state": 0,
+                    "interrupt": {
+                        "priority": 0,
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    "health": 100,
+                    "stamina": 100,
+                    "knockoutTime": 0.0,
+                    "nextPoint": 0,
+                    "patrolPoints": [
+                        {
+                            "x": 4.0,
+                            "y": 0.0,
+                            "z": 70.0
+                        },
+                        {
+                            "x": 4.0,
+                            "y": 0.0,
+                            "z": 25.0
+                        }
+                    ]
+                },
+                {
+                    "position": {
+                        "x": 24.0,
+                        "y": 0.0,
+                        "z": 56.5
+                    },
+                    "rotation": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "state": 0,
+                    "interrupt": {
+                        "priority": 0,
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    "health": 100,
+                    "stamina": 100,
+                    "knockoutTime": 0.0,
+                    "nextPoint": 0,
+                    "patrolPoints": [
+                        {
+                            "x": 24.0,
+                            "y": 0.0,
+                            "z": 56.5
+                        },
+                        {
+                            "x": 24.0,
+                            "y": 0.0,
+                            "z": 73.5
+                        }
+                    ]
+                }
+            ],
+            "entered": true
+        },
+        {
+            "enemies": [],
+            "entered": true
+        },
+        {
+            "enemies": [
+                {
+                    "position": {
+                        "x": -0.7398126125335693,
+                        "y": 1.0833244323730469,
+                        "z": -55.62944793701172
+                    },
+                    "rotation": {
+                        "x": 0.0,
+                        "y": 261.0357666015625,
+                        "z": 0.0
+                    },
+                    "state": 0,
+                    "interrupt": {
+                        "priority": 0,
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    "health": 100,
+                    "stamina": 100,
+                    "knockoutTime": 0.0,
+                    "nextPoint": 1,
+                    "patrolPoints": [
+                        {
+                            "x": 2.25,
+                            "y": 0.0,
+                            "z": -55.0
+                        },
+                        {
+                            "x": -50.0,
+                            "y": 0.0,
+                            "z": -66.0
+                        }
+                    ]
+                },
+                {
+                    "position": {
+                        "x": -35.0,
+                        "y": 1.0833244323730469,
+                        "z": -62.94464111328125
+                    },
+                    "rotation": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "state": 0,
+                    "interrupt": {
+                        "priority": 0,
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    "health": 100,
+                    "stamina": 100,
+                    "knockoutTime": 0.0,
+                    "nextPoint": 1,
+                    "patrolPoints": [
+                        {
+                            "x": -35.0,
+                            "y": 0.0,
+                            "z": -66.0
+                        },
+                        {
+                            "x": -35.0,
+                            "y": 0.0,
+                            "z": -30.0
+                        }
+                    ]
+                },
+                {
+                    "position": {
+                        "x": -52.94466781616211,
+                        "y": 9.583325386047364,
+                        "z": -68.0
+                    },
+                    "rotation": {
+                        "x": 0.0,
+                        "y": 88.13423156738281,
+                        "z": 0.0
+                    },
+                    "state": 0,
+                    "interrupt": {
+                        "priority": 0,
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    "health": 100,
+                    "stamina": 100,
+                    "knockoutTime": 0.0,
+                    "nextPoint": 1,
+                    "patrolPoints": [
+                        {
+                            "x": -56.0,
+                            "y": 8.5,
+                            "z": -68.0
+                        },
+                        {
+                            "x": -12.0,
+                            "y": 8.5,
+                            "z": -68.0
+                        }
+                    ]
+                }
+            ],
+            "entered": true
+        }
+    ],
+    "room": 6
+}

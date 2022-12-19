@@ -303,7 +303,7 @@ public class GameManager : MonoBehaviour
 
     public static void JSave(string path,SaveData data)
     {
-        File.WriteAllText(path, JsonUtility.ToJson(data));
+        File.WriteAllText(path, JsonUtility.ToJson(data,true));
     }
 
     public static SaveData JLoad(string path)

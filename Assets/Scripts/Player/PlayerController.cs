@@ -142,6 +142,7 @@ public class PlayerController : MonoBehaviour
     {
         lightAttackAction.performed -= LightAttack;
         heavyAttackAction.performed -= HeavyAttack;
+
         priorityAction.performed -= ChangePriority;
         rangeAction.performed -= ChangeRange;
         aimAction.started -= StartAiming;
@@ -354,6 +355,17 @@ public class PlayerController : MonoBehaviour
             ghostController.ghost.SetActive(true);
             ghostController.Attack();
         }
+    }
+
+    private void Roll(InputAction.CallbackContext _)
+    {
+        animator.SetTrigger("ROLL");
+        animator.applyRootMotion = true;
+    }
+
+    public void EndRoll()
+    {
+        animator.applyRootMotion = false;
     }
 
 

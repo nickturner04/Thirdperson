@@ -421,7 +421,11 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_WarningMessage: 
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'Hips'\n\tTransform 'Spine1'\n\tTransform 'Neck'\n\tTransform
+    'Root'\n\tTransform 'Head'\n\tTransform 'Spine2'\n\tTransform 'Hips'\n\tTransform
+    'Spine1'\n\tTransform 'Neck'\n\tTransform 'Root'\n\tand more ..."
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
@@ -492,8 +496,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2240039ddda0ff419c83d717efef5cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deathSound: {fileID: 8300000, guid: d5a63fa53a7fb6c4f81e8625516ac41e, type: 3}
-  deathMusic: {fileID: 8300000, guid: 0db16e803bf62a54f82d6a52af8f4c5f, type: 3}
 --- !u!82 &221279157051714608
 AudioSource:
   m_ObjectHideFlags: 0
