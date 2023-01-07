@@ -15,7 +15,8 @@ public class Inventory : MonoBehaviour
     public int[,] ammo = 
         { { 90, 36, 120 },
           { 30, 8, 24 } };
-
+    public int[] equippedAmmo = { 30, 8, 24 };
+    public int[] reserveAmmo = { 90, 36, 120 };
     public int[] maxAmmo = { 90, 36, 120 };
 
     private void Start()

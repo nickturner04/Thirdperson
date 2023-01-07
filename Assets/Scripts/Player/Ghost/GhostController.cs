@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class GhostController : MonoBehaviour
 {
+    public enum GhostState
+    {
+        Inactive,Guard,Attack
+    }
     //Script attached to the player for controlling the ghost.
     [HideInInspector]public GameObject ghostPrefab;
     public GameObject ghost;
     public Transform gTransform;
     public Transform gAttach;
+    public Transform gAttachIdle;
     public Transform gAttachAttack;
     public Transform gAttachBlock;
     [SerializeField] private SkinnedMeshRenderer gMaterial;
@@ -18,12 +23,12 @@ public class GhostController : MonoBehaviour
     [SerializeField] private Transform grabPoint;
     private new Transform camera;
     private Animator animator;
+    private GhostAnimator ghostAnimator;
     public PlayerController playerController;
     public EnemyStateController targetEnemy;
     public float ghostActiveTimer = 0;
     private float timeSinceLastAttack = 5;
     private float desiredAlpha;
-    public bool summoned = false;
     public bool preview = false;
     public bool takedown = false;
     private int attackCounter = 0;
@@ -33,19 +38,21 @@ public class GhostController : MonoBehaviour
     private int animKick;
     private int animTakedown;
     private int animGuard;
+    private static readonly int hashBlocking = Animator.StringToHash("Blocking");
 
     public bool occupied = false;
-    public bool grabbing = false;
-    public bool blocking = false;
+    public bool guard = false;
+    public bool summoned = true;
 
     private void Start()
     {
         camera = Camera.main.transform;
-        ghost = Instantiate(ghostPrefab,this.transform.parent);
+        ghost = Instantiate(ghostPrefab,transform.parent);
         gTransform = ghost.transform;
         gMaterial = ghost.GetComponentInChildren<SkinnedMeshRenderer>();
         animator = ghost.GetComponent<Animator>();
-        ghost.GetComponent<GhostAnimator>().controller = this;
+        ghostAnimator = ghost.GetComponent<GhostAnimator>();
+        ghostAnimator.controller = this;
         animPunch1 = Animator.StringToHash("Punch1");
         animPunch2 = Animator.StringToHash("Punch2");
         animKick = Animator.StringToHash("Kick");
@@ -56,27 +63,24 @@ public class GhostController : MonoBehaviour
 
     private void Update()
     {
-        var occupied = grabbing || this.occupied;
         var attachpos = transform.position + (gameObject.transform.position - new Vector3(camera.transform.position.x, gameObject.transform.position.y, camera.transform.position.z)).normalized;
         gAttachAttack.position = new Vector3(attachpos.x, gAttachAttack.position.y, attachpos.z);
-        float alpha;
-
-        if (blocking)
+        float alpha = .5f;
+        
+        if (ghostActiveTimer > 0)
+        {//If ghost is active make it look in direction of attack and set it to half transparent
+            ghostActiveTimer -= Time.deltaTime;
+            gTransform.position = Vector3.Lerp(gTransform.position, occupied ? gAttachAttack.position : gAttachIdle.position, Time.deltaTime * 10);
+            var lookvector = gTransform.position + (playerController.transform.position - camera.position).normalized;
+            lookvector.y = gTransform.position.y;
+            gTransform.LookAt(lookvector);
+        }
+        else if (guard)
         {
             alpha = 1;
             gTransform.SetPositionAndRotation(Vector3.Lerp(gTransform.position, gAttachBlock.position, Time.deltaTime * 20), Quaternion.LookRotation(playerController.transform.forward));
         }
-        else if (ghostActiveTimer > 0)
-        {//If ghost is active make it look in direction of attack and set it to half transparent
-            ghostActiveTimer -= Time.deltaTime;
-            gTransform.position = Vector3.Lerp(gTransform.position, playerController.isAiming ? gAttach.position : gAttachAttack.position, Time.deltaTime * 10);
-
-            var lookvector = gTransform.position + (gTransform.position - gameObject.transform.position).normalized;
-            lookvector.y = gTransform.position.y;
-            gTransform.LookAt(lookvector);
-            alpha = 0.5f;
-        }
-        else if(preview)
+        else if (preview)
         {//If preview is move ghost to behind enemy and make it face enemy
             gTransform.SetPositionAndRotation(gAttach.position, Quaternion.LookRotation(new Vector3(lookTarget.position.x, gTransform.position.y, lookTarget.position.z) - gTransform.position));
             alpha = 0.5f;
@@ -86,43 +90,39 @@ public class GhostController : MonoBehaviour
             gTransform.SetPositionAndRotation(gAttach.position, Quaternion.LookRotation(new Vector3(targetEnemy.transform.position.x, gTransform.position.y, targetEnemy.transform.position.z) - gTransform.position));
             alpha = 0.8f;
         }
+        else if (summoned)
+        {
+            gTransform.SetPositionAndRotation(Vector3.Lerp(gTransform.position, gAttachIdle.position, Time.deltaTime * 30), Quaternion.Lerp(gTransform.rotation, playerController.transform.rotation, Time.deltaTime * 10));
+            alpha = 0.5f;
+        }
         else
         {
-            alpha = desiredAlpha;
-            gTransform.position = gAttachAttack.position;
-            Hide();
+            alpha = 0;
+            gTransform.SetPositionAndRotation(Vector3.Lerp(gTransform.position,  gAttachIdle.position, Time.deltaTime * 10), Quaternion.Lerp(gTransform.rotation, playerController.transform.rotation, Time.deltaTime * 10));
         }
         //Set Alpha Transparency Of Ghost To Make It Fade In and Out
         gMaterial.material.color = new Color(gMaterial.material.color.r, gMaterial.material.color.g, gMaterial.material.color.b, Mathf.Lerp(gMaterial.material.color.a,occupied ? 1 : alpha, Time.deltaTime * 10f));
 
-
         timeSinceLastAttack += Time.deltaTime;
+
+        animator.SetBool(hashBlocking,guard);
         if (timeSinceLastAttack > 1.25f)//Reset Attack Counter if Enough Time Has Passed
         {
             attackCounter = 0;
         }
-        if (grabbedObject != null)
-        {
-            grabbedObject.transform.SetPositionAndRotation(grabPoint.position, grabPoint.rotation);
-        }
     }
 
-    //Not used in final game as there are not grabbable objects
-    public void Grab()
+    public void Summon()
     {
-        if (!grabbing)
+        if (!summoned)
         {
-            grabbedObject = playerController.interactable.gameObject.transform;
-            grabbing = true;
-            grabbedObjectGrabbable = grabbedObject.GetComponent<Grabbable>();
-            grabbedObjectGrabbable.Grab();
+            ghostAnimator.Appear();
+            summoned = true;
         }
         else
         {
-            grabbedObjectGrabbable.UnGrab();
-            grabbedObject = null;
-            grabbedObjectGrabbable = null;
-            grabbing = false;
+            summoned = false;
+            ghostAnimator.Disappear();
         }
     }
 
@@ -162,7 +162,7 @@ public class GhostController : MonoBehaviour
 
     public void Attack()//Attack + Attack + Pause + Attack : Kick
     {
-        if (!occupied && !blocking)
+        if (!occupied && !guard)
         {
             Show();
             ghostActiveTimer = 1.5f;

@@ -16,10 +16,29 @@ public class GhostAnimator : MonoBehaviour
 
     private AudioSource audioSource;
     [SerializeField] private AudioClip hitSound;
+    [SerializeField] private ParticleSystem appearParticle;
+    [SerializeField] private ParticleSystem[] auraParticles;
 
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
+    }
+
+    public void Appear()
+    {
+        appearParticle.Play();
+        foreach (var item in auraParticles)
+        {
+            item.Play();
+        }
+    }
+    public void Disappear()
+    {
+        appearParticle.Stop();
+        foreach (var item in auraParticles)
+        {
+            item.Stop();
+        }
     }
 
     public void StartAttack()

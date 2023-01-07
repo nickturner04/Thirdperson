@@ -31,7 +31,7 @@ public class PlayerHealth : MonoBehaviour
     public void TakeDamage(float damage, Vector3 position)
     {
         if (health.godMode) return;
-        if ((shield > 0 && ghostController.blocking))
+        if ((shield > 0 && ghostController.guard))
         {//If there is shield, take away damage from the shield and move the ghost to where the bullet hit.
             ghostController.Guard();
             ghostController.ghostActiveTimer = 0.1f;
@@ -44,17 +44,17 @@ public class PlayerHealth : MonoBehaviour
         }
         if (shield < 0)
         {
-            ghostController.blocking = false;
+            ghostController.guard = false;
             shield = 0;
         }
         
         currentResetTime = 0;
         
-        if (health.health <= 0 && !dead)
-        {//Trigger Game Over
-            Die ();
-            dead = true;
-        }
+        //if (health.health <= 0 && !dead)
+        //{//Trigger Game Over
+        //    Die ();
+        //    dead = true;
+        //}
     }
 
     public void Die()

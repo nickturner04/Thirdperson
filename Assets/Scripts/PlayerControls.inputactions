@@ -150,6 +150,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Summon",
+                    "type": "Button",
+                    "id": "ef2d5533-a754-4bc1-b7c9-9bbe94b111f2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "MakeSound",
                     "type": "Button",
                     "id": "e735957b-67eb-41a8-a720-fedf79b091b8",
@@ -825,6 +834,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "QuickSwap3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9a957b4c-00c8-469e-ba1d-61aa45e00779",
+                    "path": "<Keyboard>/leftCtrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Summon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dc62ea22-857f-48bb-8ba0-a8ffe6a7bb61",
+                    "path": "<Gamepad>/rightStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Summon",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -64,6 +64,7 @@ public class PlayerController : MonoBehaviour
     private InputAction rollAction;
     private InputAction makeSound;
     private InputAction blockAction;
+    private InputAction summonAction;
     private InputAction quickSwapAction1;
     private InputAction quickSwapAction2;
     private InputAction quickSwapAction3;
@@ -102,6 +103,7 @@ public class PlayerController : MonoBehaviour
         rollAction = playerInput.actions["Roll"];
         makeSound = playerInput.actions["MakeSound"];
         blockAction = playerInput.actions["Block"];
+        summonAction = playerInput.actions["Summon"];
         priorityAction = playerInput.actions["PriorityAxis"];
         rangeAction = playerInput.actions["RangeAxis"];
         anyController = playerInput.actions["AnyController"];
@@ -131,6 +133,7 @@ public class PlayerController : MonoBehaviour
         anyController.started += LeftStickMove;
         blockAction.started += StartBlock;
         blockAction.canceled += EndBlock;
+        summonAction.performed += Summon;
         quickSwapAction1.performed += QuickSwitch1;
         quickSwapAction2.performed += QuickSwitch2;
         quickSwapAction3.performed += QuickSwitch3;
@@ -155,6 +158,7 @@ public class PlayerController : MonoBehaviour
         makeSound.performed -= MakeSound;
         blockAction.started -= StartBlock;
         blockAction.canceled -= EndBlock;
+        summonAction.performed -= Summon;
         quickSwapAction1.performed -= QuickSwitch1;
         quickSwapAction2.performed -= QuickSwitch2;
         quickSwapAction3.performed -= QuickSwitch3;
@@ -297,18 +301,29 @@ public class PlayerController : MonoBehaviour
         mode = newMode;
     }
 
+    private void Summon(InputAction.CallbackContext _)
+    {
+        ghostController.Summon();
+    }
+
     private void StartBlock(InputAction.CallbackContext context)
     {
+        
         if (!ghostController.occupied)
         {
-            ghostController.blocking = true;
+            ghostController.guard = true;
+            if (!ghostController.summoned)
+            {
+                ghostController.Summon();
+            }
+            
         }
         
     }
 
     private void EndBlock(InputAction.CallbackContext _)
     {
-        ghostController.blocking = false;
+        ghostController.guard = false;
     }
 
     private void NoClip(InputAction.CallbackContext _)
@@ -432,12 +447,7 @@ public class PlayerController : MonoBehaviour
         Debug.Log("INTERACT");
         if (!isAiming)
         {
-            if (ghostController.grabbing)
-            {
-                ghostController.Grab();
-
-            }
-            else if (mode == Mode.HOSTAGE)
+            if (mode == Mode.HOSTAGE)
             {
                 hostageController.EndGrab();
                 hostageController.GetComponent<EnemyBehaviour>().interrupt = new Interrupt(1, transform.position);
@@ -453,15 +463,7 @@ public class PlayerController : MonoBehaviour
             }
             else if (interactable != null)
             {
-                if (interactable.TryGetComponent(out Grabbable _))
-                {
-                    ghostController.Grab();
-
-                }
-                else
-                {
-                    interactable.Interact();
-                }
+                interactable.Interact();
             }
         }
         
@@ -635,6 +637,7 @@ public class PlayerController : MonoBehaviour
         trfCameraMain.GetComponent<AudioListener>().enabled = false;
         animator.SetTrigger("DEATH");
         EndCrouch();
+        StopAiming(new InputAction.CallbackContext());
         moveAction.Disable();
         noClip = 0;
         gameObject.layer = 31;

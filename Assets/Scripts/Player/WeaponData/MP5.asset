@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: addc4f8bb59b65a46a79e10ac59ddfdb, type: 3}
   m_Name: MP5
   m_EditorClassIdentifier: 
-  displayName: MP5-SD
+  displayName: MP5
   displaySprite: {fileID: 21300000, guid: 879f23f3a327b5a4eaa511d4653dbc1f, type: 3}
   fireRate: 0.1
   resetTime: 0.2

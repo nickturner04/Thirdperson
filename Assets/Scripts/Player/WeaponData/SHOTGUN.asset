@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: addc4f8bb59b65a46a79e10ac59ddfdb, type: 3}
   m_Name: SHOTGUN
   m_EditorClassIdentifier: 
-  displayName: C.SHOTGUN
+  displayName: XM-1014
   displaySprite: {fileID: 21300000, guid: 1a5aa0c835817e648920468ea2084fed, type: 3}
   fireRate: 1
   resetTime: 1

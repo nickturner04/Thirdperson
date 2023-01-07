@@ -13,5 +13,10 @@ public class WeaponData : ScriptableObject
     public int clipSize, maxHeat, baseHeat,numShots;
     public GameObject weaponModel;
     public AudioClip firesound;
+
+    public virtual void Fire(Vector3 position,Vector3 direction)
+    {
+
+    }
 }
 

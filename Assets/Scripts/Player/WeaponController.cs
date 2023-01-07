@@ -136,6 +136,7 @@ public class WeaponController : MonoBehaviour
                 {
                     //Add an element of randomness to each shot depending on how many shots have already been fired
                     var angle = Quaternion.AngleAxis(Random.Range(-accuracy * accuracymultiplier, accuracy * accuracymultiplier), new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)));
+                    
                     if (Physics.Raycast(firepoint.position, angle * (hit.point - firepoint.position).normalized, out hit, ignorePlayer))
                     {
 
