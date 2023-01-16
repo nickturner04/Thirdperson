@@ -501,8 +501,11 @@ MonoBehaviour:
   playerModels:
   - {fileID: 7022295268572558967, guid: fb227bf9123b6aa4b8293144d7b65588, type: 3}
   - {fileID: 7022295268572558967, guid: 86675929caea20c4ba87ba14058af167, type: 3}
-  mainMenu:
-    m_Handle: 0
+  weaponMap:
+  - {fileID: 11400000, guid: 4fc5b7508f8e84e43a119af7bc1f503a, type: 2}
+  - {fileID: 11400000, guid: 8109e9580e175fd489eb292d427fe277, type: 2}
+  - {fileID: 11400000, guid: 39d7ccaefe7ad06468449551aa32b41a, type: 2}
+  - {fileID: 11400000, guid: 251d1d4e5156f154ca6c6d565b6184f6, type: 2}
   playerEssentialsInstance: {fileID: 0}
   currentSave:
     player:
@@ -519,6 +522,7 @@ MonoBehaviour:
       health: 500
       ammo: 1e0000000800000018000000
       ammoReserve: 5a0000002400000078000000
+      inventory: 000000000300000002000000
       currentWeapon: -1
     rooms:
     - enemies: []

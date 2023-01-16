@@ -35,6 +35,7 @@ public class WeaponController : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log(~(1 << 3));
         laserSight = GetComponent<LineRenderer>();
         MainCam = Camera.main.transform;
         //Equip(weaponData);
@@ -89,24 +90,24 @@ public class WeaponController : MonoBehaviour
     public void Reload()
     {
         reloading = true;
-        int amountneeded = clipSize - inventory.ammo[1, weaponData.ammoType];
-        if (amountneeded >= inventory.ammo[0, weaponData.ammoType])
+        int amountneeded = clipSize - inventory.currentAmmo[weaponData.slot];
+        if (amountneeded >= inventory.reserveAmmo[weaponData.ammoType])
         {
-            inventory.ammo[1, weaponData.ammoType] += inventory.ammo[0, weaponData.ammoType];
-            inventory.ammo[0, weaponData.ammoType] = 0;
+            inventory.currentAmmo[weaponData.slot] += inventory.reserveAmmo[weaponData.ammoType];
+            inventory.reserveAmmo[weaponData.ammoType] = 0;
         }
         else
         {
-            inventory.ammo[1, weaponData.ammoType] = clipSize;
-            inventory.ammo[0, weaponData.ammoType] -= amountneeded;
+            inventory.currentAmmo[weaponData.slot] = clipSize;
+            inventory.reserveAmmo[weaponData.ammoType] -= amountneeded;
         }
         
     }
 
     private void Update()
     {
-        var ammo = inventory.ammo[1, weaponData.ammoType];
-        var reserve = inventory.ammo[0, weaponData.ammoType];
+        var ammo = inventory.currentAmmo[weaponData.slot];
+        var reserve = inventory.reserveAmmo[weaponData.ammoType];
         currentTimeToFire -= Time.deltaTime;
         
         if (aiming && !reloading)
@@ -132,34 +133,11 @@ public class WeaponController : MonoBehaviour
                 float accuracymultiplier = (float)heat / weaponData.maxHeat;
                 //heat is a measure of how many bullets have been fired, it makes firing in short bursts more accurate
                 //Debug.Log(accuracymultiplier);
-                for (int i = 0; i < numShots; i++)
-                {
-                    //Add an element of randomness to each shot depending on how many shots have already been fired
-                    var angle = Quaternion.AngleAxis(Random.Range(-accuracy * accuracymultiplier, accuracy * accuracymultiplier), new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)));
-                    
-                    if (Physics.Raycast(firepoint.position, angle * (hit.point - firepoint.position).normalized, out hit, ignorePlayer))
-                    {
-
-                        //Debug.Log("Weapon Hit");
-                        if (hit.collider.gameObject.layer == 7)
-                        {//Create Bullet hole if terrain is hit
-                            Instantiate(decal, hit.point, Quaternion.identity);
-                        }
-                        if (hit.collider.TryGetComponent(out Health health))
-                        {//Damage enemy if hits enemy
-                            health.TakeDamage(damage);
-                        }
-                        if (hit.collider.TryGetComponent(out Rigidbody rb))
-                        {//Add force to physics object if hits physics object
-                            Vector3 dir = (rb.transform.position - hit.point).normalized;
-                            rb.AddForce(dir * 100);
-                        }
-                    }
-                }
-
-
+                
+                weaponData.Fire(firepoint.position, (hit.point - firepoint.position).normalized,accuracymultiplier);
+                
                 heat++;
-                inventory.ammo[1, weaponData.ammoType]--;
+                inventory.currentAmmo[weaponData.slot]--;
 
 
                 if (heat > maxHeat)
@@ -181,7 +159,7 @@ public class WeaponController : MonoBehaviour
         currentAmmo = ammo;
         currentReserve = reserve;
 
-        labelManager.SetAmmo(currentAmmo,currentReserve);
+        labelManager.SetAmmo(ammo,reserve);
     }
 
         

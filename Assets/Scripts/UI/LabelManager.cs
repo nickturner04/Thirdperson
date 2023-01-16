@@ -25,6 +25,11 @@ public class LabelManager : MonoBehaviour
     private VisualElement vseWeaponMenu;
     public Button[] vseWeaponButtons = new Button[3];
 
+    private VisualElement vsePickup;
+    private Label lblPickup;
+    private VisualElement vsePickupSprite;
+    string[] labels = new string[] { "Primary", "Secondary", "Sidearm" };
+
     private bool weaponMenuHidden = true;
     private bool opacityDirection = true;
     [SerializeField] private float mashSpeed = 2f;
@@ -55,6 +60,9 @@ public class LabelManager : MonoBehaviour
         vseWeaponButtons[1] = vseWeaponMenu.Q<Button>("btnSecondary");
         vseWeaponButtons[2] = vseWeaponMenu.Q<Button>("btnSidearm");
         vseAlert.style.display = DisplayStyle.None;
+        vsePickup = rootVisualElement.Q<VisualElement>("vsePickup");
+        vsePickupSprite = rootVisualElement.Q<VisualElement>("vsePickupSprite");
+        lblPickup = rootVisualElement.Q<Label>("lblPickup");
 
         var btnHeal = vseWeaponMenu.Q<Button>("btnHeal");
         btnHeal.clicked += Heal;
@@ -93,6 +101,19 @@ public class LabelManager : MonoBehaviour
 
     private void Respawn()
     {
+    }
+
+    public void SetPickup(DroppedWeapon weapon)
+    {
+        vsePickup.style.display = DisplayStyle.Flex;
+        vsePickupSprite.style.backgroundImage = new StyleBackground(weapon.weaponData.displaySprite);
+
+        lblPickup.text = $"{labels[weapon.weaponData.slot]} - {weapon.ammo}/{weapon.weaponData.clipSize}";
+    }
+
+    public void HidePickup()
+    {
+        vsePickup.style.display = DisplayStyle.None;
     }
 
     public void SetNoiseLevel(float noise)

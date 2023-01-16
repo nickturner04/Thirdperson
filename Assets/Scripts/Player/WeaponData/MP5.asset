@@ -20,10 +20,12 @@ MonoBehaviour:
   reloadTime: 0
   damage: 20
   ammoType: 2
+  slot: 2
   automatic: 1
   clipSize: 24
   maxHeat: 10
   baseHeat: 0
   numShots: 1
   weaponModel: {fileID: 994357664592532064, guid: 15ca2fc72d4d4994cb3dc39a8e3b6a2b, type: 3}
+  decal: {fileID: 1176708162733247516, guid: d8a04b22341bb884c961a6fbd56c6cdb, type: 3}
   firesound: {fileID: 8300000, guid: 74d63b3a098c2494e9ff097dfd211d96, type: 3}

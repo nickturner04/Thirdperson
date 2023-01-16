@@ -142,7 +142,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Idle
+  m_Name: CrouchIdle
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -729,7 +729,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Idle
+  m_Name: StandIdle
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1277,9 +1277,9 @@ AnimatorStateMachine:
   - {fileID: 4986315831225101675}
   m_EntryTransitions: []
   m_StateMachineTransitions:
-  - first: {fileID: 3714098006892814097}
-    second: []
   - first: {fileID: 2597244480767199992}
+    second: []
+  - first: {fileID: 3714098006892814097}
     second: []
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 530, y: 60, z: 0}

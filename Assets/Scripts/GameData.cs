@@ -2,12 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
 [System.Serializable]
 public struct EnemyData
 {
-    public EnemyData(V3Surrogate position, V3Surrogate rotation, EnemyStateController.EnemyState state, InterruptSurrogate interrupt, int health, int stamina, float knockoutTime, int nextPoint, V3Surrogate[] patrolPoints)
+    public EnemyData(Vector3 position, Vector3 rotation, EnemyStateController.EnemyState state, Interrupt interrupt, int health, int stamina, float knockoutTime, int nextPoint, Vector3[] patrolPoints)
     {
         this.position = position;
         this.rotation = rotation;
@@ -20,15 +18,15 @@ public struct EnemyData
         this.patrolPoints = patrolPoints;
     }
 
-    public V3Surrogate position;
-    public V3Surrogate rotation;
+    public Vector3 position;
+    public Vector3 rotation;
     public EnemyStateController.EnemyState state;
-    public InterruptSurrogate interrupt;
+    public Interrupt interrupt;
     public int health;
     public int stamina;
     public float knockoutTime;
     public int nextPoint;
-    public V3Surrogate[] patrolPoints;
+    public Vector3[] patrolPoints;
 }
 [System.Serializable]
 public struct RoomData
@@ -44,7 +42,7 @@ public struct RoomData
 [System.Serializable]
 public struct PlayerData
 {
-    public PlayerData(V3Surrogate position, V3Surrogate rotation, PlayerController.Mode mode, bool isCrouching, int health, int[] ammo, int[] ammoReserve, int currentWeapon)
+    public PlayerData(Vector3 position, Vector3 rotation, PlayerController.Mode mode, bool isCrouching, int health, int[] ammo, int[] ammoReserve, int[] inventory, int currentWeapon)
     {
         this.position = position;
         this.rotation = rotation;
@@ -53,17 +51,19 @@ public struct PlayerData
         this.health = health;
         this.ammo = ammo;
         this.ammoReserve = ammoReserve;
+        this.inventory = inventory;
         this.currentWeapon = currentWeapon;
     }
 
-    public V3Surrogate position;
-    public V3Surrogate rotation;
+    public Vector3 position;
+    public Vector3 rotation;
     public PlayerController.Mode mode;
     public bool isCrouching;
 
     public int health;
     public int[] ammo;
     public int[] ammoReserve;
+    public int[] inventory;
     public int currentWeapon;
 }
 [System.Serializable]

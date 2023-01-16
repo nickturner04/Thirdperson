@@ -529,8 +529,10 @@ MonoBehaviour:
   labelManager: {fileID: 0}
   weapons:
   - {fileID: 11400000, guid: 4fc5b7508f8e84e43a119af7bc1f503a, type: 2}
-  - {fileID: 11400000, guid: 8109e9580e175fd489eb292d427fe277, type: 2}
+  - {fileID: 11400000, guid: 251d1d4e5156f154ca6c6d565b6184f6, type: 2}
   - {fileID: 11400000, guid: 39d7ccaefe7ad06468449551aa32b41a, type: 2}
+  equippedAmmo: 000000000000000000000000
+  reserveAmmo: 5a0000002400000078000000
   maxAmmo: 5a0000002400000078000000
 --- !u!114 &9069484737222537591
 MonoBehaviour:

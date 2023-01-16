@@ -29,8 +29,8 @@ public class EnemyManager : MonoBehaviour
         {
             //Instantiate each enemy in the enemydata array
             EnemyData item = enemyData[i];
-            var e = Instantiate(enemy, GameManager.SurrogateToVector(item.position), GameManager.SurrogateToQuaternion(item.rotation)).GetComponent<EnemyBehaviour>();
-            e.patrolPoints = GameManager.SurrogateToVectorArray(item.patrolPoints);
+            var e = Instantiate(enemy, item.position, Quaternion.Euler(item.rotation)).GetComponent<EnemyBehaviour>();
+            e.patrolPoints = item.patrolPoints;
             e.nextPoint = item.nextPoint;
             var s = e.GetComponent<EnemyStateController>();
             s.state = item.state;

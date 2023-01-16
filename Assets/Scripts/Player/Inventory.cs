@@ -15,9 +15,9 @@ public class Inventory : MonoBehaviour
     public int[,] ammo = 
         { { 90, 36, 120 },
           { 30, 8, 24 } };
-    public int[] equippedAmmo = { 30, 8, 24 };
-    public int[] reserveAmmo = { 90, 36, 120 };
-    public int[] maxAmmo = { 90, 36, 120 };
+    public int[] currentAmmo = { 30, 8, 24 };
+    public int[] reserveAmmo = { 90, 36, 120,8 };
+    public int[] maxAmmo = { 90, 36, 120, 8 };
 
     private void Start()
     {
@@ -28,25 +28,46 @@ public class Inventory : MonoBehaviour
 
     private void Equip0()
     {
-        Equip(0);
-        labelManager.Inventory();
+        if (currentWeapon == 0)
+        {
+            Equip(-1);
+        }
+        else
+        {
+            Equip(0);
+            labelManager.Inventory();
+        }
     }
 
     private void Equip1()
     {
-        Equip(1);
-        labelManager.Inventory();
+        if (currentWeapon == 1)
+        {
+            Equip(-1);
+        }
+        else
+        {
+            Equip(1);
+            labelManager.Inventory();
+        }
     }
 
     private void Equip2()
     {
-        Equip(2);
-        labelManager.Inventory();
+        if (currentWeapon == 2)
+        {
+            Equip(-1);
+        }
+        else
+        {
+            Equip(2);
+            labelManager.Inventory();
+        }
     }
 
     public void Equip(int index)
     {
-        if (index == -1 || index == currentWeapon)
+        if (index == -1 )
         {
             currentWeapon = -1;
             weaponController.Unequip();
@@ -57,6 +78,17 @@ public class Inventory : MonoBehaviour
             weaponController.Equip(weapons[index]);
             weaponController.currentReserve = ammo[0, index];
             weaponController.currentAmmo = ammo[1, index];
+        }
+        
+    }
+
+    public void ChangeWeapon(WeaponData newWeapon,int ammo)
+    {
+        currentAmmo[newWeapon.slot] = ammo;
+        weapons[newWeapon.slot] = newWeapon;
+        if (currentWeapon == newWeapon.slot)
+        {
+            Equip(newWeapon.slot);
         }
         
     }

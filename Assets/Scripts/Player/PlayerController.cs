@@ -76,6 +76,7 @@ public class PlayerController : MonoBehaviour
 
     public Interactable interactable;
     public EnemyStateController hostageController;
+    public DroppedWeapon droppedWeapon;
 
     public Mode mode = Mode.NORMAL;
 
@@ -428,11 +429,18 @@ public class PlayerController : MonoBehaviour
 
     private void Reload(InputAction.CallbackContext context)
     {
-        if (weaponController.currentAmmo != weaponController.clipSize && weaponController.currentReserve != 0 && playerInventory.currentWeapon != -1)
+        if (context.duration < 0.3)
         {
-            weaponController.Reload();
-            animator.SetBool("RELOADING", true);
-            animator.Play("Reloading", 2, animationSmoothTime);
+            if (weaponController.currentAmmo != weaponController.clipSize && weaponController.currentReserve != 0 && playerInventory.currentWeapon != -1)
+            {
+                weaponController.Reload();
+                animator.SetBool("RELOADING", true);
+                animator.Play("Reloading", 2, animationSmoothTime);
+            }
+        }
+        else if (droppedWeapon != null)
+        {
+            playerInventory.ChangeWeapon(droppedWeapon.weaponData, droppedWeapon.ammo);
         }
     }
     //This method is called by the reload animation when it finishes
@@ -544,7 +552,14 @@ public class PlayerController : MonoBehaviour
         {
             StopAiming(new());
         }
-        playerInventory.Equip(i);
+        if (i == playerInventory.currentWeapon)
+        {
+            playerInventory.Equip(-1);
+        }
+        else
+        {
+            playerInventory.Equip(i);
+        }
     }
 
     public void StartAiming(InputAction.CallbackContext _)
@@ -630,6 +645,17 @@ public class PlayerController : MonoBehaviour
         {
             this.attacking = false;
         }
+    }
+
+    public void SetDroppedWeapon(DroppedWeapon weapon)
+    {
+        droppedWeapon = weapon;
+        labelManager.SetPickup(weapon);
+    }
+    public void RemoveDroppedWeapon()
+    {
+        droppedWeapon = null;
+        labelManager.HidePickup();
     }
 
     public void Die()

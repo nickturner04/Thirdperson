@@ -489,7 +489,7 @@
                     "name": "",
                     "id": "582c48c0-a233-4900-8a75-81e69f7e8148",
                     "path": "<Keyboard>/r",
-                    "interactions": "",
+                    "interactions": "Hold,Press",
                     "processors": "",
                     "groups": "",
                     "action": "Reload",

@@ -7,83 +7,8 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using UnityEngine.UIElements;
 
-[System.Serializable]
-public struct V3Surrogate
-{//Vector3 with unnecesary data stripped out
-    public V3Surrogate(float x, float y, float z)
-    {
-        this.x = x;
-        this.y = y;
-        this.z = z;
-    }
-    public float x;
-    public float y;
-    public float z;
-}
-
-[System.Serializable]
-public struct InterruptSurrogate
-{
-    // Replace interrupt with version that does not use Vector3
-    public InterruptSurrogate(int priority, V3Surrogate position)
-    {
-        this.priority = priority;
-        this.position = position;
-    }
-    public int priority;
-    public V3Surrogate position;
-
-    public static InterruptSurrogate FromInterrupt(Interrupt interrupt)
-    {
-        return new InterruptSurrogate(interrupt.priority, GameManager.VectorToSurrogate(interrupt.position));
-    }
-    public Interrupt ToInterrupt()
-    {
-        return new Interrupt(priority,GameManager.SurrogateToVector(position));
-    }
-}
-
 public class GameManager : MonoBehaviour
 {
-    public static Vector3 SurrogateToVector(V3Surrogate input)
-    {
-        return new Vector3(input.x, input.y, input.z);
-    }
-
-    public static V3Surrogate VectorToSurrogate(Vector3 input)
-    {
-        return new V3Surrogate(input.x, input.y, input.z);
-    }
-
-    public static Vector3[] SurrogateToVectorArray(V3Surrogate[] input)
-    {
-        var output = new Vector3[input.Length];
-        for (int i = 0; i < input.Length; i++)
-        {
-            output[i] = SurrogateToVector(input[i]);
-        }
-        return output;
-    }
-
-    public static V3Surrogate[] VectorToSurrogateArray(Vector3[] input)
-    {
-        var output = new V3Surrogate[input.Length];
-        for (int i = 0; i < input.Length; i++)
-        {
-            output[i] = VectorToSurrogate(input[i]);
-        }
-        return output;
-    }
-
-    public static Quaternion SurrogateToQuaternion(V3Surrogate input)
-    {
-        return Quaternion.Euler(input.x, input.y, input.z);
-    }
-
-    public static V3Surrogate QuaternionToSurrogate(Quaternion input)
-    {
-        return new V3Surrogate(input.eulerAngles.x, input.eulerAngles.y, input.eulerAngles.z);
-    }
 
     private PlayerInput playerInput;
     private InputAction saveAction;
@@ -92,7 +17,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private GameObject playerEssentials;
     [SerializeField] private GameObject[] playerModels;
-    [SerializeField] private Scene mainMenu;
+    [SerializeField] private WeaponData[] weaponMap;
     public GameObject playerEssentialsInstance;
 
     public SaveData currentSave;
@@ -131,6 +56,19 @@ public class GameManager : MonoBehaviour
         Debug.Log(currentSave.player.ammo.ToString());
         JSave("defaultsave.json", currentSave);
         StartCoroutine(LoadSaveFile("defaultsave.json"));
+    }
+
+    private int WeaponDataToMap(WeaponData weapon)
+    {
+
+        for (int i = 0; i < weaponMap.Length; i++)
+        {
+            if (weaponMap[i].displayName == weapon.displayName)
+            {
+                return i;
+            }
+        }
+        return 0;
     }
 
     private IEnumerator LoadSaveFile(string path)
@@ -204,18 +142,21 @@ public class GameManager : MonoBehaviour
         camo.bodyParts[2] = information.leftLeg2;
         camo.bodyParts[3] = information.headMid;
         animator.Rebind();
-        animator.Play("Idle", 0);
 
         var charcon = playerController.GetComponent<CharacterController>();
         playerController.GetComponent<PlayerHealth>().gameManager = this;
         var inventory = playerController.GetComponent<Inventory>();
         charcon.enabled = false;
-        playerController.transform.SetPositionAndRotation(SurrogateToVector(save.player.position), SurrogateToQuaternion(save.player.rotation));
+        playerController.transform.SetPositionAndRotation(save.player.position, Quaternion.Euler(save.player.rotation));
         charcon.enabled = true;
         if (save.player.isCrouching)
         {
             playerController.StartCrouch();
-            animator.Play("Idle", 1);
+            animator.Play("CrouchIdle", 0);
+        }
+        else
+        {
+            animator.Play("StandIdle", 0);
         }
         playerController.SetMode(save.player.mode);
         playerController.GetComponent<Health>().health = save.player.health;
@@ -223,6 +164,10 @@ public class GameManager : MonoBehaviour
         {
             inventory.ammo[0, i] = currentSave.player.ammoReserve[i];
             inventory.ammo[1, i] = currentSave.player.ammo[i];
+        }
+        for (int i = 0; i < 3; i++)
+        {
+            inventory.weapons[i] = weaponMap[save.player.inventory[i]];
         }
         inventory.Equip(save.player.currentWeapon);
         enemyManager.currentAlertTime = 0;
@@ -232,7 +177,7 @@ public class GameManager : MonoBehaviour
     public void Transition(int room, Vector3 PlayerPos)
     {//Change Scene
         currentSave.room = room;
-        currentSave.player.position = VectorToSurrogate(PlayerPos);
+        currentSave.player.position = PlayerPos;
         JSave("autosave.json",currentSave);
         StartCoroutine(LoadSaveFile("autosave.json"));
     }
@@ -277,7 +222,11 @@ public class GameManager : MonoBehaviour
             reserveammo[i] = inventoryammo[0, i];
             ammo[i] = inventoryammo[1, i];
         }
-        var playerdata = new PlayerData(VectorToSurrogate(playerController.transform.position), QuaternionToSurrogate(playerController.transform.rotation), playerController.mode, playerController.isCrouching, (int)playerController.GetComponent<Health>().health, ammo, reserveammo, inventory.currentWeapon);
+        var playerdata = new PlayerData(playerController.transform.position, playerController.transform.rotation.eulerAngles, playerController.mode, playerController.isCrouching, (int)playerController.GetComponent<Health>().health, ammo, reserveammo,new int[3], inventory.currentWeapon);
+        for (int i = 0; i < inventory.weapons.Length; i++)
+        {
+            playerdata.inventory[i] = WeaponDataToMap(inventory.weapons[i]);
+        }
         var room = SceneManager.GetActiveScene().buildIndex;
         var roomdata = (RoomData[])currentSave.rooms.Clone();
         roomdata[room].enemies = new EnemyData[enemyManager.enemies.Count];
@@ -287,7 +236,7 @@ public class GameManager : MonoBehaviour
             var enemyStateController = enemy.GetComponent<EnemyStateController>();
             if (enemyStateController.state != EnemyStateController.EnemyState.Death)
             {
-                roomdata[room].enemies[i] = new EnemyData(VectorToSurrogate(enemy.transform.position), QuaternionToSurrogate(enemy.transform.rotation), enemyStateController.state, InterruptSurrogate.FromInterrupt(enemy.interrupt), (int)enemy.GetComponent<Health>().health, (int)enemyStateController.stamina, enemyStateController.knockouttimer, enemy.nextPoint, VectorToSurrogateArray(enemy.patrolPoints));
+                roomdata[room].enemies[i] = new EnemyData(enemy.transform.position, enemy.transform.rotation.eulerAngles, enemyStateController.state, enemy.interrupt, (int)enemy.GetComponent<Health>().health, (int)enemyStateController.stamina, enemyStateController.knockouttimer, enemy.nextPoint, enemy.patrolPoints);
             }
             
         }

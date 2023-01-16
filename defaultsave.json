@@ -23,6 +23,11 @@
             36,
             120
         ],
+        "inventory": [
+            0,
+            3,
+            2
+        ],
         "currentWeapon": -1
     },
     "rooms": [
