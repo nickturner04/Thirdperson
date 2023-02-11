@@ -481,6 +481,7 @@ MonoBehaviour:
   isCrouching: 0
   interactable: {fileID: 0}
   hostageController: {fileID: 0}
+  droppedWeapon: {fileID: 0}
   mode: 0
 --- !u!114 &7498729049231733026
 MonoBehaviour:
@@ -527,11 +528,12 @@ MonoBehaviour:
   audioSource: {fileID: 6793332567137475210}
   pickupSound: {fileID: 8300000, guid: 2d57dcca116ded344bfde8f685c9aff8, type: 3}
   labelManager: {fileID: 0}
+  droppedWeaponPrefab: {fileID: 9215608325750557473, guid: 726a9a604e136434b95c34035a0c1f94, type: 3}
   weapons:
   - {fileID: 11400000, guid: 4fc5b7508f8e84e43a119af7bc1f503a, type: 2}
   - {fileID: 11400000, guid: 251d1d4e5156f154ca6c6d565b6184f6, type: 2}
   - {fileID: 11400000, guid: 39d7ccaefe7ad06468449551aa32b41a, type: 2}
-  equippedAmmo: 000000000000000000000000
+  currentAmmo: 1e0000000800000018000000
   reserveAmmo: 5a0000002400000078000000
   maxAmmo: 5a0000002400000078000000
 --- !u!114 &9069484737222537591

@@ -167,7 +167,15 @@ public class GameManager : MonoBehaviour
         }
         for (int i = 0; i < 3; i++)
         {
-            inventory.weapons[i] = weaponMap[save.player.inventory[i]];
+            if (save.player.inventory[i] == -1)
+            {
+                inventory.weapons[i] = null;
+            }
+            else
+            {
+                inventory.weapons[i] = weaponMap[save.player.inventory[i]];
+            }
+            
         }
         inventory.Equip(save.player.currentWeapon);
         enemyManager.currentAlertTime = 0;

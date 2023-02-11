@@ -8,6 +8,7 @@ public class Inventory : MonoBehaviour
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip pickupSound;
     [SerializeField] private LabelManager labelManager;
+    [SerializeField] private GameObject droppedWeaponPrefab;
 
     public WeaponData[] weapons = new WeaponData[3];
     public int currentWeapon { get; private set; }
@@ -75,22 +76,39 @@ public class Inventory : MonoBehaviour
         else
         {
             currentWeapon = index;
-            weaponController.Equip(weapons[index]);
-            weaponController.currentReserve = ammo[0, index];
-            weaponController.currentAmmo = ammo[1, index];
+            if (weapons[index] == null)
+            {
+                currentWeapon = -1;
+                weaponController.Unequip();
+            }
+            else
+            {
+                weaponController.Equip(weapons[index]);
+                weaponController.currentReserve = ammo[0, index];
+                weaponController.currentAmmo = ammo[1, index];
+            }
+            
         }
         
     }
 
     public void ChangeWeapon(WeaponData newWeapon,int ammo)
     {
+        if (weapons[newWeapon.slot] != null)
+        {
+            var droppos = transform.position + transform.forward * 3;
+            droppos.y *= 2;
+            var droppedweapon = Instantiate(droppedWeaponPrefab, transform.position, Quaternion.identity).GetComponentInChildren<DroppedWeapon>();
+            droppedweapon.ammo = currentAmmo[newWeapon.slot];
+            droppedweapon.weaponData = weapons[newWeapon.slot];
+        }
+
         currentAmmo[newWeapon.slot] = ammo;
         weapons[newWeapon.slot] = newWeapon;
         if (currentWeapon == newWeapon.slot)
         {
             Equip(newWeapon.slot);
         }
-        
     }
 
     public void AddAmmo(int amount,int type)
@@ -105,7 +123,22 @@ public class Inventory : MonoBehaviour
 
     public void Menu()
     {
-        labelManager.UpdateWeaponMenu(ammo,new Sprite[] { weapons[0].displaySprite, weapons[1].displaySprite, weapons[2].displaySprite });
+        string[] ammo = new string[3];
+        Sprite[] sprites = new Sprite[3];
+        for (int i = 0; i < 3; i++)
+        {
+            if (weapons[i] == null)
+            {
+                ammo[i] = "NONE";
+                sprites[i] = null;
+            }
+            else
+            {
+                ammo[i] = $"{currentAmmo[i]}/{reserveAmmo[weapons[i].ammoType]}";
+                sprites[i] = weapons[i].displaySprite;
+            }
+        }
+        labelManager.UpdateWeaponMenu(ammo,sprites);
         labelManager.ShowWeaponMenu();
     }
 

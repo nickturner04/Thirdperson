@@ -441,6 +441,8 @@ public class PlayerController : MonoBehaviour
         else if (droppedWeapon != null)
         {
             playerInventory.ChangeWeapon(droppedWeapon.weaponData, droppedWeapon.ammo);
+            Destroy(droppedWeapon.gameObject);
+            RemoveDroppedWeapon();
         }
     }
     //This method is called by the reload animation when it finishes

@@ -509,454 +509,238 @@ MonoBehaviour:
   playerEssentialsInstance: {fileID: 0}
   currentSave:
     player:
-      position:
-        x: -3.3848896
-        y: 1.0799992
-        z: -5.877258
-      rotation:
-        x: 0
-        y: 180
-        z: 0
+      position: {x: -3.3848896, y: 1.0799992, z: -5.877258}
+      rotation: {x: 0, y: 180, z: 0}
       mode: 0
       isCrouching: 0
       health: 500
       ammo: 1e0000000800000018000000
       ammoReserve: 5a0000002400000078000000
-      inventory: 000000000300000002000000
+      inventory: ffffffff03000000ffffffff
       currentWeapon: -1
     rooms:
     - enemies: []
       entered: 0
     - enemies:
-      - position:
-          x: 1
-          y: 0
-          z: 12
-        rotation:
-          x: 0
-          y: 0
-          z: 0
+      - position: {x: 1, y: 0, z: 12}
+        rotation: {x: 0, y: 0, z: 0}
         state: 0
         interrupt:
           priority: 0
-          position:
-            x: 0
-            y: 0
-            z: 0
+          position: {x: 0, y: 0, z: 0}
         health: 100
         stamina: 100
         knockoutTime: 0
         nextPoint: 0
         patrolPoints:
-        - x: 23
-          y: 0
-          z: 15
-        - x: 1
-          y: 0
-          z: 15
-      - position:
-          x: 1
-          y: 0
-          z: 12
-        rotation:
-          x: 0
-          y: 0
-          z: 0
+        - {x: 23, y: 0, z: 15}
+        - {x: 1, y: 0, z: 15}
+      - position: {x: 1, y: 0, z: 12}
+        rotation: {x: 0, y: 0, z: 0}
         state: 0
         interrupt:
           priority: 0
-          position:
-            x: 0
-            y: 0
-            z: 0
+          position: {x: 0, y: 0, z: 0}
         health: 100
         stamina: 100
         knockoutTime: 0
         nextPoint: 0
         patrolPoints:
-        - x: 23
-          y: 0
-          z: 15
-        - x: 1
-          y: 0
-          z: 15
-      - position:
-          x: 1
-          y: 0
-          z: 12
-        rotation:
-          x: 0
-          y: 0
-          z: 0
+        - {x: 23, y: 0, z: 15}
+        - {x: 1, y: 0, z: 15}
+      - position: {x: 1, y: 0, z: 12}
+        rotation: {x: 0, y: 0, z: 0}
         state: 0
         interrupt:
           priority: 0
-          position:
-            x: 0
-            y: 0
-            z: 0
+          position: {x: 0, y: 0, z: 0}
         health: 100
         stamina: 100
         knockoutTime: 0
         nextPoint: 0
         patrolPoints:
-        - x: 23
-          y: 0
-          z: 15
-        - x: 1
-          y: 0
-          z: 15
-      - position:
-          x: 1
-          y: 0
-          z: 12
-        rotation:
-          x: 0
-          y: 0
-          z: 0
+        - {x: 23, y: 0, z: 15}
+        - {x: 1, y: 0, z: 15}
+      - position: {x: 1, y: 0, z: 12}
+        rotation: {x: 0, y: 0, z: 0}
         state: 0
         interrupt:
           priority: 0
-          position:
-            x: 0
-            y: 0
-            z: 0
+          position: {x: 0, y: 0, z: 0}
         health: 100
         stamina: 100
         knockoutTime: 0
         nextPoint: 0
         patrolPoints:
-        - x: 23
-          y: 0
-          z: 15
-        - x: 1
-          y: 0
-          z: 15
-      - position:
-          x: 1
-          y: 0
-          z: 12
-        rotation:
-          x: 0
-          y: 0
-          z: 0
+        - {x: 23, y: 0, z: 15}
+        - {x: 1, y: 0, z: 15}
+      - position: {x: 1, y: 0, z: 12}
+        rotation: {x: 0, y: 0, z: 0}
         state: 0
         interrupt:
           priority: 0
-          position:
-            x: 0
-            y: 0
-            z: 0
+          position: {x: 0, y: 0, z: 0}
         health: 100
         stamina: 100
         knockoutTime: 0
         nextPoint: 0
         patrolPoints:
-        - x: 23
-          y: 0
-          z: 15
-        - x: 1
-          y: 0
-          z: 15
+        - {x: 23, y: 0, z: 15}
+        - {x: 1, y: 0, z: 15}
       entered: 0
     - enemies:
-      - position:
-          x: 1
-          y: 0
-          z: 12
-        rotation:
-          x: 0
-          y: 0
-          z: 0
+      - position: {x: 1, y: 0, z: 12}
+        rotation: {x: 0, y: 0, z: 0}
         state: 0
         interrupt:
           priority: 0
-          position:
-            x: 0
-            y: 0
-            z: 0
+          position: {x: 0, y: 0, z: 0}
         health: 100
         stamina: 100
         knockoutTime: 0
         nextPoint: 0
         patrolPoints:
-        - x: 23
-          y: 0
-          z: 15
-        - x: 1
-          y: 0
-          z: 15
-      - position:
-          x: 1
-          y: 0
-          z: 12
-        rotation:
-          x: 0
-          y: 0
-          z: 0
+        - {x: 23, y: 0, z: 15}
+        - {x: 1, y: 0, z: 15}
+      - position: {x: 1, y: 0, z: 12}
+        rotation: {x: 0, y: 0, z: 0}
         state: 0
         interrupt:
           priority: 0
-          position:
-            x: 0
-            y: 0
-            z: 0
+          position: {x: 0, y: 0, z: 0}
         health: 100
         stamina: 100
         knockoutTime: 0
         nextPoint: 0
         patrolPoints:
-        - x: 23
-          y: 0
-          z: 15
-        - x: 1
-          y: 0
-          z: 15
-      - position:
-          x: 1
-          y: 0
-          z: 12
-        rotation:
-          x: 0
-          y: 0
-          z: 0
+        - {x: 23, y: 0, z: 15}
+        - {x: 1, y: 0, z: 15}
+      - position: {x: 1, y: 0, z: 12}
+        rotation: {x: 0, y: 0, z: 0}
         state: 0
         interrupt:
           priority: 0
-          position:
-            x: 0
-            y: 0
-            z: 0
+          position: {x: 0, y: 0, z: 0}
         health: 100
         stamina: 100
         knockoutTime: 0
         nextPoint: 0
         patrolPoints:
-        - x: 23
-          y: 0
-          z: 15
-        - x: 1
-          y: 0
-          z: 15
+        - {x: 23, y: 0, z: 15}
+        - {x: 1, y: 0, z: 15}
       entered: 1
     - enemies:
-      - position:
-          x: 0
-          y: 0
-          z: 0
-        rotation:
-          x: 0
-          y: 0
-          z: 0
+      - position: {x: 0, y: 0, z: 0}
+        rotation: {x: 0, y: 0, z: 0}
         state: 0
         interrupt:
           priority: 0
-          position:
-            x: 0
-            y: 0
-            z: 0
+          position: {x: 0, y: 0, z: 0}
         health: 0
         stamina: 0
         knockoutTime: 0
         nextPoint: 0
         patrolPoints:
-        - x: 0
-          y: 0
-          z: 0
-        - x: 0
-          y: 0
-          z: 0
+        - {x: 0, y: 0, z: 0}
+        - {x: 0, y: 0, z: 0}
       entered: 1
     - enemies:
-      - position:
-          x: 3
-          y: 0
-          z: 15
-        rotation:
-          x: 0
-          y: 0
-          z: 0
+      - position: {x: 3, y: 0, z: 15}
+        rotation: {x: 0, y: 0, z: 0}
         state: 0
         interrupt:
           priority: 0
-          position:
-            x: 0
-            y: 0
-            z: 0
+          position: {x: 0, y: 0, z: 0}
         health: 100
         stamina: 100
         knockoutTime: 0
         nextPoint: 0
         patrolPoints:
-        - x: 3
-          y: 0
-          z: 15
-        - x: 27
-          y: 0
-          z: 15
-      - position:
-          x: 16
-          y: 0
-          z: 42
-        rotation:
-          x: 0
-          y: 0
-          z: 0
+        - {x: 3, y: 0, z: 15}
+        - {x: 27, y: 0, z: 15}
+      - position: {x: 16, y: 0, z: 42}
+        rotation: {x: 0, y: 0, z: 0}
         state: 0
         interrupt:
           priority: 0
-          position:
-            x: 0
-            y: 0
-            z: 0
+          position: {x: 0, y: 0, z: 0}
         health: 100
         stamina: 100
         knockoutTime: 0
         nextPoint: 0
         patrolPoints:
-        - x: 16
-          y: 0
-          z: 42
-        - x: 34
-          y: 0
-          z: 32.5
-        - x: 47
-          y: 0
-          z: 42
-      - position:
-          x: 4
-          y: 0
-          z: 70
-        rotation:
-          x: 0
-          y: 0
-          z: 0
+        - {x: 16, y: 0, z: 42}
+        - {x: 34, y: 0, z: 32.5}
+        - {x: 47, y: 0, z: 42}
+      - position: {x: 4, y: 0, z: 70}
+        rotation: {x: 0, y: 0, z: 0}
         state: 0
         interrupt:
           priority: 0
-          position:
-            x: 0
-            y: 0
-            z: 0
+          position: {x: 0, y: 0, z: 0}
         health: 100
         stamina: 100
         knockoutTime: 0
         nextPoint: 0
         patrolPoints:
-        - x: 4
-          y: 0
-          z: 70
-        - x: 4
-          y: 0
-          z: 25
-      - position:
-          x: 24
-          y: 0
-          z: 56.5
-        rotation:
-          x: 0
-          y: 0
-          z: 0
+        - {x: 4, y: 0, z: 70}
+        - {x: 4, y: 0, z: 25}
+      - position: {x: 24, y: 0, z: 56.5}
+        rotation: {x: 0, y: 0, z: 0}
         state: 0
         interrupt:
           priority: 0
-          position:
-            x: 0
-            y: 0
-            z: 0
+          position: {x: 0, y: 0, z: 0}
         health: 100
         stamina: 100
         knockoutTime: 0
         nextPoint: 0
         patrolPoints:
-        - x: 24
-          y: 0
-          z: 56.5
-        - x: 24
-          y: 0
-          z: 73.5
+        - {x: 24, y: 0, z: 56.5}
+        - {x: 24, y: 0, z: 73.5}
       entered: 1
     - enemies: []
       entered: 1
     - enemies:
-      - position:
-          x: 2.25
-          y: 0
-          z: -55
-        rotation:
-          x: 0
-          y: 0
-          z: 0
+      - position: {x: 2.25, y: 0, z: -55}
+        rotation: {x: 0, y: 0, z: 0}
         state: 0
         interrupt:
           priority: 0
-          position:
-            x: 0
-            y: 0
-            z: 0
+          position: {x: 0, y: 0, z: 0}
         health: 100
         stamina: 100
         knockoutTime: 0
         nextPoint: 0
         patrolPoints:
-        - x: 2.25
-          y: 0
-          z: -55
-        - x: -50
-          y: 0
-          z: -66
-      - position:
-          x: -35
-          y: 0
-          z: -66
-        rotation:
-          x: 0
-          y: 0
-          z: 0
+        - {x: 2.25, y: 0, z: -55}
+        - {x: -50, y: 0, z: -66}
+      - position: {x: -35, y: 0, z: -66}
+        rotation: {x: 0, y: 0, z: 0}
         state: 0
         interrupt:
           priority: 0
-          position:
-            x: 0
-            y: 0
-            z: 0
+          position: {x: 0, y: 0, z: 0}
         health: 100
         stamina: 100
         knockoutTime: 0
         nextPoint: 0
         patrolPoints:
-        - x: -35
-          y: 0
-          z: -66
-        - x: -35
-          y: 0
-          z: -30
-      - position:
-          x: -56
-          y: 8.5
-          z: -68
-        rotation:
-          x: 0
-          y: 0
-          z: 0
+        - {x: -35, y: 0, z: -66}
+        - {x: -35, y: 0, z: -30}
+      - position: {x: -56, y: 8.5, z: -68}
+        rotation: {x: 0, y: 0, z: 0}
         state: 0
         interrupt:
           priority: 0
-          position:
-            x: 0
-            y: 0
-            z: 0
+          position: {x: 0, y: 0, z: 0}
         health: 100
         stamina: 100
         knockoutTime: 0
         nextPoint: 0
         patrolPoints:
-        - x: -56
-          y: 8.5
-          z: -68
-        - x: -12
-          y: 8.5
-          z: -68
+        - {x: -56, y: 8.5, z: -68}
+        - {x: -12, y: 8.5, z: -68}
       entered: 1
     room: 6
 --- !u!114 &1764984121

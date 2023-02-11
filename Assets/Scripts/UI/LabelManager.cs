@@ -80,10 +80,6 @@ public class LabelManager : MonoBehaviour
         var health = GameObject.Find("PlayerV5").GetComponent<Health>();
         health.health = health.maxHealth;
         var inventory = GameObject.Find("PlayerV5").GetComponent<Inventory>();
-        inventory.ammo[0, 0] = inventory.maxAmmo[0];
-        inventory.ammo[0, 1] = inventory.maxAmmo[1];
-        inventory.ammo[0, 2] = inventory.maxAmmo[2];
-        UpdateWeaponMenu(inventory.ammo, new Sprite[] { inventory.weapons[0].displaySprite, inventory.weapons[1].displaySprite, inventory.weapons[2].displaySprite });
     }
     
     private void ToggleGodMode()
@@ -201,11 +197,11 @@ public class LabelManager : MonoBehaviour
         weaponMenuHidden = !weaponMenuHidden;
         
     }
-    public void UpdateWeaponMenu(int[,] ammo, Sprite[] sprites)
+    public void UpdateWeaponMenu(string[] ammo, Sprite[] sprites)
     {
         for (int i = 0; i < 3; i++)
         {
-            vseWeaponButtons[i].text = $"{ammo[1, i]}/{ammo[0,i]}";
+            vseWeaponButtons[i].text = ammo[i];
             vseWeaponButtons[i].style.backgroundImage = new StyleBackground(sprites[i]);
         }
     }
