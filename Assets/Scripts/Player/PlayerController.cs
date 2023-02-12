@@ -12,6 +12,7 @@ using UnityEngine.Events;
 public class PlayerController : MonoBehaviour
 {
     public enum Mode { NORMAL,CRAWL,COVER,HOSTAGE}
+    public enum UpperBodyMode { NORMAL,AIM,SPECIAL}
 
     public Transform trfPickup;
     public Transform aimTarget;
@@ -23,6 +24,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject soundMaker;
     [SerializeField] private LayerMask ignorePlayer;
     [SerializeField] private LabelManager labelManager;
+    [SerializeField] private GameObject ghostPrefab;
 
     [SerializeField] private float normalSpeed = 10.0f;
     [SerializeField] private float gravityValue = -20f;
@@ -33,7 +35,9 @@ public class PlayerController : MonoBehaviour
 
     private FootstepCamoController footstepController;
     private CharacterController controller;
+    private GameObject ghost;
     private GhostController ghostController;
+    public GhostAnimator ghostAnimator;
     private Inventory playerInventory;
     private Vector3 playerVelocity;
     private PlayerInput playerInput;
@@ -43,7 +47,11 @@ public class PlayerController : MonoBehaviour
     public bool isCrouching = false;
     private int noClip = 1;
     private bool weaponMenuHidden = true;
+
+    //Ghost Vars
     private bool attacking = false;
+    public bool guard = false;
+    private int lastWeapon = 0;
     //Noisemaker
     private int priority = 1;
     private int range = 10;
@@ -55,6 +63,7 @@ public class PlayerController : MonoBehaviour
     private InputAction lightAttackAction;
     private InputAction heavyAttackAction;
     private InputAction fireAction;
+    private InputAction chargeAbilityAction;
     private InputAction interactAction;
     private InputAction scrollAction;
     private InputAction inventoryAction;
@@ -79,6 +88,7 @@ public class PlayerController : MonoBehaviour
     public DroppedWeapon droppedWeapon;
 
     public Mode mode = Mode.NORMAL;
+    public UpperBodyMode modeUpper = UpperBodyMode.NORMAL;
 
     private void Awake()
     {
@@ -94,6 +104,7 @@ public class PlayerController : MonoBehaviour
         moveAction = playerInput.actions["Movement"];
         lightAttackAction = playerInput.actions["LightAttack"];
         heavyAttackAction = playerInput.actions["HeavyAttack"];
+        chargeAbilityAction = playerInput.actions["ChargeAbility"];
         fireAction = playerInput.actions["Fire"];
         interactAction = playerInput.actions["Interact"];
         scrollAction = playerInput.actions["Accelerate"];
@@ -114,6 +125,9 @@ public class PlayerController : MonoBehaviour
         quickSwapAction3 = playerInput.actions["QuickSwap3"];
         trfCameraMain = Camera.main.transform;
         currentRotationSpeed = rotationSpeed;
+
+        //Create Ghost
+        //ghost = Instantiate(ghostPrefab, transform.parent);
     }
 
     //Called when GameObject is enabled, subscribes all the actions to events
@@ -121,7 +135,10 @@ public class PlayerController : MonoBehaviour
     {
         lightAttackAction.performed += LightAttack;
         heavyAttackAction.performed += HeavyAttack;
-
+        
+        fireAction.started += StartFiring;
+        fireAction.canceled += StopFiring;
+        fireAction.Disable();
         priorityAction.performed += ChangePriority;
         rangeAction.performed += ChangeRange;
         aimAction.started += StartAiming;
@@ -146,7 +163,10 @@ public class PlayerController : MonoBehaviour
     {
         lightAttackAction.performed -= LightAttack;
         heavyAttackAction.performed -= HeavyAttack;
-
+        chargeAbilityAction.started -= ghostAnimator.AbilityL1Start;
+        chargeAbilityAction.canceled -= ghostAnimator.AbilityL1Stop;
+        fireAction.started -= StartFiring;
+        fireAction.canceled -= StopFiring;
         priorityAction.performed -= ChangePriority;
         rangeAction.performed -= ChangeRange;
         aimAction.started -= StartAiming;
@@ -185,7 +205,6 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {//Update is called every frame by Unity
-
         aimTarget.position = trfCameraMain.position + trfCameraMain.forward * aimDistance;
 
         Vector2 moveinput = moveAction.ReadValue<Vector2>();
@@ -302,29 +321,96 @@ public class PlayerController : MonoBehaviour
         mode = newMode;
     }
 
+    public void SetUpperMode(UpperBodyMode newMode)
+    {
+        switch (modeUpper)
+        {
+            case UpperBodyMode.NORMAL:
+                if (newMode == UpperBodyMode.AIM)
+                {
+                    isAiming = true;
+                    currentRotationSpeed = rotationSpeedAiming;
+                    aimRig.weight = 100;
+                    lightAttackAction.Disable() ;
+                    heavyAttackAction.Disable() ;
+                    fireAction.Enable();
+                    cameraController.StartAim();
+                    summonAction.Disable();
+                }
+                else if (newMode == UpperBodyMode.SPECIAL)
+                {
+                    aimAction.started -= StartAiming;
+                    aimAction.canceled -= StopAiming;
+                    aimAction.started += ghostAnimator.AbilityL2;
+                    chargeAbilityAction.started += ghostAnimator.AbilityL1Start;
+                    chargeAbilityAction.canceled += ghostAnimator.AbilityL1Stop;
+                }
+                break;
+            case UpperBodyMode.AIM:
+                
+                if (newMode == UpperBodyMode.NORMAL)
+                {
+                    isAiming = false;
+                    currentRotationSpeed = rotationSpeed;
+                    aimRig.weight = 0;
+                    lightAttackAction.Enable();
+                    heavyAttackAction.Disable();
+                    fireAction.Disable();
+                    cameraController.StopAim();
+                    summonAction.Enable();
+                }
+
+                break;
+            case UpperBodyMode.SPECIAL:
+                if (newMode == UpperBodyMode.NORMAL)
+                {
+                    aimAction.Enable();
+                    chargeAbilityAction.started -= ghostAnimator.AbilityL1Start;
+                    chargeAbilityAction.canceled -= ghostAnimator.AbilityL1Stop;
+                    aimAction.started += StartAiming;
+                    aimAction.canceled += StopAiming;
+                    aimAction.started -= ghostAnimator.AbilityL2;
+                }
+                
+                break;
+            default:
+                break;
+        }
+        modeUpper = newMode;
+    }
+
     private void Summon(InputAction.CallbackContext _)
     {
-        ghostController.Summon();
+        if (modeUpper == UpperBodyMode.SPECIAL)
+        {
+            ghostAnimator.Disappear();
+            SetUpperMode(UpperBodyMode.NORMAL);
+            playerInventory.Equip(lastWeapon);
+        }
+        else if (modeUpper == UpperBodyMode.NORMAL)
+        {
+            ghostAnimator.Appear();
+            SetUpperMode(UpperBodyMode.SPECIAL);
+            lastWeapon = playerInventory.currentWeapon;
+            playerInventory.Equip(-1);
+        }
+        
     }
 
     private void StartBlock(InputAction.CallbackContext context)
     {
         
-        if (!ghostController.occupied)
+        if (!ghostAnimator.occupied)
         {
-            ghostController.guard = true;
-            if (!ghostController.summoned)
-            {
-                ghostController.Summon();
-            }
+            guard = true;
             
         }
         
     }
 
-    private void EndBlock(InputAction.CallbackContext _)
+    public void EndBlock(InputAction.CallbackContext _)
     {
-        ghostController.guard = false;
+        guard = false;
     }
 
     private void NoClip(InputAction.CallbackContext _)
@@ -355,22 +441,16 @@ public class PlayerController : MonoBehaviour
     {//Play a punching animation when Mouse1 is tapped
         //Debug.Log("LIGHT");
         ghostController.ghost.SetActive(true);
-        ghostController.Attack();
+        ghostAnimator.Attack();
     }
 
     private void HeavyAttack(InputAction.CallbackContext context)
     {//Perform a stronger attack when Mouse1 is held down
         //Debug.Log("HEAVY");
-        if (hostageController != null && mode == Mode.NORMAL)
-        {
-            ghostController.Takedown(hostageController);
-            hostageController = null;
-        }
-        else
-        {
-            ghostController.ghost.SetActive(true);
-            ghostController.Attack();
-        }
+        
+        ghostController.ghost.SetActive(true);
+        ghostController.Attack();
+        
     }
 
     private void Roll(InputAction.CallbackContext _)
@@ -568,27 +648,14 @@ public class PlayerController : MonoBehaviour
     {//Changes the turn speed so that the player instantly faces the camera, sets the aiming animation rig so that the player aims the gun.
         if (playerInventory.currentWeapon != -1)
         {
-            isAiming = true;
-            currentRotationSpeed = rotationSpeedAiming;
-            aimRig.weight = 100;
-            lightAttackAction.performed -= LightAttack;
-            heavyAttackAction.performed -= HeavyAttack;
-            fireAction.started += StartFiring;
-            fireAction.canceled += StopFiring;
-            cameraController.StartAim();
+            SetUpperMode(UpperBodyMode.AIM);
         }
         
     }
 
     public void StopAiming(InputAction.CallbackContext _)
     {
-        isAiming = false;
-        currentRotationSpeed = rotationSpeed;
-        aimRig.weight = 0;
-        lightAttackAction.performed += LightAttack;
-        heavyAttackAction.performed += HeavyAttack;
-        fireAction.started -= StartFiring;
-        cameraController.StopAim();
+        SetUpperMode(UpperBodyMode.NORMAL);
     }
     //Debug Method For Noisemaker
     public void ChangePriority(InputAction.CallbackContext context)

@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class GhostController : MonoBehaviour
 {
-    public enum GhostState
-    {
-        Inactive,Guard,Attack
-    }
     //Script attached to the player for controlling the ghost.
     [HideInInspector]public GameObject ghostPrefab;
     public GameObject ghost;
@@ -28,7 +24,6 @@ public class GhostController : MonoBehaviour
     public EnemyStateController targetEnemy;
     public float ghostActiveTimer = 0;
     private float timeSinceLastAttack = 5;
-    private float desiredAlpha;
     public bool preview = false;
     public bool takedown = false;
     private int attackCounter = 0;
@@ -40,8 +35,6 @@ public class GhostController : MonoBehaviour
     private int animGuard;
     private static readonly int hashBlocking = Animator.StringToHash("Blocking");
 
-    public bool occupied = false;
-    public bool guard = false;
     public bool summoned = true;
 
     private void Start()
@@ -52,7 +45,14 @@ public class GhostController : MonoBehaviour
         gMaterial = ghost.GetComponentInChildren<SkinnedMeshRenderer>();
         animator = ghost.GetComponent<Animator>();
         ghostAnimator = ghost.GetComponent<GhostAnimator>();
+        playerController.ghostAnimator = ghostAnimator;
         ghostAnimator.controller = this;
+        ghostAnimator.playerController = playerController;
+        ghostAnimator.gAttach = gAttach;
+        ghostAnimator.gAttachAttack = gAttachAttack;
+        ghostAnimator.gAttachBlock = gAttachBlock;
+        ghostAnimator.gAttachIdle = gAttachIdle;
+
         animPunch1 = Animator.StringToHash("Punch1");
         animPunch2 = Animator.StringToHash("Punch2");
         animKick = Animator.StringToHash("Kick");
@@ -63,6 +63,7 @@ public class GhostController : MonoBehaviour
 
     private void Update()
     {
+        /*
         var attachpos = transform.position + (gameObject.transform.position - new Vector3(camera.transform.position.x, gameObject.transform.position.y, camera.transform.position.z)).normalized;
         gAttachAttack.position = new Vector3(attachpos.x, gAttachAttack.position.y, attachpos.z);
         float alpha = .5f;
@@ -70,12 +71,12 @@ public class GhostController : MonoBehaviour
         if (ghostActiveTimer > 0)
         {//If ghost is active make it look in direction of attack and set it to half transparent
             ghostActiveTimer -= Time.deltaTime;
-            gTransform.position = Vector3.Lerp(gTransform.position, occupied ? gAttachAttack.position : gAttachIdle.position, Time.deltaTime * 10);
+            gTransform.position = Vector3.Lerp(gTransform.position, ghostAnimator.occupied ? gAttachAttack.position : gAttachIdle.position, Time.deltaTime * 10);
             var lookvector = gTransform.position + (playerController.transform.position - camera.position).normalized;
             lookvector.y = gTransform.position.y;
             gTransform.LookAt(lookvector);
         }
-        else if (guard)
+        else if (ghostAnimator.guard)
         {
             alpha = 1;
             gTransform.SetPositionAndRotation(Vector3.Lerp(gTransform.position, gAttachBlock.position, Time.deltaTime * 20), Quaternion.LookRotation(playerController.transform.forward));
@@ -101,36 +102,18 @@ public class GhostController : MonoBehaviour
             gTransform.SetPositionAndRotation(Vector3.Lerp(gTransform.position,  gAttachIdle.position, Time.deltaTime * 10), Quaternion.Lerp(gTransform.rotation, playerController.transform.rotation, Time.deltaTime * 10));
         }
         //Set Alpha Transparency Of Ghost To Make It Fade In and Out
-        gMaterial.material.color = new Color(gMaterial.material.color.r, gMaterial.material.color.g, gMaterial.material.color.b, Mathf.Lerp(gMaterial.material.color.a,occupied ? 1 : alpha, Time.deltaTime * 10f));
+        gMaterial.material.color = new Color(gMaterial.material.color.r, gMaterial.material.color.g, gMaterial.material.color.b, Mathf.Lerp(gMaterial.material.color.a,ghostAnimator.occupied ? 1 : alpha, Time.deltaTime * 10f));
 
         timeSinceLastAttack += Time.deltaTime;
 
-        animator.SetBool(hashBlocking,guard);
+        animator.SetBool(hashBlocking,ghostAnimator.guard);
         if (timeSinceLastAttack > 1.25f)//Reset Attack Counter if Enough Time Has Passed
         {
             attackCounter = 0;
         }
+        */
     }
 
-    public void Summon()
-    {
-        if (!summoned)
-        {
-            ghostAnimator.Appear();
-            summoned = true;
-        }
-        else
-        {
-            summoned = false;
-            ghostAnimator.Disappear();
-        }
-    }
-
-    public void SetOccupied(bool occupied)
-    {
-        playerController.SetAttacking(occupied);
-        this.occupied = occupied;
-    }
 
     public void SetTarget(Transform target, Transform attach)
     {
@@ -149,22 +132,12 @@ public class GhostController : MonoBehaviour
         gAttach = gAttachAttack;
     }
 
-    private void Hide()
-    {
-        desiredAlpha = 0;
-        
-    }
-
-    private void Show()
-    {
-        desiredAlpha = 0.8f;
-    }
 
     public void Attack()//Attack + Attack + Pause + Attack : Kick
     {
-        if (!occupied && !guard)
+        /*
+        if (!ghostAnimator.occupied && !ghostAnimator.guard)
         {
-            Show();
             ghostActiveTimer = 1.5f;
             switch (attackCounter)
             {//Play a different punch animation depending on how many times the player has attacked
@@ -196,17 +169,17 @@ public class GhostController : MonoBehaviour
                     break;
             }
         }
+        */
     }
 
-    public void Takedown(EnemyStateController targetEnemy)
-    {//Play longer punch animation
-        Show();
-        this.targetEnemy = targetEnemy;
-        animator.Play(animTakedown);
-        takedown = true;
-        occupied = true;
-        preview = false;
-        gAttach = targetEnemy.gAttach;
-        //ghostActiveTimer = 1.5f;
-    }
+    //public void Takedown(EnemyStateController targetEnemy)
+    //{//Play longer punch animation
+    //    this.targetEnemy = targetEnemy;
+    //    animator.Play(animTakedown);
+    //    takedown = true;
+    //    ghostAnimator.occupied = true;
+    //    preview = false;
+    //    gAttach = targetEnemy.gAttach;
+    //    //ghostActiveTimer = 1.5f;
+    //}
 }

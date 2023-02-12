@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem.DualShock;
 
 [RequireComponent(typeof(Health))]
 public class PlayerHealth : MonoBehaviour
@@ -31,7 +30,7 @@ public class PlayerHealth : MonoBehaviour
     public void TakeDamage(float damage, Vector3 position)
     {
         if (health.godMode) return;
-        if ((shield > 0 && ghostController.guard))
+        if ((shield > 0 && playerController.guard))
         {//If there is shield, take away damage from the shield and move the ghost to where the bullet hit.
             ghostController.Guard();
             ghostController.ghostActiveTimer = 0.1f;
@@ -44,7 +43,7 @@ public class PlayerHealth : MonoBehaviour
         }
         if (shield < 0)
         {
-            ghostController.guard = false;
+            playerController.EndBlock(new UnityEngine.InputSystem.InputAction.CallbackContext());
             shield = 0;
         }
         

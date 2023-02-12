@@ -101,7 +101,7 @@
                     "id": "eba857fc-f675-4532-aad3-8d1905a653b4",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Hold,Press",
                     "initialStateCheck": false
                 },
                 {
@@ -228,6 +228,15 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ChargeAbility",
+                    "type": "Button",
+                    "id": "b5228923-9582-45d7-ac20-423af1b52af3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Hold(duration=0.4)",
                     "initialStateCheck": false
                 }
             ],
@@ -489,7 +498,7 @@
                     "name": "",
                     "id": "582c48c0-a233-4900-8a75-81e69f7e8148",
                     "path": "<Keyboard>/r",
-                    "interactions": "Hold,Press",
+                    "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Reload",
@@ -856,6 +865,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Summon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "64f7fe4d-1bdb-44f2-a734-f94743c5ae5c",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChargeAbility",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "31125b3f-1b12-42b8-b06e-a1fcfa13c04f",
+                    "path": "<Mouse>/forwardButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChargeAbility",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
