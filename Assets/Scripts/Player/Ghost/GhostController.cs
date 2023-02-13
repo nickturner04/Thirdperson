@@ -48,6 +48,7 @@ public class GhostController : MonoBehaviour
         playerController.ghostAnimator = ghostAnimator;
         ghostAnimator.controller = this;
         ghostAnimator.playerController = playerController;
+        ghostAnimator.playerHealth = GetComponent<PlayerHealth>();
         ghostAnimator.gAttach = gAttach;
         ghostAnimator.gAttachAttack = gAttachAttack;
         ghostAnimator.gAttachBlock = gAttachBlock;

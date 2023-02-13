@@ -382,7 +382,8 @@ public class PlayerController : MonoBehaviour
     private void Summon(InputAction.CallbackContext _)
     {
         if (modeUpper == UpperBodyMode.SPECIAL)
-        {
+        {//Added check to prevent unsummoning when the ghost is occupied as doing this while charging an ability will cause it to get stuck
+            //Removed check and changed dissapear to a virtual void which can be inherited to set charging to false when un summoned
             ghostAnimator.Disappear();
             SetUpperMode(UpperBodyMode.NORMAL);
             playerInventory.Equip(lastWeapon);

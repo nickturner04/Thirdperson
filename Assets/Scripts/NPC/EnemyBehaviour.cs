@@ -166,7 +166,7 @@ public class EnemyBehaviour : MonoBehaviour
         {
             if (Vector3.Distance(transform.position, player.position) <= 5)
             {
-                Debug.Log("CLOSE");
+                //Debug.Log("CLOSE");
                 FoundDestination = true;
                 alertMoving = false;
                 alertDestination = transform.position;

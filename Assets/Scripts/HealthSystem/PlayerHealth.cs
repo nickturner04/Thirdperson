@@ -12,8 +12,8 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private LabelManager labelManager;
 
     public float resetTime = 20;
-    public float maxShield = 250;
-    public float shield;
+    public float maxEnergy = 250;
+    public float energy;
     private float currentResetTime = 0;
     [SerializeField] private float regenSpeed = 1f;
 
@@ -22,6 +22,7 @@ public class PlayerHealth : MonoBehaviour
     public Color currentColor;
     private void Awake()
     {
+        energy = maxEnergy;
         ghostController = GetComponent<GhostController>();
         playerController = GetComponent<PlayerController>();
         health = GetComponent<Health>();
@@ -30,21 +31,21 @@ public class PlayerHealth : MonoBehaviour
     public void TakeDamage(float damage, Vector3 position)
     {
         if (health.godMode) return;
-        if ((shield > 0 && playerController.guard))
+        if ((energy > 0 && playerController.guard))
         {//If there is shield, take away damage from the shield and move the ghost to where the bullet hit.
             ghostController.Guard();
             ghostController.ghostActiveTimer = 0.1f;
             ghostController.gTransform.SetPositionAndRotation(transform.position + (position - transform.position).normalized, Quaternion.LookRotation(position - transform.position));
-            shield -= damage;
+            energy -= damage;
         }
         else
         {
             health.TakeDamage(damage);
         }
-        if (shield < 0)
+        if (energy < 0)
         {
             playerController.EndBlock(new UnityEngine.InputSystem.InputAction.CallbackContext());
-            shield = 0;
+            energy = 0;
         }
         
         currentResetTime = 0;
@@ -56,6 +57,17 @@ public class PlayerHealth : MonoBehaviour
         //}
     }
 
+    public void TakeEnergyDamage(float damage)
+    {
+        energy -= damage;
+        currentResetTime = 0;
+        if (energy < 0)
+        {
+            playerController.EndBlock(new UnityEngine.InputSystem.InputAction.CallbackContext());
+            energy = 0;
+        }
+    }
+
     public void Die()
     {
         playerController.Die();
@@ -65,15 +77,15 @@ public class PlayerHealth : MonoBehaviour
     {
 
         labelManager.SetHealth(health.health, health.maxHealth);
-        labelManager.SetShield(shield, maxShield);
+        labelManager.SetShield(energy, maxEnergy);
 
         currentResetTime += Time.deltaTime;
         if (currentResetTime >= resetTime)
         {
             //shield = Mathf.Lerp(shield, maxShield * 2, Time.deltaTime * regenSpeed);
-            shield += Time.deltaTime * regenSpeed;
+            energy += Time.deltaTime * regenSpeed;
         }
-        if (shield > maxShield) shield = maxShield;
+        if (energy > maxEnergy) energy = maxEnergy;
         if (currentResetTime > resetTime) currentResetTime = resetTime;
     }
 }

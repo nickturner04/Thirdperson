@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public class GhostAnimator : MonoBehaviour
 {
+    [Header("General Properties")]
     //Control Variables
     public Transform gAttach;
     public Transform gAttachIdle;
@@ -13,6 +14,7 @@ public class GhostAnimator : MonoBehaviour
     private new Transform camera;
 
     public PlayerController playerController;
+    public PlayerHealth playerHealth;
 
     public bool occupied = false;
     public bool summoned = false;
@@ -20,16 +22,12 @@ public class GhostAnimator : MonoBehaviour
     public float ghostActiveTimer = 0;
     public float timeSinceLastAttack = 5;
     public int attackCounter = 0;
-    private float charge = 0;
 
     //Animation Variables
-    public Animator animator;
+    [HideInInspector]public Animator animator;
     [SerializeField] private LayerMask layerMask;
     public GhostController controller;
     [SerializeField] private GameObject[] hitboxes;
-    [SerializeField] private Transform hitbox1;
-    [SerializeField] private Transform hitbox2;
-    [SerializeField] private Transform hitbox3;
     private SkinnedMeshRenderer gMaterial;
 
     [SerializeField] private int punchDamage;
@@ -73,6 +71,7 @@ public class GhostAnimator : MonoBehaviour
         {
             alpha = 1;
             transform.SetPositionAndRotation(Vector3.Lerp(transform.position, gAttachBlock.position, Time.deltaTime * 20), Quaternion.LookRotation(playerController.transform.forward));
+            playerHealth.TakeEnergyDamage(20 * Time.deltaTime);
         }
  
         else if (summoned)
@@ -106,7 +105,7 @@ public class GhostAnimator : MonoBehaviour
             item.Play();
         }
     }
-    public void Disappear()
+    public virtual void Disappear()
     {
         summoned = false;
         appearParticle.Stop();
@@ -152,29 +151,19 @@ public class GhostAnimator : MonoBehaviour
             }
         }
     }
-    public void AbilityL1Start(InputAction.CallbackContext context)
+    public virtual void AbilityL1Start(InputAction.CallbackContext context)
     {
         Debug.Log("Began Charging L1 Ability");
         
     }
 
-    public void AbilityL1Stop(InputAction.CallbackContext context)
+    public virtual void AbilityL1Stop(InputAction.CallbackContext context)
     {
         Debug.Log($"Stopped Charging L1 Ability after {context.duration}");
         
     }
 
-    public IEnumerator Charge()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(1);
-            charge += 1;
-        }
-        
-    }
-
-    public void AbilityL2(InputAction.CallbackContext _)
+    public virtual void AbilityL2(InputAction.CallbackContext _)
     {
         Debug.Log("ability L2 activated");
     }
