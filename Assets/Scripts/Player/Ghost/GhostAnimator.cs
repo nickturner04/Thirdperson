@@ -26,7 +26,6 @@ public class GhostAnimator : MonoBehaviour
     //Animation Variables
     [HideInInspector]public Animator animator;
     [SerializeField] private LayerMask layerMask;
-    public GhostController controller;
     [SerializeField] private GameObject[] hitboxes;
     private SkinnedMeshRenderer gMaterial;
 
@@ -40,7 +39,7 @@ public class GhostAnimator : MonoBehaviour
     private readonly int animGuard = Animator.StringToHash("Guard");
     private readonly int hashBlocking = Animator.StringToHash("Blocking");
 
-    private AudioSource audioSource;
+    protected AudioSource audioSource;
     [SerializeField] private AudioClip hitSound;
     [SerializeField] private ParticleSystem appearParticle;
     [SerializeField] private ParticleSystem[] auraParticles;
@@ -180,19 +179,6 @@ public class GhostAnimator : MonoBehaviour
             item.SetActive(false);
         }
         occupied = false;
-    }
-
-    public void TakedownAttack()
-    {
-        audioSource.PlayOneShot(hitSound);
-        controller.targetEnemy.TakeStaminaDamage(100f);
-    }
-
-    public void EndTakedown()
-    {
-        occupied = false;
-        controller.takedown = false;
-        controller.gAttach = controller.gAttachAttack;
     }
 
     public void SpawnPunch1()

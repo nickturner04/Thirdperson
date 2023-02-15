@@ -516,7 +516,7 @@ MonoBehaviour:
       health: 500
       ammo: 1e0000000800000018000000
       ammoReserve: 5a0000002400000078000000
-      inventory: ffffffff03000000ffffffff
+      inventory: 000000000100000002000000
       currentWeapon: -1
     rooms:
     - enemies: []
@@ -699,7 +699,46 @@ MonoBehaviour:
         - {x: 24, y: 0, z: 56.5}
         - {x: 24, y: 0, z: 73.5}
       entered: 1
-    - enemies: []
+    - enemies:
+      - position: {x: 2.25, y: 0, z: -55}
+        rotation: {x: 0, y: 0, z: 0}
+        state: 0
+        interrupt:
+          priority: 0
+          position: {x: 0, y: 0, z: 0}
+        health: 100
+        stamina: 100
+        knockoutTime: 0
+        nextPoint: 0
+        patrolPoints:
+        - {x: 2.25, y: 0, z: -55}
+        - {x: -50, y: 0, z: -66}
+      - position: {x: -35, y: 0, z: -66}
+        rotation: {x: 0, y: 0, z: 0}
+        state: 0
+        interrupt:
+          priority: 0
+          position: {x: 0, y: 0, z: 0}
+        health: 100
+        stamina: 100
+        knockoutTime: 0
+        nextPoint: 0
+        patrolPoints:
+        - {x: -35, y: 0, z: -66}
+        - {x: -35, y: 0, z: -30}
+      - position: {x: -56, y: 8.5, z: -68}
+        rotation: {x: 0, y: 0, z: 0}
+        state: 0
+        interrupt:
+          priority: 0
+          position: {x: 0, y: 0, z: 0}
+        health: 100
+        stamina: 100
+        knockoutTime: 0
+        nextPoint: 0
+        patrolPoints:
+        - {x: -56, y: 8.5, z: -68}
+        - {x: -12, y: 8.5, z: -68}
       entered: 1
     - enemies:
       - position: {x: 2.25, y: 0, z: -55}
@@ -742,7 +781,7 @@ MonoBehaviour:
         - {x: -56, y: 8.5, z: -68}
         - {x: -12, y: 8.5, z: -68}
       entered: 1
-    room: 6
+    room: 5
 --- !u!114 &1764984121
 MonoBehaviour:
   m_ObjectHideFlags: 0

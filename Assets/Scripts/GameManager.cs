@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
 
     private int WeaponDataToMap(WeaponData weapon)
     {
-
+        if (weapon == null) return -1;
         for (int i = 0; i < weaponMap.Length; i++)
         {
             if (weaponMap[i].displayName == weapon.displayName)
@@ -135,7 +135,7 @@ public class GameManager : MonoBehaviour
         playerController.aimRig = information.rig;
         playerController.aimTarget = information.aimTarget;
         playerController.GetComponent<WeaponController>().attachPoint = information.attachPoint;
-        playerController.GetComponent<GhostController>().ghostPrefab = information.ghost;
+        playerController.ghostPrefab = information.ghost;
         var camo = playerController.GetComponent<FootstepCamoController>();
         camo.bodyParts[0] = information.spine2;
         camo.bodyParts[1] = information.rightLeg2;

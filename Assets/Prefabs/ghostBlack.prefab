@@ -5691,6 +5691,7 @@ MonoBehaviour:
   gAttachAttack: {fileID: 0}
   gAttachBlock: {fileID: 0}
   playerController: {fileID: 0}
+  playerHealth: {fileID: 0}
   occupied: 0
   summoned: 0
   ghostActiveTimer: 0
@@ -5714,6 +5715,7 @@ MonoBehaviour:
   explosion: {fileID: 5636998604081738353, guid: a9bb118e17981cb47bd23c77d2a86c6a, type: 3}
   fireWave: {fileID: 5941002169540804173, guid: c5a41a699129ecc41853621447b7f5a3, type: 3}
   fireWaveAttach: {fileID: 3490852094318648508}
+  fireWaveClip: {fileID: 8300000, guid: 9243a9e786642674e805c27d38088569, type: 3}
 --- !u!95 &6376666143938349563
 Animator:
   serializedVersion: 4

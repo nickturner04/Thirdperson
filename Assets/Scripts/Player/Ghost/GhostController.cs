@@ -37,30 +37,30 @@ public class GhostController : MonoBehaviour
 
     public bool summoned = true;
 
-    private void Start()
-    {
-        camera = Camera.main.transform;
-        ghost = Instantiate(ghostPrefab,transform.parent);
-        gTransform = ghost.transform;
-        gMaterial = ghost.GetComponentInChildren<SkinnedMeshRenderer>();
-        animator = ghost.GetComponent<Animator>();
-        ghostAnimator = ghost.GetComponent<GhostAnimator>();
-        playerController.ghostAnimator = ghostAnimator;
-        ghostAnimator.controller = this;
-        ghostAnimator.playerController = playerController;
-        ghostAnimator.playerHealth = GetComponent<PlayerHealth>();
-        ghostAnimator.gAttach = gAttach;
-        ghostAnimator.gAttachAttack = gAttachAttack;
-        ghostAnimator.gAttachBlock = gAttachBlock;
-        ghostAnimator.gAttachIdle = gAttachIdle;
+    //private void Start()
+    //{
+    //    camera = Camera.main.transform;
+    //    ghost = Instantiate(ghostPrefab,transform.parent);
+    //    gTransform = ghost.transform;
+    //    gMaterial = ghost.GetComponentInChildren<SkinnedMeshRenderer>();
+    //    animator = ghost.GetComponent<Animator>();
+    //    ghostAnimator = ghost.GetComponent<GhostAnimator>();
+    //    playerController.ghostAnimator = ghostAnimator;
+    //    ghostAnimator.controller = this;
+    //    ghostAnimator.playerController = playerController;
+    //    ghostAnimator.playerHealth = GetComponent<PlayerHealth>();
+    //    ghostAnimator.gAttach = gAttach;
+    //    ghostAnimator.gAttachAttack = gAttachAttack;
+    //    ghostAnimator.gAttachBlock = gAttachBlock;
+    //    ghostAnimator.gAttachIdle = gAttachIdle;
 
-        animPunch1 = Animator.StringToHash("Punch1");
-        animPunch2 = Animator.StringToHash("Punch2");
-        animKick = Animator.StringToHash("Kick");
-        animTakedown = Animator.StringToHash("Takedown");
-        animGuard = Animator.StringToHash("Guard");
-        gAttach = gAttachAttack;
-    }
+    //    animPunch1 = Animator.StringToHash("Punch1");
+    //    animPunch2 = Animator.StringToHash("Punch2");
+    //    animKick = Animator.StringToHash("Kick");
+    //    animTakedown = Animator.StringToHash("Takedown");
+    //    animGuard = Animator.StringToHash("Guard");
+    //    gAttach = gAttachAttack;
+    //}
 
     private void Update()
     {

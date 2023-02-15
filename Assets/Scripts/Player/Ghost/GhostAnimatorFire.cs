@@ -9,6 +9,7 @@ public class GhostAnimatorFire : GhostAnimator
     [SerializeField] private GameObject explosion;
     [SerializeField] private GameObject fireWave;
     [SerializeField] private Transform fireWaveAttach;
+    [SerializeField] private AudioClip fireWaveClip;
     private bool charging = false;
     public override void AbilityL1Start(InputAction.CallbackContext context)
     {
@@ -56,6 +57,7 @@ public class GhostAnimatorFire : GhostAnimator
 
     public void StartShoot()
     {
+        audioSource.PlayOneShot(fireWaveClip);
         Instantiate(fireWave, fireWaveAttach.position, fireWaveAttach.rotation);
         
     }

@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject soundMaker;
     [SerializeField] private LayerMask ignorePlayer;
     [SerializeField] private LabelManager labelManager;
-    [SerializeField] private GameObject ghostPrefab;
+    [HideInInspector] public GameObject ghostPrefab;
 
     [SerializeField] private float normalSpeed = 10.0f;
     [SerializeField] private float gravityValue = -20f;
@@ -125,9 +125,19 @@ public class PlayerController : MonoBehaviour
         quickSwapAction3 = playerInput.actions["QuickSwap3"];
         trfCameraMain = Camera.main.transform;
         currentRotationSpeed = rotationSpeed;
+    }
 
+    private void Start()
+    {
         //Create Ghost
-        //ghost = Instantiate(ghostPrefab, transform.parent);
+        ghost = Instantiate(ghostPrefab, transform.parent);
+        ghostAnimator = ghost.GetComponent<GhostAnimator>();
+        ghostAnimator.playerController = this;
+        ghostAnimator.playerHealth = GetComponent<PlayerHealth>();
+        ghostAnimator.gAttach = transform.Find("Ghost Attach");
+        ghostAnimator.gAttachIdle = ghostAnimator.gAttach;
+        ghostAnimator.gAttachAttack = transform.Find("Ghost Attach Attack");
+        ghostAnimator.gAttachBlock = transform.Find("Ghost Attach Block");
     }
 
     //Called when GameObject is enabled, subscribes all the actions to events
@@ -441,7 +451,6 @@ public class PlayerController : MonoBehaviour
     private void LightAttack(InputAction.CallbackContext context)
     {//Play a punching animation when Mouse1 is tapped
         //Debug.Log("LIGHT");
-        ghostController.ghost.SetActive(true);
         ghostAnimator.Attack();
     }
 
@@ -449,7 +458,6 @@ public class PlayerController : MonoBehaviour
     {//Perform a stronger attack when Mouse1 is held down
         //Debug.Log("HEAVY");
         
-        ghostController.ghost.SetActive(true);
         ghostController.Attack();
         
     }

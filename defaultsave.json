@@ -24,9 +24,9 @@
             120
         ],
         "inventory": [
-            -1,
-            3,
-            -1
+            0,
+            1,
+            2
         ],
         "currentWeapon": -1
     },
@@ -542,7 +542,119 @@
             "entered": true
         },
         {
-            "enemies": [],
+            "enemies": [
+                {
+                    "position": {
+                        "x": 2.25,
+                        "y": 0.0,
+                        "z": -55.0
+                    },
+                    "rotation": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "state": 0,
+                    "interrupt": {
+                        "priority": 0,
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    "health": 100,
+                    "stamina": 100,
+                    "knockoutTime": 0.0,
+                    "nextPoint": 0,
+                    "patrolPoints": [
+                        {
+                            "x": 2.25,
+                            "y": 0.0,
+                            "z": -55.0
+                        },
+                        {
+                            "x": -50.0,
+                            "y": 0.0,
+                            "z": -66.0
+                        }
+                    ]
+                },
+                {
+                    "position": {
+                        "x": -35.0,
+                        "y": 0.0,
+                        "z": -66.0
+                    },
+                    "rotation": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "state": 0,
+                    "interrupt": {
+                        "priority": 0,
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    "health": 100,
+                    "stamina": 100,
+                    "knockoutTime": 0.0,
+                    "nextPoint": 0,
+                    "patrolPoints": [
+                        {
+                            "x": -35.0,
+                            "y": 0.0,
+                            "z": -66.0
+                        },
+                        {
+                            "x": -35.0,
+                            "y": 0.0,
+                            "z": -30.0
+                        }
+                    ]
+                },
+                {
+                    "position": {
+                        "x": -56.0,
+                        "y": 8.5,
+                        "z": -68.0
+                    },
+                    "rotation": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "state": 0,
+                    "interrupt": {
+                        "priority": 0,
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    "health": 100,
+                    "stamina": 100,
+                    "knockoutTime": 0.0,
+                    "nextPoint": 0,
+                    "patrolPoints": [
+                        {
+                            "x": -56.0,
+                            "y": 8.5,
+                            "z": -68.0
+                        },
+                        {
+                            "x": -12.0,
+                            "y": 8.5,
+                            "z": -68.0
+                        }
+                    ]
+                }
+            ],
             "entered": true
         },
         {
@@ -662,5 +774,5 @@
             "entered": true
         }
     ],
-    "room": 6
+    "room": 5
 }
