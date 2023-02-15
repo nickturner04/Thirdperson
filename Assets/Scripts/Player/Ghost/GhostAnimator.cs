@@ -159,7 +159,7 @@ public class GhostAnimator : MonoBehaviour
     public virtual void AbilityL1Stop(InputAction.CallbackContext context)
     {
         Debug.Log($"Stopped Charging L1 Ability after {context.duration}");
-        
+        if (context.duration == 0) Debug.Log("This is a tap!");
     }
 
     public virtual void AbilityL2(InputAction.CallbackContext _)
